@@ -18,7 +18,7 @@
 - Node suite: 51/51 passed, including trial expiry, simulation, persistence, test activation, reset, blocked creation and confirmation of existing reimbursement while blocked.
 - TypeScript semantic source check passed for 21 files; standalone Pages build passed.
 - Public manual checks: trial simulation, $7.99 dialog, no-card test activation, blocked and unlocked creation, existing history and confirmation while blocked. A new $52 expense was approved and $8.25 reported against $20.80; browser timed out before the final confirmation of that new expense. A separate existing $10 sample payment was confirmed while blocked. Preview responsive screenshots inspected at 375x812 and 1280x800; no physical phone checked.
-- Access is localStorage-backed with a tab-memory fallback; expenses use separate sessionStorage. No actual payment, card input or subscription.
+- Access is localStorage-backed with a tab-memory fallback; at the time expenses used separate sessionStorage; standalone expenses now use a separate localStorage key. No actual payment, card input or subscription.
 
 ## BLOCKED / UNRUN
 
@@ -46,3 +46,8 @@ No real payments, billing or real-person invitations occurred. Local demo and is
 ## Family workspace update
 
 Automated: 55/55 Node tests, including family identity, category correction without financial mutation, approved-only statistics, and plans excluded from balances. Browser: production guest launch, add child, view statistics, create future plan, add category in expense form, create and approve an expense, report $12 while $48 remained due, then confirm receipt and observe the remaining $36 and history. Changed the approved expense category from Music to Activities and verified the $36 balance, $12 confirmed payment and category-change history remained correct. Preview initially had a broken form submit handler; it was corrected before production and rechecked there. This is not full functional, responsive, real-device, React, security, or real-account backend verification.
+
+
+## Persistent guest progress
+
+Node tests cover legacy migration, no overwrite of existing local data, malformed data and write failures, cross-tab stale writes and recovery, and an approved expense with pending/confirmed reimbursement after reopening. Public site: migrated the previously open sample session; created a new synthetic $90 expense with custom child/category and receipt; approved $45, reported $13 (balance remained $45), confirmed (balance $32), created a plan, closed the tab and reopened: expense/child/category, $32 balance and plan remained. Preview separately confirmed receipt history, cancellation of reset, cross-tab notification/reload and paywall activation without a card. Not a physical phone, separate browser profile, React browser, or real two-account backend test.

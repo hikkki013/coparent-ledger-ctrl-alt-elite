@@ -23,7 +23,7 @@ The FAQ states a November 15 12:00 submission deadline, review until 15:00, and 
 | Criterion | Weight | Existing evidence | Remaining gap |
 | --- | ---: | --- | --- |
 | Product & engineering | 40% | Shared domain, manual amounts/splits, review states, partial reports, recipient confirmation and audit history; 48 Node tests and isolated SQL suites previously passed | No verified public end-to-end URL; no browser E2E/layout pass. SQL single-user tests do not verify native RLS or concurrency |
-| Value & retention | 20% | Agreed remaining amounts, unresolved expenses and accumulating history provide a reason to return | Guest data uses sessionStorage and does not survive closing the tab. Demonstrate a usable return path and a working paywall; do not claim measured retention |
+| Value & retention | 20% | Agreed remaining amounts, unresolved expenses and accumulating history provide a reason to return | The standalone guest demo uses localStorage and survives tab closure in the same browser; the paywall is test-only. Browser storage can be cleared; retention remains unmeasured |
 | Problem & user | 15% | Defined US co-parent segment and repeated shared-expense problem | No collected interviews or US customer evidence. These are a plus, not mandatory (Q49, Q74, Q149); explain the problem with sourced evidence or explicit assumptions |
 | Business potential | 15% | Proposed $7.99 per household; two adults included; payer and revenue unit identified | Price alone is insufficient. Add CAC by channel, retention/churn, LTV and payback assumptions with sources or clear reasoning (Q58, Q81, Q120, Q142). Full TAM/SAM/SOM is not mandatory |
 | Originality | 10% | Narrow expense coordination focus and recipient-confirmed balances | Existing co-parenting services already offer related workflows. Establish a concrete difference in mechanism or value; a new category is not required and a cheaper/smaller product alone does not prove novelty (Q31, Q57, Q79, Q97, Q123) |
@@ -42,7 +42,7 @@ Weights are explicitly confirmed in Q17, Q27 and Q106. Do not invent a numerical
 
 ## Code evidence inspected
 
-- `src/App.tsx`: `/demo` route, sessionStorage construction, one-click demo links and proposed-only PricingPage.
+- `src/App.tsx`: React `/demo` route still uses sessionStorage; the published standalone demo has separate persistent localStorage.
 - `src/data/demo-ledger.ts`: editable manual inputs, exact shared calculations, command/state enforcement, stored history and demo-only actor switching.
 - `demo/app.js`: manual amount/share forms, same shared domain, approval/dispute/payment/confirmation actions and same-tab storage.
 - `src/features/expenses/LedgerView.tsx`: demo controls, separate directional balances and history; explicit sample labeling.
