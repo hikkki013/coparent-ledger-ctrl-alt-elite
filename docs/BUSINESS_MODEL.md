@@ -63,4 +63,4 @@ Possible future discovery channels are parent communities that permit research i
 - A short successful demo does not establish secure operation with real family information.
 - The 5-7 hour build target depends on available tooling and services; environment blockers must not be hidden by local sample data.
 
-Do not present a numeric judging score, a mandatory AI component, or a $100m ARR target as official criteria without further source evidence.
+The organizer FAQ confirms Product & engineering 40%, Value & retention 20%, Problem & user 15%, Business potential 15%, and Originality 10% (Q17/Q27/Q106). Q58/Q81/Q142 expect price, CAC by channel, retention and LTV assumptions with sources or clear reasoning; the current document does not yet supply that numerical model. Q49 allows labeled hypotheses, and full TAM/SAM/SOM is not mandatory. Q37/Q67 require a working paywall, so the proposed-only pricing page is a remaining product gap. AI and real payments are optional; an achieved $100m ARR is not demonstrated or required by these answers. See CRITERIA_MATRIX.md for the complete audit.

@@ -13,6 +13,12 @@ Updated 2026-11-14. Requested owner: **hikkki013**. Private repository and brows
 | 06 demo / business | IMPLEMENTED | Exact clean/examples data; demo/pricing/pilot docs; billing disabled |
 | 07 release | SOURCE PUBLISHED / LIVE BLOCKED | Private source upload complete; README/limits/publication helper included; production build and live backend remain unverified |
 
+## Organizer FAQ audit - 2026-11-14
+
+All 150 FAQ answers (29 pages) were reviewed against the current source. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md). **Not submission-ready:** public deployed guest flow, a working paywall, an English PDF deck (at most 10 slides), and submission-source public access are not complete. The user's explicit latest instruction is to keep the repository PRIVATE; no visibility change or public mirror is authorized.
+
+The FAQ accepts guest/demo sessions, local storage, labeled seed inputs and no actual payments. This corrects the earlier assumption that a real backend was required for the competition guest flow. The original real-two-account service remains a separate unverified goal. The current guest demo uses sessionStorage, so progress ends when the tab is closed; retention evidence is partial. Price exists, but CAC/retention/LTV assumptions and a functioning paywall are missing. This review changed documentation only; prior test results were not relabeled as new runs.
+
 ## Environment blockers
 
 - npm registry lookup failed with ENOTFOUND in the restricted terminal. No React/Vite cache found. Dependency runtime locator also failed. A dependency-free Node test and browser-demo path will be provided alongside normal React source; this is not a replacement for a verified production build.

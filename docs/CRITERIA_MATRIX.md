@@ -1,52 +1,60 @@
-# Competition criteria and evidence matrix
+# Business Cup 2.0 requirements and evidence audit
 
-Prepared 2026-11-14. Criteria below are attributed by [DEVELOPMENT_PROMPTS.txt](DEVELOPMENT_PROMPTS.txt) to the original user-supplied slide. That brief, not invented judging rules, is the source used here. The 5-7 hour constraint is the team's additional target; the competition timeframe in the supplied brief is 24 hours.
+Reviewed 2026-11-14 against all 150 answers in the organizer document **Business Cup 2.0 | FAQ по кейсу** (29 pages). Q numbers below refer to that document. This FAQ supplies competition rules missing from the earlier development brief; financial rules and command interfaces remain unchanged.
 
-This matrix describes what would demonstrate compliance. It does not mark unrun checks as passed. [STATUS.md](STATUS.md) and the QA report are the authority for current implementation/test results.
+**Verdict: the idea fits, but the current project is not ready for a compliant submission.** A public deployed product, working paywall, and English PDF deck are missing. The working repository stays PRIVATE under the user's explicit instruction; public submission-source access remains an unresolved competition requirement. This audit does not authorize changing visibility or publishing a public copy.
 
-| Criterion / source | Product response | UI or document evidence | Required verification / current limit |
-| --- | --- | --- | --- |
-| US ages 25-45 / supplied slide | Shared child-expense workflow for US adults; English UI, USD, readable US dates | Landing, expense form, PRODUCT_SPEC | Inspect locale/currency; pilot must verify audience fit. No current adoption evidence |
-| B2C / supplied slide | One parent is the proposed paying customer; second adult included | Pricing and BUSINESS_MODEL | Display household price and free participation; live billing is disabled |
-| Web only / supplied slide | Browser routes for ledger, details, invitation, and demo; no native installation requirement | `/`, `/app`, `/app/expenses/:id`, `/demo` | Run in mobile/desktop browsers at 375/1280 px; report actual results in QA |
-| Working product within 24h / supplied slide | Narrow expense-to-reimbursement cycle | CONTRACTS, implementation, STATUS | Build plus real two-account flow and persistence; demo alone is insufficient |
-| Significant repeated problem / supplied slide | Proposed shares, disagreements, pending transfers, and remaining balance are distinguished | Expense details and Activity history | Run the clean demo; interview pairs about current frequency/effort. Pain magnitude remains unvalidated |
-| Willingness to pay / supplied slide | Proposed $7.99 per household after a 14-day no-card trial | Pricing, BUSINESS_MODEL, PILOT_PLAN | Voluntary price decisions then actual authorized purchases in a later billing stage; no paid-demand claim yet |
-| 5-7 hour MVP / team constraint | One household, two adults, USD, manual expense entry, optional image receipt | PRODUCT_SPEC scope; STATUS | Cut decoration or extras first; never remove access controls or correct money rules to meet the clock |
+## Pass/fail and submission conditions
 
-## Functional evidence checklist
+| Organizer requirement | Evidence in this project | Assessment / required action |
+| --- | --- | --- |
+| B2C; one main track; US adults ages 25-45 (Q2, Q6, Q15, Q38, Q80) | Money track; individual US co-parent pays; English UI and USD; family expenses explicitly fit Money | FITS the brief; user research and willingness to pay remain hypotheses |
+| Browser product; no native installation (Q18, Q40, Q87) | React web routes and standalone browser demo | FITS the architecture; deployed browser behavior still needs verification |
+| Public product URL, end-to-end, no required registration/login (Q1, Q47, Q54, Q65, Q92) | `/demo` accepts manual input and uses shared calculations; only local delivery is verified | NOT MET: deploy a working guest flow and test the actual submitted URL. Local HTML, localhost, Figma, video and GitHub source links are not substitutes |
+| Full source of deployed revision in a public GitHub repository (Q23, Q46, Q61, Q104) | All source is in private hikkki013/coparent-ledger | NOT MET FOR SUBMISSION; deliberately retained private as instructed. A separate private working repository is allowed; do not change visibility or create a public copy without the user's instruction |
+| English PDF pitch deck, maximum 10 slides total (Q16, Q18, Q53, Q75, Q81, Q86) | Markdown business/demo documentation only; no submitted deck | NOT MET: title and appendices count toward the total. Include screenshots; a video is not required |
+| Link remains available through the end of the November 15 final (Q47, Q73, Q103) | No verified production URL | NOT VERIFIED; check availability on the hosting URL, not just a local build |
+| Product created during the hackathon; generic starters allowed (Q64, Q93, Q98) | Local and browser commits dated November 14 | Preserve actual history; timestamps alone do not prove the complete event-window condition |
 
-| Acceptance condition | Concrete evidence needed |
-| --- | --- |
-| Real two-person agreement | Two separate real sessions complete create, send, review, report, and receipt confirmation |
-| Exact arithmetic | Golden fixtures and boundary tests: 1 cent at 50%, $85.55 at 50%, $40.05 at 33.33% |
-| Honest transfer state | Reporting $20 against $48 leaves $48 remaining until the receiving parent confirms |
-| Review isolation | Proposed disputed $69.99 and pending $13.35 do not enter agreed totals |
-| Frozen records | Approved record and submitted receipt cannot be changed, including direct backend attempts |
-| Access isolation | Another household and anonymous requests cannot read records, aliases, receipts, or history |
-| Concurrent safety | Competing payment reports cannot exceed available amount; retries produce one effect/event |
-| Useful demonstration | Start clean and Load examples are separate modes with disclosed sample data |
-| Honest commercial state | Pricing says billing is not enabled; no fake checkout or fabricated paid badge |
-| Completion evidence | Actual lint/typecheck/test/build results and an explicitly verified preview URL, if one exists |
+The FAQ states a November 15 12:00 submission deadline, review until 15:00, and final pitches at 16:30 in Green Hall (Q70, Q77). It does not specify a timezone in those answers. Confirm scheduling against the organizer's submission instructions rather than inventing a timezone.
 
-At preparation, live Supabase credentials and dependency installation were unavailable; real Auth/RLS/Storage/concurrency and integrated two-session checks therefore had no passing evidence. Consult STATUS for later changes. A local browser demo must remain labeled synthetic and must not conceal those blockers.
+## Actual scoring weights and current gaps
 
-## Explicitly unconfirmed
+| Criterion | Weight | Existing evidence | Remaining gap |
+| --- | ---: | --- | --- |
+| Product & engineering | 40% | Shared domain, manual amounts/splits, review states, partial reports, recipient confirmation and audit history; 48 Node tests and isolated SQL suites previously passed | No verified public end-to-end URL; no browser E2E/layout pass. SQL single-user tests do not verify native RLS or concurrency |
+| Value & retention | 20% | Agreed remaining amounts, unresolved expenses and accumulating history provide a reason to return | Guest data uses sessionStorage and does not survive closing the tab. Demonstrate a usable return path and a working paywall; do not claim measured retention |
+| Problem & user | 15% | Defined US co-parent segment and repeated shared-expense problem | No collected interviews or US customer evidence. These are a plus, not mandatory (Q49, Q74, Q149); explain the problem with sourced evidence or explicit assumptions |
+| Business potential | 15% | Proposed $7.99 per household; two adults included; payer and revenue unit identified | Price alone is insufficient. Add CAC by channel, retention/churn, LTV and payback assumptions with sources or clear reasoning (Q58, Q81, Q120, Q142). Full TAM/SAM/SOM is not mandatory |
+| Originality | 10% | Narrow expense coordination focus and recipient-confirmed balances | Existing co-parenting services already offer related workflows. Establish a concrete difference in mechanism or value; a new category is not required and a cheaper/smaller product alone does not prove novelty (Q31, Q57, Q79, Q97, Q123) |
 
-No available scoring weights, mandatory AI, required revenue, $100m ARR requirement, mandatory presentation, or bonus-point rules are established. Money is the selected direction. Do not convert product hypotheses into organizer requirements.
+Weights are explicitly confirmed in Q17, Q27 and Q106. Do not invent a numerical jury score from this review.
 
-No customer count, pilot enrollment, revenue, percentage time saved, or reduction in conflict is established. These require observation and measurement, not feature screenshots.
+## Clarifications that change the previous interpretation
 
-## Seven-hour execution target
+1. **A backend is not a competition prerequisite.** Q47 permits temporary/local storage, Q135 permits localStorage and anonymous sessions, and Q105 allows GitHub Pages when the flow works. A public guest demo with actual input-dependent logic can satisfy the contest flow. A local-only demo cannot. This permission does not establish that our separate authenticated multiuser service works.
+2. **Seed data is allowed.** Q66, Q69, Q84, Q94, Q127 and Q134 permit labeled examples passed through real logic, alongside judges' own input. DemoLedger computes each submitted amount, applies state/role checks, and updates balances/history. The prepared $120.01 example is not the only accepted input. Browser verification of the submitted URL is still outstanding.
+3. **Two windows are an allowed option, not a universal requirement.** Q52 accepts separate role links without registration and asks for instructions on the landing page. Our current demo switches roles in one tab; it does not synchronize independent parent windows or devices. The user's original real-two-account acceptance requirement remains separate and unverified.
+4. **Real payments and a checkout are not required.** Q20, Q37, Q55, Q67, Q95, Q115, Q118 and Q137 require a clear working paywall/pricing interaction while allowing the jury to continue without a real payment. Test checkout is optional extra evidence. The current PricingPage only describes a proposed price and links to `/demo`; it has no entitlement/gating behavior. The standalone demo has no pricing/paywall screen. This is a confirmed gap, not a reason to add real charges.
+5. **Retention must be visible in the product.** Q30, Q72, Q100 and Q148 allow weekly/seasonal use; daily engagement is not the goal. Saved records, outstanding balances and continued reimbursement progress suit this product, but the current guest tab-lifetime storage limits a real return demonstration.
+6. **AI, CI/CD and automated tests are optional.** Q23, Q25 and Q63 do not require them. Existing tests are valuable evidence but do not replace a usable deployed product.
+7. **Sensitive family/medical expenses are allowed with restraint.** Q26, Q78, Q138 and Q150 favor minimal data and no medical promises. Keep child aliases, sample receipts and the distinction between recording payments and moving money. Never publish secrets.
 
-| Time | Required result |
-| --- | --- |
-| 0:00-0:45 | Shared contract, project scaffold, environment/account checks, exact money tests |
-| 0:45-2:15 | Create/send expense and second adult's approve/concern actions |
-| 2:15-3:30 | Partial payment report, confirm/reject, remaining, and activity history |
-| 3:30-4:30 | Private receipt and two-session vertical slice |
-| 4:30-5:30 | Access, races, retries, golden fixture checks, corrections |
-| 5:30-6:15 | Isolated demo, truthful pricing, handoff documentation |
-| 6:15-7:00 | Build/preview if available, responsive checks, fixes |
+## Code evidence inspected
 
-Aim for the core cycle by hour four. This is a target with a ready environment and familiar stack, not a guarantee. Record a blocked live check as BLOCKED and continue independent work; do not replace its evidence with a mock success.
+- `src/App.tsx`: `/demo` route, sessionStorage construction, one-click demo links and proposed-only PricingPage.
+- `src/data/demo-ledger.ts`: editable manual inputs, exact shared calculations, command/state enforcement, stored history and demo-only actor switching.
+- `demo/app.js`: manual amount/share forms, same shared domain, approval/dispute/payment/confirmation actions and same-tab storage.
+- `src/features/expenses/LedgerView.tsx`: demo controls, separate directional balances and history; explicit sample labeling.
+- `docs/BUSINESS_MODEL.md`: proposed pricing and acquisition hypotheses; missing numeric CAC/LTV/retention assumptions.
+- `docs/QA_REPORT.md`: passed checks and explicit blocked/unrun integrations. Existing results were reused; this document-only audit did not rerun unchanged application tests.
+
+## Required next evidence
+
+1. A verified public URL that allows a judge to enter a fresh expense, attach a labeled sample receipt, agree or object, report a partial reimbursement, confirm receipt and observe the correct remaining amount/history without registering or paying.
+2. A real paywall interaction with a visible $7.99 price and clearly labeled test access that changes demo access state; no bank transfer or actual subscription charge. Existing records, reviews, confirmations and export must remain accessible under the product's stated policy.
+3. A visible, tested return path to prior guest progress. Keep it isolated from real accounts and label the scope of persistence accurately.
+4. An English PDF deck of no more than 10 slides covering the user/problem, working flow, payment value, retention, economics and differentiation. Oral pitch may be Russian, Kazakh or English; format is five minutes plus two minutes for questions (Q45, Q109, Q121).
+5. A later explicit user decision about public submission-source access. The current private repository remains unchanged in visibility.
+
+Do not mark any missing deliverable complete merely because its code or design is described. No real payments or real-person invitations are authorized by this audit.

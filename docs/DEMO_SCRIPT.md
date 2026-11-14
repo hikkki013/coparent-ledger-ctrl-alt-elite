@@ -22,7 +22,7 @@ This script is for an implemented and verified demo. Rehearse the named actions 
 | 1:55-2:25 | Explicitly choose Load examples. Show E3 disputed $69.99, E4 awaiting review $13.35, and separate directional totals | "I am now loading additional prepared examples. A disputed proposal is shown separately, not added to agreed amounts. Neither direction is silently offset against the other." |
 | 2:25-2:50 | Show pricing copy | "Our proposed pilot price is $7.99 per household for two adults, with a 14-day no-card trial. The invited parent participates free. Billing is not enabled; willingness to pay still needs validation." |
 
-Allow up to ten seconds of slack. No slide presentation is needed.
+Allow up to ten seconds of slack for this product walkthrough. This script does not replace the required competition deck: the organizer FAQ requires an English PDF with at most 10 slides total (Q53/Q75/Q86), with screenshots of the key screens and flow (Q121). The oral final pitch is five minutes plus two minutes for questions. The current pricing-only step also does not meet the working-paywall requirement (Q37/Q67); do not describe it as implemented billing or a completed competition deliverable.
 
 ## Do not confuse the two datasets
 

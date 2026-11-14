@@ -10,7 +10,7 @@ The product does not establish child support, decide legal obligations, resolve 
 
 ## Criteria versus product choices
 
-The supplied development brief attributes these criteria to the user's original competition slide: US ages 25-45, B2C, web only, a working product within 24 hours, and a substantial problem with willingness to pay. The team's additional target is a 5-7 hour MVP. No numeric scoring weights, mandatory AI, or $100m ARR requirement are established here. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md).
+The supplied development brief attributes these criteria to the user's original competition slide: US ages 25-45, B2C, web only, a working product within 24 hours, and a substantial problem with willingness to pay. The team's additional target is a 5-7 hour MVP. The subsequently supplied organizer FAQ confirms scoring weights, a public no-login product URL, public submission-source access, a working paywall and an English PDF deck of at most 10 slides. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md) for the updated requirements and gaps. The user explicitly requires the working repository to remain private for now. AI and real payment processing are not required.
 
 The name, narrow expense workflow, USD-only scope, technical architecture, and $7.99 pricing are project decisions. Demand and willingness to pay are hypotheses. No customers, revenue, adoption, legal validity, or reduction in conflict have been demonstrated by this document.
 
@@ -23,7 +23,7 @@ The name, narrow expense workflow, USD-only scope, technical architecture, and $
 5. Alex confirms or rejects receipt of that specific transfer.
 6. Both adults see the resulting amount and activity history after refresh.
 
-This must ultimately run through two real authenticated sessions. A local role-switched demo demonstrates interactions but does not prove authentication, RLS, storage isolation, concurrency, or persistence across accounts.
+The user's original service acceptance condition must ultimately run through two real authenticated sessions. A local role-switched demo does not prove authentication, RLS, storage isolation, concurrency, or persistence across accounts. Separately, the competition FAQ permits a publicly deployed guest flow using real input-dependent logic and local storage; it does not require a live backend for that guest flow.
 
 ## MVP boundaries
 
@@ -122,7 +122,7 @@ E3 reason: `Please clarify which session this charge covers.` Golden agreed shar
 
 ## Pricing and release evidence
 
-Proposed pilot pricing is $7.99/month per household for two adults with a 14-day no-card trial. One adult pays; the invited adult participates free. In this MVP, display `Pilot pricing - billing not enabled`; do not create checkout, capture cards, show fake paid badges, or restrict the workflow with an unimplemented entitlement system.
+Proposed pilot pricing is $7.99/month per household for two adults with a 14-day no-card trial. One adult pays; the invited adult participates free. The current implementation displays `Pilot pricing - billing not enabled` and has no checkout or entitlement system. This falls short of the organizer FAQ's working-paywall minimum (Q37, Q55, Q67, Q137). Closing that gap requires an honest, functional test-access interaction; real charges, card capture and fake paid badges remain excluded. The judge must be able to complete the core flow without a real payment or registration.
 
 A future subscription may gate new expenses after trial. Existing records, receipts, decisions, concerns, reimbursement records, and basic export remain accessible after cancellation. No commission on reimbursements or sale of family data.
 
