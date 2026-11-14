@@ -1,4 +1,5 @@
 import type { LedgerPort } from './ledger-port.ts';
+import type { DemoAccess } from './demo-access.ts';
 import { LedgerError } from '../domain/types.ts';
 import type { AuditEvent, Child, CreateMeta, DraftInput, Expense, ExpenseDetail, Household, InviteResult, LedgerContext, Member, MutationMeta, ReceiptAccess, Reimbursement } from '../domain/types.ts';
 import { splitExpense, assertIntegerInRange, MAX_AMOUNT_CENTS } from '../domain/money.ts';
@@ -110,9 +111,11 @@ function initialState(mode: DemoMode): DemoState {
 export class DemoLedger implements LedgerPort {
   #storage: DemoStorage;
   #actorId: DemoActor;
+  #access?: DemoAccess;
 
-  constructor(storage: DemoStorage, actorId: DemoActor = 'alex') {
+  constructor(storage: DemoStorage, actorId: DemoActor = 'alex', access?: DemoAccess) {
     this.#storage = storage;
+    this.#access = access;
     this.#actorId = 'alex';
     this.setActor(actorId);
     if (this.#storage.getItem(STORAGE_KEY) === null) this.reset('examples');
@@ -202,6 +205,7 @@ export class DemoLedger implements LedgerPort {
   }
   async getExpense(id: string): Promise<ExpenseDetail> { const state = this.#read(); return detailFor(state, findExpense(state, id, this.#actorId)); }
   async createDraft(input: DraftInput, meta: CreateMeta): Promise<ExpenseDetail> {
+    if (this.#access && !this.#access.canCreate()) throw new LedgerError('INVALID_STATE', 'The demo trial has ended. Enable test access to create an expense.');
     return this.#command('createDraft', { input }, meta, (state, actorId) => detailFor(state, newDraft(state, actorId, input)));
   }
   async saveDraft(id: string, input: DraftInput, meta: MutationMeta): Promise<ExpenseDetail> {
