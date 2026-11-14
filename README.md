@@ -125,3 +125,8 @@ No money movement, billing, OCR, AI, real-person invitations, custody calendar, 
 Auth callbacks, native RLS/grants, concurrent live transactions, real private Storage/Edge deployment, Vite build and browser layout require normal-environment verification. Local demo and isolated SQL tests do not establish production readiness.
 
 Source of truth: `docs/DEVELOPMENT_PROMPTS.txt` (PROMPT 00–07), `docs/PRODUCT_SPEC.md`, shared types in `src/domain/types.ts`, and `src/data/ledger-port.ts`.
+
+
+## Jury verification — 2026-11-15
+
+Standalone demo: https://coparent-ledger-demo.pages.dev/ (Cloudflare Pages production deployment `6d00a0a4`). Synthetic guest roles only; no card or money transfer. The public-site test completed a $64.20 expense, 50% share, $12.10 pending reimbursement and receipt confirmation, leaving $20.00 with history. The isolated preview additionally checked family, categories, statistics, future plans, test paywall, saved progress and mobile/desktop layouts. See docs/QA_REPORT.md and docs/STATUS.md for evidence and limits.
