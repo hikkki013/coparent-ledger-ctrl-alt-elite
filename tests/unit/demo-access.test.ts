@@ -36,3 +36,14 @@ test('paywall blocks new draft but preserves existing history and receipt confir
   const created = await ledger.createDraft({ childId: 'child-1', category: 'SCHOOL', description: 'A new book', merchant: '', expenseDate: '2026-11-14', amountCents: 2000, reviewerShareBps: 5000 }, { idempotencyKey: 'allowed' });
   assert.equal(created.expense.description, 'A new book');
 });
+
+test('replaying an already-created draft remains safe after trial expiration', async () => {
+  const access = new DemoAccess(storage(), () => 1_000_000);
+  const ledger = new DemoLedger(storage(), 'alex', access);
+  const input = { childId: 'child-1', category: 'SCHOOL' as const, description: 'Replay sample', merchant: '', expenseDate: '2026-11-14', amountCents: 2500, reviewerShareBps: 5000 };
+  const first = await ledger.createDraft(input, { idempotencyKey: 'same-key' });
+  access.simulateExpiry();
+  const replay = await ledger.createDraft(input, { idempotencyKey: 'same-key' });
+  assert.equal(replay.expense.id, first.expense.id);
+  assert.equal((await ledger.listExpenses()).filter(row => row.expense.description === input.description).length, 1);
+});
