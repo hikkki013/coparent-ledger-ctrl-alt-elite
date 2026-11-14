@@ -6,7 +6,7 @@ A web MVP for two co-parents to record a child expense, propose a share, agree o
 
 ## Competition readiness
 
-The organizer FAQ was reviewed after implementation. The idea fits the Money/B2C/web brief, but the current project is **not ready for submission**: an English PDF deck (at most 10 slides) and durable demo expense storage are still missing; the deployed guest demo is available below. The competition also requires public source at submission; this working repository remains **private by the user's explicit instruction**. See [the FAQ evidence matrix](docs/CRITERIA_MATRIX.md) for exact question references and remaining work.
+The organizer FAQ was reviewed after implementation. The idea fits the Money/B2C/web brief, but the current project is **not ready for submission**: an English PDF deck (at most 10 slides) and a decision about public source access are still missing; the deployed guest demo is available below. The competition also requires public source at submission; this working repository remains **private by the user's explicit instruction**. See [the FAQ evidence matrix](docs/CRITERIA_MATRIX.md) for exact question references and remaining work.
 
 A publicly hosted guest demo with real input-dependent calculations and local storage is permitted by the FAQ. It still needs end-to-end browser verification and must not be represented as a deployed real-account service. Real charges and invitation emails remain disabled.
 
@@ -14,9 +14,9 @@ A publicly hosted guest demo with real input-dependent calculations and local st
 
 With Node.js 24 or newer, run `npm run demo:pages`. Upload the resulting `dist-pages` folder, or a ZIP containing its `index.html` at the archive root, using Cloudflare Pages Direct Upload. This is a self-contained synthetic demo, not the React application or the real-account backend. Inspect the upload contents before publishing. Cloudflare Direct Upload projects cannot later switch to Git integration; creating a separate Git-integrated project would be required for automatic deployments.
 
-Public synthetic demo: https://coparent-ledger-demo.pages.dev/ . It opens without registration. Cloudflare Pages Direct Upload deploys only the generated page, not the repository or the authenticated backend. For updates, rebuild and create a new production deployment in the same Cloudflare project; the project URL is intended to remain the same, and should be rechecked after each update. The demo stores changes only in the current browser tab; guest data does not synchronize between devices.
+Public synthetic demo: https://coparent-ledger-demo.pages.dev/ . It opens without registration. Cloudflare Pages Direct Upload deploys only the generated page, not the repository or the authenticated backend. For updates, rebuild and create a new production deployment in the same Cloudflare project; the project URL is intended to remain the same, and should be rechecked after each update. The standalone demo stores guest data in localStorage in the same browser on the same device, across tab closure; it does not synchronize between devices. Clearing site data may remove it. Use synthetic data only.
 
-The published HTTPS demo was tested with a new $73.25 expense and a 60% proposed share: $43.95 agreed; $12.50 reported left $43.95 remaining; confirmation changed remaining to $31.45 and recorded history. The result survived a page refresh in the same tab. An independently opened tab loaded the site without login and had its own separate demo state. Layout and selected interactions were checked at 375×812 and 1280×800 browser viewport sizes, not on a physical phone. The demo does not prove a shared multiuser service.
+The published HTTPS demo was tested with a new $73.25 expense and a 60% proposed share: $43.95 agreed; $12.50 reported left $43.95 remaining; confirmation changed remaining to $31.45 and recorded history. The result survived a page refresh in the same tab. At that earlier test, an independently opened tab had separate session-only state; current standalone tabs share saved local data and show a reload warning on conflicting changes. Layout and selected interactions were checked at 375×812 and 1280×800 browser viewport sizes, not on a physical phone. The demo does not prove a shared multiuser service.
 
 ## Family workspace (standalone demo)
 
@@ -24,7 +24,17 @@ The published Pages demo includes **Family**, **Statistics**, and **Future plans
 
 Statistics show approved purchase totals by child, paying parent and category. Agreed reviewer shares, confirmed reimbursements and remaining balances are separate figures; pending and disputed expenses and future plans are excluded. Future plans are estimates, not agreements or debts; a plan assigned to an active child can create one private draft, which requires the usual receipt and approval.
 
-These features are implemented in the published synthetic browser demo and stored in sessionStorage for this tab only. They are not yet implemented or verified for the React/real-account backend. Two sample roles do not synchronize across devices. Use synthetic data only. Plans cannot yet be edited or deleted.
+These features are implemented in the published synthetic browser demo and stored in localStorage for this browser and device. They are not yet implemented or verified for the React/real-account backend. Two sample roles do not synchronize across devices. Use synthetic data only. Plans cannot yet be edited or deleted.
+
+## Saved guest progress
+
+The published standalone demo stores its synthetic expenses, family, categories, plans, sample receipt references, payment statuses and audit history in browser localStorage. Reopening in the same browser and device restores them; another browser/device will not. Clearing site data may remove the records. Use test data only.
+
+On first opening, a valid old sessionStorage copy migrates only if no saved localStorage ledger exists. The previous session copy is retained. If both exist, the saved localStorage ledger wins; other tab-session copies are not merged. Corrupt data or a storage failure is reported without automatically replacing the saved copy.
+
+Multiple tabs use Web Locks for writes; if another tab changes the saved ledger, reload the saved data before editing. A current browser with Web Locks is required. `Start clean` and `Load examples` replace this browser's stored demo data only after confirmation; `Reset demo access` separately resets the test trial. Demo access is not a paid subscription.
+
+The React demo and real-account backend have not been migrated or verified for this feature. Standalone storage is browser-local, not a secure backup or synchronized account.
 
 ## Demonstrate the test paywall
 
@@ -33,7 +43,7 @@ These features are implemented in the published synthetic browser demo and store
 3. Select **Enable test access — no payment** to open the expense form; no card, real checkout or subscription exists.
 4. Select **Reset demo access** to return to a fresh 14-day demo trial.
 
-Only creating new expense drafts is gated. Existing expenses, sample receipts, history, CSV and confirmation of existing reimbursements stay available. Access state is stored in localStorage until reset or browser data is cleared; if browser storage is unavailable it falls back to in-memory state for the current tab. Demo expenses remain separately in sessionStorage for the current tab. Neither is an actual account, subscription, payment or secure server entitlement.
+Only creating new expense drafts is gated. Existing expenses, sample receipts, history, CSV and confirmation of existing reimbursements stay available. Access state is stored in localStorage until reset or browser data is cleared; if browser storage is unavailable it falls back to in-memory state for the current tab. Standalone demo expenses are kept separately in localStorage. Neither is an actual account, subscription, payment or secure server entitlement.
 
 ## Run the synthetic demo without installing packages
 
@@ -43,13 +53,13 @@ Requires Node.js 24 or newer. From this repository:
 npm run demo:standalone
 ```
 
-Open `dist-demo/coparent-demo.html` in a current browser. This file embeds its JavaScript, styles and sample receipt. No server or network is required. If the browser does not permit sessionStorage on local files, serve the same demo on a development machine:
+Open `dist-demo/coparent-demo.html` in a current browser. This file embeds its JavaScript, styles and sample receipt. No server or network is required. If the browser does not permit localStorage or Web Locks on local files, serve the same demo on a development machine:
 
 ```sh
 npm run demo
 ```
 
-Then open http://127.0.0.1:4173/demo. Only the synthetic `/demo` route exists on this fallback server. `/app` is deliberately absent. Alex and Jordan are sample identities, not signed-in accounts. Demo data is isolated in one sessionStorage key and accepts only built-in SAMPLE receipts. `Start clean` and `Load examples` replace only that tab's synthetic data.
+Then open http://127.0.0.1:4173/demo. Only the synthetic `/demo` route exists on this fallback server. `/app` is deliberately absent. Alex and Jordan are sample identities, not signed-in accounts. Standalone demo data is isolated in one localStorage key and accepts only built-in SAMPLE receipts. `Start clean` and `Load examples` replace this browser's saved synthetic data after confirmation. They do not reset demo access. The React demo continues to use sessionStorage.
 
 The standalone browser interface uses the same TypeScript domain and DemoLedger as React. It is an additional fallback UI, not proof of shared backend behavior. Browser execution/layout could not be verified in the restricted build session.
 
