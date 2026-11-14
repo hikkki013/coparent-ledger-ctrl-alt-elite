@@ -1,0 +1,9 @@
+project_id = "coparent-ledger"
+
+# Each handler verifies the bearer session with Supabase Auth /user itself.
+# This also supports projects using asymmetric Auth signing keys.
+[functions.receipt-upload]
+verify_jwt = false
+
+[functions.receipt-access]
+verify_jwt = false
