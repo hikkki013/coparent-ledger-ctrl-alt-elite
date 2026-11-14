@@ -15,9 +15,20 @@ Updated 2026-11-14. Requested owner: **hikkki013**. Private repository and brows
 
 ## Organizer FAQ audit - 2026-11-14
 
-All 150 FAQ answers (29 pages) were reviewed against the current source. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md). **Not submission-ready:** public deployed guest flow, a working paywall, an English PDF deck (at most 10 slides), and submission-source public access are not complete. The user's explicit latest instruction is to keep the repository PRIVATE; no visibility change or public mirror is authorized.
+All 150 FAQ answers (29 pages) were reviewed against the current source. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md). **Not submission-ready:** a working paywall, an English PDF deck (at most 10 slides), and submission-source public access are not complete. The guest demo has since been published and tested as detailed below. The user's explicit latest instruction is to keep the repository PRIVATE; no visibility change or public mirror is authorized.
 
 The FAQ accepts guest/demo sessions, local storage, labeled seed inputs and no actual payments. This corrects the earlier assumption that a real backend was required for the competition guest flow. The original real-two-account service remains a separate unverified goal. The current guest demo uses sessionStorage, so progress ends when the tab is closed; retention evidence is partial. Price exists, but CAC/retention/LTV assumptions and a functioning paywall are missing. This review changed documentation only; prior test results were not relabeled as new runs.
+
+## Cloudflare Pages preparation - 2026-11-14
+
+- `npm run demo:pages` generates `dist-pages/index.html` from the existing standalone demo. The output directory is ignored by Git and the build fails if unrelated files are present in it. Only this generated page belongs in the public deployment.
+- Direct Upload was selected to avoid granting Cloudflare access to the private GitHub repository. Updates must be uploaded to the same Pages project manually; migrating to Git integration requires a new project.
+- Standalone and Pages builds completed; the existing Node suite passed 48/48. The prepared single-file archive and embedded modules were checked for common credential signatures; this is not an exhaustive security guarantee.
+- **DEPLOYED:** https://coparent-ledger-demo.pages.dev/ via Cloudflare Pages Direct Upload. Cloudflare reported success; the public URL opened without login and showed the synthetic demo banner. Published assets: only the generated `index.html`.
+- **PUBLIC FLOW PASS:** Added new $73.25 expense at 60% ($43.95), attached a synthetic receipt, submitted and approved as the second demo role, reported $12.50, verified $43.95 remained pending, confirmed receipt as the first role and observed $31.45 remaining plus history. Same-tab page refresh retained the result. This is a single-tab simulated two-role flow, not a two-account integration test.
+- **VIEWPORT CHECK:** Browser screenshots and selected actions were inspected at 375×812 and 1280×800. A separate tab opened the public URL without login and started with independent sample state. No physical phone or independent browser profile was checked.
+- **REMAINING:** The real two-account backend is not deployed or verified. Paywall, durable demo progress, English PDF deck and public submission-source access remain incomplete. The user requires the working repo to stay private.
+- Git terminal access failed because github.com could not be resolved. Browser uploads use the authenticated owner account and preserve private visibility; no GitHub visibility change is authorized.
 
 ## Environment blockers
 
@@ -25,7 +36,7 @@ The FAQ accepts guest/demo sessions, local storage, labeled seed inputs and no a
 - No Supabase environment configuration found. Live two-account Auth/RLS/Storage/concurrency checks must be labelled BLOCKED, not passed.
 - Connected GitHub API is karim312k1, but user requests hikkki013. No writes were made using the former identity. The initial in-app browser file transfer failed; the ordinary Edge browser and native file picker subsequently succeeded under hikkki013. Terminal Git still cannot resolve github.com: web commits preserve remote history, but this local checkout has not fetched that history. Clone the remote in a normally networked terminal for subsequent work. scripts/publish-private.ps1 remains an optional identity/private-visibility-checked helper and was not executed successfully here.
 - A PostgreSQL 18 installation was found and used without a network socket. Single-user mode bypasses RLS/grants; those checks and true concurrency remain BLOCKED.
-- Loopback denied (EACCES), including preview access; actual browser/E2E/layout checks remain UNRUN. A self-contained HTML demo is generated without network access.
+- Loopback was denied (EACCES); the public demo browser journey and responsive viewport checks were subsequently performed as recorded above. Automated Playwright E2E tests remain UNRUN.
 
 ## GitHub upload verification
 

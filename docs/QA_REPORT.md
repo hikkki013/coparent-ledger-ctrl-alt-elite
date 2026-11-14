@@ -9,14 +9,16 @@
 | Standalone HTML generation | PASS | Shared domain compiled without npm; no browser execution claim |
 | Standalone action-handler harness | PASS in Node, reviewer | Real DemoLedger/handlers complete partial-payment flow; not browser E2E |
 | Independent backend source review | No critical/high issue found | Actual actor/visibility/locking/token/receipt code reviewed |
-| Private GitHub source upload | PASS via native Edge browser | hikkki013/coparent-ledger; files selected by directory and resulting commits observed; no real environment secrets included |
+| Private GitHub source upload | PASS via browser | hikkki013/coparent-ledger; no real environment secrets included |
+| Published synthetic demo manual flow | PASS on HTTPS | New $73.25 expense, 60% share, sample receipt, approval, $12.50 pending and confirmed, $31.45 remaining, history and same-tab refresh |
+| Responsive smoke check | PASS with limits | 375×812 and 1280×800 viewport inspection and selected actions; no physical phone checked |
 
 ## BLOCKED / UNRUN
 
 - Native RLS/grants, real concurrent transactions: single-user PostgreSQL cannot verify these.
 - Supabase Auth/REST/Storage/Edge deployment: no configured test project. Live integration exits 2 with BLOCKED and runs no checks.
 - npm install, real lockfile and Vite production build: restricted terminal cannot resolve npm registry.
-- Browser E2E and 375/1280 layout: loopback denied (EACCES), browser preview timed out. Playwright tests prepared but UNRUN.
+- Automated browser E2E suite remains UNRUN. The published standalone demo was manually exercised and viewport-smoke-checked as noted above; no physical phone or separate browser profile was checked.
 - Terminal Git synchronization remains blocked by DNS restrictions. Native Edge browser uploads succeeded under hikkki013; the separate API connector is still karim312k1 and was not used for writes. Clone the remote in a normally networked environment to obtain its browser commit history.
 
 ## Financial evidence
