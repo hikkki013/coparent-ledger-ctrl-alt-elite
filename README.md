@@ -20,7 +20,7 @@ The published HTTPS demo was tested with a new $73.25 expense and a 60% proposed
 
 ## Family workspace (standalone demo)
 
-The published Pages demo includes **Family**, **Statistics**, and **Future plans**. Set the two sample parent names; add, rename, archive or restore up to ten active children. Archived children retain their existing records. Add a category in the expense form and change the classification later from expense details; the change is recorded in expense history without altering money or payment state.
+The published Pages demo includes **Family**, **Statistics**, and **Future plans**. Set the two sample parent names; add, rename, archive or restore children. Archived children retain their existing records. Add a category in the expense form and change the classification later from expense details; the change is recorded in expense history without altering money or payment state.
 
 Statistics show approved purchase totals by child, paying parent and category. Agreed reviewer shares, confirmed reimbursements and remaining balances are separate figures; pending and disputed expenses and future plans are excluded. Future plans are estimates, not agreements or debts; a plan assigned to an active child can create one private draft, which requires the usual receipt and approval.
 
@@ -110,7 +110,7 @@ Example: `$120.01 × 40% = $48.00`. Reporting `$20.00` leaves `$48.00` remaining
 
 ## Current limits
 
-No money movement, billing, OCR, AI, real-person invitations, custody calendar, chat, PDF export or claims of legal enforceability. Pricing is a `$7.99/month per household` hypothesis; billing is disabled. The original real-account backend supports one household/user, two adults and three child aliases; the standalone demo supports ten active children. USD only. No correction/refund workflow for an approved expense or confirmed reimbursement. No account/member deletion or operational retention/backup/recovery tooling yet.
+No money movement, billing, OCR, AI, real-person invitations, custody calendar, chat, PDF export or claims of legal enforceability. Pricing is a `$7.99/month per household` hypothesis; billing is disabled. The original real-account backend supports one household/user and two adults; the demo family features are not implemented in that backend. USD only. No correction/refund workflow for an approved expense or confirmed reimbursement. No account/member deletion or operational retention/backup/recovery tooling yet.
 
 Auth callbacks, native RLS/grants, concurrent live transactions, real private Storage/Edge deployment, Vite build and browser layout require normal-environment verification. Local demo and isolated SQL tests do not establish production readiness.
 
