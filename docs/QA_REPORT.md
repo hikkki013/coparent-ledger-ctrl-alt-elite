@@ -51,3 +51,12 @@ Automated: 55/55 Node tests, including family identity, category correction with
 ## Persistent guest progress
 
 Node tests cover legacy migration, no overwrite of existing local data, malformed data and write failures, cross-tab stale writes and recovery, and an approved expense with pending/confirmed reimbursement after reopening. Public site: migrated the previously open sample session; created a new synthetic $90 expense with custom child/category and receipt; approved $45, reported $13 (balance remained $45), confirmed (balance $32), created a plan, closed the tab and reopened: expense/child/category, $32 balance and plan remained. Preview separately confirmed receipt history, cancellation of reset, cross-tab notification/reload and paywall activation without a card. Not a physical phone, separate browser profile, React browser, or real two-account backend test.
+
+
+## Jury verification — 2026-11-15
+
+- Cloudflare Pages production `6d00a0a4`: https://coparent-ledger-demo.pages.dev/. Identical single-file archive first tested on isolated preview. Local index.html SHA-256: 31776cbbf6329b4e3b9bffefb04aedb16ca59ae5bf9418b94dd8c7b33756ce0d (119020 bytes); limited common-secret-pattern scan found no matches, not a complete audit.
+- Production: $64.20 expense with sample receipt; $32.10 agreed; $12.10 reported left $32.10 due; recipient confirmed and $20.00 remained with history. Synthetic test record retained in local browser data.
+- Preview: renamed parent and child, added/archived/restored child, created and corrected category without changing money, checked per-child statistics and a $5,000 plan excluded from balances. $97.50 expense at 60% gave $58.50 due; $18.25 pending did not reduce it, confirmed after trial expiration left $40.25. Paywall $7.99 and no-payment unlock worked; reload restored records and access.
+- Requested 375x812 and 1280x800 viewport overrides: checked mobile expense/paywall/statistics and desktop expense form. Checked page and dialogs had no horizontal overflow. Not a full responsive audit; no physical phone.
+- npm test: 62/62 passed; npm run demo:pages passed. TypeScript check and React/Vite build blocked by missing dependencies; live Supabase integration blocked by missing dedicated test configuration. No two-account, RLS, real payment, card or invitation test. No product source code was changed in this pass.
