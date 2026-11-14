@@ -1,14 +1,12 @@
-import { DemoLedger } from '/src/data/demo-ledger.js';
+import { openPersistentDemo, DEMO_STORAGE_KEY } from '/src/data/persistent-demo.js';
 import { browserDemoAccess } from '/src/data/demo-access.js';
 import { parseUsdToCents, parsePercentToBps, splitExpense } from '/src/domain/money.js';
 import { deriveSettlement } from '/src/domain/settlement.js';
 
 const root = document.querySelector('#app');
-let ledger;
+let ledger, coordinator, stale = false;
 const demoPlan = browserDemoAccess();
 const access = demoPlan.access;
-try { ledger = new DemoLedger(sessionStorage, 'alex', access); }
-catch { root.textContent = 'This synthetic demo needs browser session storage. Allow storage for this file or site, then reload.'; }
 const currency = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
 const money = cents => currency.format(cents / 100);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -28,8 +26,8 @@ function navigate(id) {
   history.pushState(null,'',url); void refresh().catch(showReadFailure);
 }
 function showReadFailure(error) {
-  busy=false;failure=true;notice=`The demo could not be loaded: ${error.message}. You can reset only this tab's synthetic records below.`;
-  root.innerHTML=`<main class="shell"><section class="intro"><div><h1>Unable to load the sample ledger.</h1><p role="alert">${esc(notice)}</p><div class="actions">${button('clean','Reset synthetic demo',true)}</div></div></section></main>`;
+  busy=false;failure=true;notice=`The demo could not be loaded: ${error.message}. Your saved data was not replaced. Check browser storage and reload.`;
+  root.innerHTML=`<main class="shell"><section class="intro"><div><h1>Unable to load the sample ledger.</h1><p role="alert">${esc(notice)}</p></div></section></main>`;
 }
 function selectedRecord() { return records.find(r => r.expense.id === selected); }
 async function refresh() {
@@ -41,12 +39,12 @@ async function refresh() {
 async function run(operation,success='Saved to this synthetic demo.') {
   if (busy) return;
   busy=true; document.querySelectorAll('button').forEach(b => b.disabled=true);
-  try { await operation();notice=success;failure=false; }
-  catch (error) { notice=`${error.code ? `${error.code}: ` : ''}${error.message || 'The action was not completed.'}`;failure=true; }
+  try { await coordinator.run(operation);notice=success;failure=false; }
+  catch (error) { if (String(error.message).includes('another tab')) stale=true; notice=`${error.code ? `${error.code}: ` : ''}${error.message || 'The action was not completed.'}`;failure=true; }
   finally {
     busy=false;
     const formError = document.querySelector('#form-dialog[open] #form-error');
-    if (failure && formError) { formError.textContent=notice; document.querySelectorAll('button').forEach(b=>b.disabled=false); }
+    if (failure && formError) { formError.textContent=notice; if(stale && !document.querySelector('#form-dialog [data-action=reload-saved]')) formError.insertAdjacentHTML('afterend',button('reload-saved','Reload saved data')); document.querySelectorAll('button').forEach(b=>b.disabled=false); }
     else await refresh().catch(showReadFailure);
   }
 }
@@ -65,12 +63,12 @@ function balances() {
 }
 function render() {
   const b=balances();
-  root.innerHTML=`<div class="demo-strip"><strong>Synthetic demo.</strong> Parent A and Parent B are sample roles. Use test data only. Changes stay in this browser tab; no money moves.</div><div class="shell"><header class="topbar"><div class="brand"><span class="brand-mark">c</span>CoParent Ledger</div><label class="actor">Viewing as <select id="actor" aria-label="Demo parent"><option value="alex" ${actor==='alex'?'selected':''}>${esc(person('alex'))} (Parent A)</option><option value="jordan" ${actor==='jordan'?'selected':''}>${esc(person('jordan'))} (Parent B)</option></select></label></header>${accessMarkup()}<nav class="workspace-nav" aria-label="Demo sections">${button('view-ledger','Expenses')}${button('view-family','Family')}${button('view-statistics','Statistics')}${button('view-plans','Future plans')}</nav>${notice?`<div class="notice ${failure?'error':''}" role="${failure?'alert':'status'}">${esc(notice)}</div>`:''}${selected?detailMarkup(selectedRecord()):view==='family'?familyMarkup():view==='statistics'?statisticsMarkup():view==='plans'?plansMarkup():listMarkup(b)}<footer class="foot"><span>Shared expenses. Clear agreements. A history you can follow.<br>Standalone demo · Real accounts and backend are not connected.</span><div class="row">${button('clean','Start clean')}${button('examples','Load examples')}${button('csv','Export CSV')}</div></footer></div><dialog id="form-dialog" aria-labelledby="dialog-title"></dialog><dialog id="paywall-dialog" aria-labelledby="paywall-title"></dialog>`;
+  root.innerHTML=`<div class="demo-strip"><strong>Synthetic demo.</strong> Parent A and Parent B are sample roles. Use test data only. No money moves.</div><div class="shell"><header class="topbar"><div class="brand"><span class="brand-mark">c</span>CoParent Ledger</div><label class="actor">Viewing as <select id="actor" aria-label="Demo parent"><option value="alex" ${actor==='alex'?'selected':''}>${esc(person('alex'))} (Parent A)</option><option value="jordan" ${actor==='jordan'?'selected':''}>${esc(person('jordan'))} (Parent B)</option></select></label></header>${accessMarkup()}<div class="notice" role="note">Demo data stays in this browser on this device, including after closing this tab. It does not sync to other devices and may be deleted when site data is cleared. Use test data only.</div>${stale?`<div class="notice error" role="alert">Demo data changed in another tab. Reload saved data before making changes. ${button('reload-saved','Reload saved data')}</div>`:''}<nav class="workspace-nav" aria-label="Demo sections">${button('view-ledger','Expenses')}${button('view-family','Family')}${button('view-statistics','Statistics')}${button('view-plans','Future plans')}</nav>${notice?`<div class="notice ${failure?'error':''}" role="${failure?'alert':'status'}">${esc(notice)}</div>`:''}${selected?detailMarkup(selectedRecord()):view==='family'?familyMarkup():view==='statistics'?statisticsMarkup():view==='plans'?plansMarkup():listMarkup(b)}<footer class="foot"><span>Shared expenses. Clear agreements. A history you can follow.<br>Standalone demo · Real accounts and backend are not connected.</span><div class="row">${button('clean','Start clean')}${button('examples','Load examples')}${button('csv','Export CSV')}</div></footer></div><dialog id="form-dialog" aria-labelledby="dialog-title"></dialog><dialog id="paywall-dialog" aria-labelledby="paywall-title"></dialog>`;
 }
 function accessMarkup() {
   const status = access.status();
   const label = status === 'trial' ? '14-day demo trial active' : status === 'expired' ? 'Demo trial ended' : 'Test access enabled';
-  return `<section class="demo-plan" aria-label="Demo subscription controls"><div><strong>${label}</strong><p>Demo controls only. ${demoPlan.persistent ? 'Test access is stored in this browser until reset or browser data is cleared.' : 'Browser storage unavailable: test access lasts only in this tab.'} Expenses remain in this tab only.</p></div><div class="row">${button('simulate-expiry','Simulate end of trial')}${button('reset-access','Reset demo access')}</div></section>`;
+  return `<section class="demo-plan" aria-label="Demo subscription controls"><div><strong>${label}</strong><p>Demo controls only. ${demoPlan.persistent ? 'Test access is stored in this browser until reset or browser data is cleared.' : 'Browser storage unavailable: test access lasts only in this tab.'} Demo records are saved separately in this browser on this device.</p></div><div class="row">${button('simulate-expiry','Simulate end of trial')}${button('reset-access','Reset demo access')}</div></section>`;
 }
 function showPaywall() {
   const dialog = document.querySelector('#paywall-dialog');
@@ -96,7 +94,7 @@ function detailMarkup(r) {
   return `<section class="intro"><div>${button('back','← All expenses',false,'class="back"')}<h1>${esc(e.description)}</h1><p class="muted">${esc(childName(e.childId))} · ${esc(category(e.category))} · ${esc(e.expenseDate)} · Paid by ${esc(person(e.paidBy))}</p></div>${tag(e.status)}</section><div class="detail-grid"><div><section class="panel"><h2>Expense details</h2><dl class="facts"><div><dt>Total purchase</dt><dd class="large">${money(e.amountCents)}</dd></div><div><dt>${e.status==='APPROVED'?'Agreed':'Proposed'} share for ${esc(person(e.reviewerId??(mine?(actor==='alex'?'jordan':'alex'):actor)))}</dt><dd class="large">${money(e.reviewerOwedCents)} <small>(${e.reviewerShareBps/100}%)</small></dd></div><div><dt>Merchant</dt><dd>${esc(e.merchant)||'Not added'}</dd></div><div><dt>Paid by</dt><dd>${esc(person(e.paidBy))} · ${money(e.amountCents-e.reviewerOwedCents)} own share</dd></div></dl>${e.replacesExpenseId?`<p class="explanation">Corrected draft replacing ${esc(e.replacesExpenseId)}. A fresh agreement is required.</p>`:''}${lastDispute&&e.status==='DISPUTED'?`<div class="reason">Objection: ${esc(lastDispute.note)}</div>`:''}<p class="explanation">${e.status==='DRAFT'?'Only you can see this draft. It becomes shared when you send it for review.':e.status==='APPROVED'?'This agreed expense is locked. Reported transfers reduce the remaining amount only after the recipient confirms receipt.':e.status==='WITHDRAWN'?'This request is withdrawn and cannot be changed.':'The proposed share is excluded from agreed balances until the other parent agrees.'}</p><div class="actions">${actions.join('')}</div></section><section class="panel"><h2>External reimbursements</h2>${e.status==='APPROVED'?`<dl class="facts"><div><dt>Confirmed received</dt><dd>${money(s.confirmedCents)}</dd></div><div><dt>Awaiting receipt confirmation</dt><dd>${money(s.pendingCents)}</dd></div><div><dt>Remaining</dt><dd class="large" data-testid="remaining">${money(s.remainingCents)}</dd></div><div><dt>Available to report</dt><dd>${money(s.availableToReportCents)}</dd></div></dl>`:'<p class="muted">Reimbursements open after agreement.</p>'}${r.reimbursements.map(p=>`<div class="payment"><div class="row"><strong>${money(p.amountCents)}</strong>${tag(p.status)}</div><div>${esc(person(p.fromUserId))} reported ${esc(p.methodLabel)} on ${esc(p.paidOn)}</div>${p.note?`<div class="muted">${esc(p.note)}</div>`:''}${mine&&p.status==='PENDING'?`<div class="row">${button('confirm','I received this payment',true,`data-id="${esc(p.id)}"`)}${button('reject','I have not received this payment',false,`data-id="${esc(p.id)}"`)}</div>`:''}</div>`).join('')}<p class="explanation">Record money sent outside this service. CoParent Ledger does not send or verify bank payments.</p></section></div><aside><section class="panel"><h2>Receipt</h2>${e.receiptId?'<img class="receipt" src="/samples/receipt.svg" alt="Synthetic sample receipt, not a real purchase"><p class="muted">SAMPLE · Synthetic attachment</p>':'<p class="muted">Receipt not attached</p>'}</section><section class="panel"><h2>History</h2><ol class="timeline">${[...r.audit].reverse().map(a=>`<li><strong>${esc(person(a.actorId))}</strong> · ${esc(a.action.toLowerCase().replaceAll('_',' '))}${a.amountCents!==null?` · ${money(a.amountCents)}`:''}${a.note?`<div>${esc(a.note)}</div>`:''}<time datetime="${esc(a.createdAt)}">${esc(new Date(a.createdAt).toLocaleString('en-US'))}</time></li>`).join('')}</ol></section></aside></div>`;
 }
 function familyMarkup() {
-  return `<section class="intro"><div><h1>Family</h1><p class="muted">Names and children are synthetic and stay in this browser tab. Parent identities remain distinct even with identical names.</p></div>${button('child-add','+ Add child',true)}</section><section class="panel"><h2>Parents</h2>${context.members.map((m,i)=>`<div class="family-row"><strong>${esc(m.displayName)} (Parent ${i?'B':'A'})</strong>${button('parent-rename','Rename',false,`data-id="${esc(m.userId)}"`)}</div>`).join('')}</section><section class="panel"><h2>Children</h2><p class="muted">Archiving keeps existing expenses and history.</p>${context.children.map(c=>`<div class="family-row"><strong>${esc(c.alias)} ${c.archived?'(archived)':''}</strong><div class="row">${button('child-rename','Rename',false,`data-id="${esc(c.id)}"`)}${button(c.archived?'child-restore':'child-archive',c.archived?'Restore':'Archive',false,`data-id="${esc(c.id)}"`)}</div></div>`).join('')}</section>`;
+  return `<section class="intro"><div><h1>Family</h1><p class="muted">Names and children are synthetic and stay in this browser on this device. Parent identities remain distinct even with identical names.</p></div>${button('child-add','+ Add child',true)}</section><section class="panel"><h2>Parents</h2>${context.members.map((m,i)=>`<div class="family-row"><strong>${esc(m.displayName)} (Parent ${i?'B':'A'})</strong>${button('parent-rename','Rename',false,`data-id="${esc(m.userId)}"`)}</div>`).join('')}</section><section class="panel"><h2>Children</h2><p class="muted">Archiving keeps existing expenses and history.</p>${context.children.map(c=>`<div class="family-row"><strong>${esc(c.alias)} ${c.archived?'(archived)':''}</strong><div class="row">${button('child-rename','Rename',false,`data-id="${esc(c.id)}"`)}${button(c.archived?'child-restore':'child-archive',c.archived?'Restore':'Archive',false,`data-id="${esc(c.id)}"`)}</div></div>`).join('')}</section>`;
 }
 function statisticsMarkup() {
  const report=statistics[context.children.findIndex(c=>c.id===statsChild)];
@@ -142,10 +140,11 @@ root.addEventListener('change',event=>{
 root.addEventListener('click',event=>{
   const control=event.target.closest('[data-action]');if(!control||busy)return;
   const action=control.dataset.action,e=selectedRecord()?.expense;
+  if(action==='reload-saved'){const dialog=document.querySelector('#form-dialog[open]');if(dialog&&!window.confirm('Reload saved data? Unsaved form entries in this tab will be discarded.'))return;return coordinator.reload(async()=>{stale=false;notice='Loaded the latest saved demo data.';failure=false;await refresh();}).catch(showReadFailure);}
   if(action.startsWith('view-')){view=action.slice(5);return navigate(null);}
-  if(action==='category-inline') { const form=control.closest('form'), input=form.elements.newCategory; if (!input.value.trim()) {form.querySelector('#form-error').textContent='Enter a category name.';return;} control.disabled=true; ledger.createCategory(input.value,{idempotencyKey:key()}).then(c=>{categories.push(c);form.elements.category.add(new Option(c.label,c.id,true,true));input.value='';form.querySelector('#form-error').textContent='';}).catch(error=>{form.querySelector('#form-error').textContent=error.message;}).finally(()=>{control.disabled=false;});return; }
+  if(action==='category-inline') { const form=control.closest('form'), input=form.elements.newCategory; if (!input.value.trim()) {form.querySelector('#form-error').textContent='Enter a category name.';return;} control.disabled=true; coordinator.run(()=>ledger.createCategory(input.value,{idempotencyKey:key()})).then(c=>{categories.push(c);form.elements.category.add(new Option(c.label,c.id,true,true));input.value='';form.querySelector('#form-error').textContent='';}).catch(error=>{form.querySelector('#form-error').textContent=error.message;if(String(error.message).includes('another tab')){stale=true;if(!form.querySelector('[data-action=reload-saved]'))form.querySelector('#form-error').insertAdjacentHTML('afterend',button('reload-saved','Reload saved data'));}}).finally(()=>{control.disabled=false;});return; }
   if(['child-add','child-rename','parent-rename','category-edit','plan-add'].includes(action))return showForm(action,control.dataset.id);
-  if(action==='child-archive'||action==='child-restore'){if(action==='child-archive'&&!window.confirm('Archive this child? Existing expenses and history remain available.'))return;return run(()=>action==='child-archive'?ledger.archiveChild(control.dataset.id,{idempotencyKey:key()}):ledger.restoreChild(control.dataset.id,{idempotencyKey:key()}),'Family updated in this tab.');}
+  if(action==='child-archive'||action==='child-restore'){if(action==='child-archive'&&!window.confirm('Archive this child? Existing expenses and history remain available.'))return;return run(()=>action==='child-archive'?ledger.archiveChild(control.dataset.id,{idempotencyKey:key()}):ledger.restoreChild(control.dataset.id,{idempotencyKey:key()}),'Family updated in this browser.');}
   if(action==='plan-convert'){if(!access.canCreate())return showPaywall();return run(async()=>{const r=await ledger.convertPlan(control.dataset.id,{idempotencyKey:key()});view='ledger';const url=new URL(location.href);url.searchParams.set('expense',r.expense.id);history.pushState(null,'',url);},'Plan converted to a private draft. No debt exists until agreement.');}
   if(action==='simulate-expiry'||action==='reset-access') { try { action==='simulate-expiry'?access.simulateExpiry():access.reset(); notice=action==='simulate-expiry'?'Demo trial ended. Try Add expense to see the paywall.':'Demo access reset. The 14-day trial is active.'; failure=false; render(); } catch { notice='Demo access could not be saved in this browser.';failure=true;render(); } return; }
   if(action==='close-paywall')return document.querySelector('#paywall-dialog').close();
@@ -162,7 +161,7 @@ root.addEventListener('click',event=>{
   if(action==='receipt')return run(()=>ledger.attachSampleReceipt(e.id,meta(e)),'Built-in SAMPLE receipt attached.');
   if(action==='confirm') { const payment=selectedRecord().reimbursements.find(p=>p.id===control.dataset.id); if(!window.confirm(`Confirm you received ${money(payment.amountCents)}? This reduces the remaining amount and cannot be undone in this MVP.`))return; return run(()=>ledger.resolveReimbursement(control.dataset.id,'CONFIRM','',meta(e)),'Receipt confirmed. The remaining amount has been updated.'); }
   if(action==='clean'||action==='examples') {
-    if(!window.confirm('Replace this tab’s synthetic demo data? Real data is not affected.'))return;
+    if(!window.confirm('Replace the saved demo data in this browser? Expenses, family and plans will be replaced. Demo access is not reset.'))return;
     return run(async()=>{ledger.reset(action==='clean'?'clean':'examples');selected=null;const url=new URL(location.href);url.searchParams.delete('expense');history.replaceState(null,'',url);},action==='clean'?'Clean demo ready. Create the first expense.':'Loaded a separate example dataset, including a pending $10 payment.');
   }
   if(action==='csv')return run(async()=>{const csv=await ledger.exportExpensesCsv();const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='coparent-synthetic-expenses.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);},'Exported visible synthetic records.');
@@ -190,5 +189,24 @@ root.addEventListener('submit',async event=>{
   } catch(error){document.querySelector('#form-error').textContent=error.message;return;}
   await run(operation,kind==='report'?'Payment reported. The remaining amount stays unchanged until receipt is confirmed.':'Saved to this synthetic demo.');
 });
-window.addEventListener('popstate',()=>{void refresh().catch(showReadFailure);});
-if (ledger) refresh().catch(showReadFailure);
+window.addEventListener('popstate',()=>{if(ledger)void refresh().catch(showReadFailure);});
+window.addEventListener('storage', event=>{
+  if(event.key!==DEMO_STORAGE_KEY || !coordinator)return;
+  stale=true;
+  if(!document.querySelector('#external-change-alert')) {
+    const alert=document.createElement('div');alert.id='external-change-alert';alert.className='notice error';alert.setAttribute('role','alert');
+    alert.innerHTML='Demo data changed in another tab. Reload saved data before making changes. '+button('reload-saved','Reload saved data');
+    root.prepend(alert);
+  }
+  const error=document.querySelector('#form-dialog[open] #form-error');
+  if(error){error.textContent='Demo data changed in another tab. Reload saved data before making changes.';if(!document.querySelector('#form-dialog [data-action=reload-saved]'))error.insertAdjacentHTML('afterend',button('reload-saved','Reload saved data'));}
+});
+(async()=>{
+  try {
+    if(!navigator.locks)throw new Error('This browser cannot safely coordinate demo data across tabs. Use a current browser with Web Locks enabled.');
+    const opened=await openPersistentDemo(localStorage,sessionStorage,navigator.locks,access);
+    ledger=opened.ledger;coordinator=opened.coordinator;
+    if(opened.origin==='migrated')notice='Your previous demo progress was saved in this browser.';
+    await refresh();
+  } catch(error){showReadFailure(error);}
+})();
