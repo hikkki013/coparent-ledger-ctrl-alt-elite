@@ -41,3 +41,8 @@ Preserved failed form inputs; local calendar date defaults; amount-specific irre
 TypeScript tooling used the installed official compiler and official React declarations (DefinitelyTyped React index blob 3a2f677611e3075fe4e71a85af4c37b95ab592be, csstype index da0affda4f3b2544621fcb786bc708bb9394b749). These temporary tooling files are not application source. See README and supabase/README for reproducible commands and test-environment variables.
 
 No real payments, billing or real-person invitations occurred. Local demo and isolated SQL success do not establish production readiness.
+
+
+## Family workspace update
+
+Automated: 55/55 Node tests, including family identity, category correction without financial mutation, approved-only statistics, and plans excluded from balances. Browser: production guest launch, add child, view statistics, create future plan, add category in expense form, create and approve an expense, report $12 while $48 remained due, then confirm receipt and observe the remaining $36 and history. Changed the approved expense category from Music to Activities and verified the $36 balance, $12 confirmed payment and category-change history remained correct. Preview initially had a broken form submit handler; it was corrected before production and rechecked there. This is not full functional, responsive, real-device, React, security, or real-account backend verification.

@@ -13,6 +13,15 @@ Updated 2026-11-14. Requested owner: **hikkki013**. Private repository and brows
 | 06 demo / business | IMPLEMENTED | Exact clean/examples data; demo/pricing/pilot docs; billing disabled |
 | 07 release | SOURCE PUBLISHED / LIVE BLOCKED | Private source upload complete; README/limits/publication helper included; production build and live backend remain unverified |
 
+## Family workspace demo update
+
+- The existing Pages site at https://coparent-ledger-demo.pages.dev/ was updated using Direct Upload. The production upload contained only the generated `index.html`; common GitHub/AWS/private-key/JWT patterns were absent on the earlier generated output. This is not a comprehensive security audit.
+- Synthetic session-only demo supports ten active children with rename/archive/restore; two independently identified renameable parents; custom expense categories and audited category correction; per-child approved purchase breakdown by payer/category, agreed shares, confirmed reimbursements and remaining balance; future estimates excluded from balances, with optional one-time conversion into a draft for a selected active child.
+- Browser checks on the production URL: guest launch, added child Mia, checked sample category/parent statistics ($205.56 purchases; $90.78 agreed; $20 confirmed; $70.78 remaining), created an unassigned $5,000 future plan, and created a Music category and expense draft. A previous preview exposed a save-handler bug, corrected before production; that preview remains outdated.
+- `npm test`: 55/55 passed. `npm run check`: semantic TypeScript check passed. `npm run demo:pages`: passed. Browser test coverage is partial: plan conversion via UI, responsive device checks, and real multiuser backend are not verified for this update. After publication a new $120.01 Music expense at 40% was submitted with a sample receipt and approved; a $12 report left the $48 balance unchanged until receipt was confirmed, after which $36 remained with history.
+- New features are implemented in standalone demo, not the separate React/backend product. Existing backend schema/RPC/RLS does not support these new features; do not use the client-local implementation as a production authorization boundary. Plan editing/deletion and durable cross-session records remain outstanding.
+- The required PDF deck and public submission-source decision remain open. The user's explicit instruction is to keep the source repository private.
+
 ## Organizer FAQ audit - 2026-11-14
 
 All 150 FAQ answers (29 pages) were reviewed against the current source. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md). **Not submission-ready:** an English PDF deck (at most 10 slides), durable demo expense storage, and submission-source public access are not complete. The guest demo has since been published and tested as detailed below. The user's explicit latest instruction is to keep the repository PRIVATE; no visibility change or public mirror is authorized.
