@@ -1,10 +1,13 @@
 import { DemoLedger } from '/src/data/demo-ledger.js';
+import { browserDemoAccess } from '/src/data/demo-access.js';
 import { parseUsdToCents, parsePercentToBps, splitExpense } from '/src/domain/money.js';
 import { deriveSettlement } from '/src/domain/settlement.js';
 
 const root = document.querySelector('#app');
 let ledger;
-try { ledger = new DemoLedger(sessionStorage, 'alex'); }
+const demoPlan = browserDemoAccess();
+const access = demoPlan.access;
+try { ledger = new DemoLedger(sessionStorage, 'alex', access); }
 catch { root.textContent = 'This synthetic demo needs browser session storage. Allow storage for this file or site, then reload.'; }
 const currency = new Intl.NumberFormat('en-US', {style:'currency',currency:'USD'});
 const money = cents => currency.format(cents / 100);
@@ -60,7 +63,17 @@ function balances() {
 }
 function render() {
   const b=balances();
-  root.innerHTML=`<div class="demo-strip"><strong>Synthetic demo.</strong> Alex and Jordan are sample identities. Changes stay in this browser tab; no money moves.</div><div class="shell"><header class="topbar"><div class="brand"><span class="brand-mark">c</span>CoParent Ledger</div><label class="actor">Viewing as <select id="actor" aria-label="Demo parent"><option value="alex" ${actor==='alex'?'selected':''}>Alex</option><option value="jordan" ${actor==='jordan'?'selected':''}>Jordan</option></select></label></header>${notice?`<div class="notice ${failure?'error':''}" role="${failure?'alert':'status'}">${esc(notice)}</div>`:''}${selected?detailMarkup(selectedRecord()):listMarkup(b)}<footer class="foot"><span>Shared expenses. Clear agreements. A history you can follow.<br>Standalone demo · Real accounts and backend are not connected.</span><div class="row">${button('clean','Start clean')}${button('examples','Load examples')}${button('csv','Export CSV')}</div></footer></div><dialog id="form-dialog" aria-labelledby="dialog-title"></dialog>`;
+  root.innerHTML=`<div class="demo-strip"><strong>Synthetic demo.</strong> Alex and Jordan are sample identities. Changes stay in this browser tab; no money moves.</div><div class="shell"><header class="topbar"><div class="brand"><span class="brand-mark">c</span>CoParent Ledger</div><label class="actor">Viewing as <select id="actor" aria-label="Demo parent"><option value="alex" ${actor==='alex'?'selected':''}>Alex</option><option value="jordan" ${actor==='jordan'?'selected':''}>Jordan</option></select></label></header>${accessMarkup()}${notice?`<div class="notice ${failure?'error':''}" role="${failure?'alert':'status'}">${esc(notice)}</div>`:''}${selected?detailMarkup(selectedRecord()):listMarkup(b)}<footer class="foot"><span>Shared expenses. Clear agreements. A history you can follow.<br>Standalone demo · Real accounts and backend are not connected.</span><div class="row">${button('clean','Start clean')}${button('examples','Load examples')}${button('csv','Export CSV')}</div></footer></div><dialog id="form-dialog" aria-labelledby="dialog-title"></dialog><dialog id="paywall-dialog" aria-labelledby="paywall-title"></dialog>`;
+}
+function accessMarkup() {
+  const status = access.status();
+  const label = status === 'trial' ? '14-day demo trial active' : status === 'expired' ? 'Demo trial ended' : 'Test access enabled';
+  return `<section class="demo-plan" aria-label="Demo subscription controls"><div><strong>${label}</strong><p>Demo controls only. ${demoPlan.persistent ? 'Test access is stored in this browser until reset or browser data is cleared.' : 'Browser storage unavailable: test access lasts only in this tab.'} Expenses remain in this tab only.</p></div><div class="row">${button('simulate-expiry','Simulate end of trial')}${button('reset-access','Reset demo access')}</div></section>`;
+}
+function showPaywall() {
+  const dialog = document.querySelector('#paywall-dialog');
+  dialog.innerHTML = `<div class="paywall-content"><span class="plan-label">Demo subscription</span><h2 id="paywall-title">Keep your shared ledger going</h2><p class="plan-price">$7.99 <span>/ month per household</span></p><p>One household includes both parents. Record expenses, attach sample receipts, agree on shares and track reimbursements together.</p><div class="plan-note"><strong>Test access only — no payment.</strong><br>No card, billing or real subscription is connected. This browser-local demo does not process payments.</div><p class="muted">Your existing expenses, receipts, history, CSV export and payment confirmations remain available.</p><div class="actions">${button('close-paywall','Not now')}${button('enable-access','Enable test access — no payment',true)}</div></div>`;
+  dialog.showModal();
 }
 function listMarkup(b) {
   const shown=records.filter(r => filter==='ALL'||r.expense.status===filter);
@@ -108,6 +121,10 @@ root.addEventListener('change',event=>{
 root.addEventListener('click',event=>{
   const control=event.target.closest('[data-action]');if(!control||busy)return;
   const action=control.dataset.action,e=selectedRecord()?.expense;
+  if(action==='simulate-expiry'||action==='reset-access') { try { action==='simulate-expiry'?access.simulateExpiry():access.reset(); notice=action==='simulate-expiry'?'Demo trial ended. Try Add expense to see the paywall.':'Demo access reset. The 14-day trial is active.'; failure=false; render(); } catch { notice='Demo access could not be saved in this browser.';failure=true;render(); } return; }
+  if(action==='close-paywall')return document.querySelector('#paywall-dialog').close();
+  if(action==='enable-access') { try { access.enableTestAccess();notice='Test access enabled. No payment was made.';failure=false;render();showForm('new'); } catch { const dialog=document.querySelector('#paywall-dialog');dialog.querySelector('.plan-note').textContent='Test access could not be saved. Check browser storage and try again.'; } return; }
+  if(action==='new'&&!access.canCreate())return showPaywall();
   if(action==='open')return navigate(control.dataset.id);
   if(action==='back')return navigate(null);
   if(action==='close')return document.querySelector('#form-dialog').close();
