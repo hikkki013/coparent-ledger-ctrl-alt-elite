@@ -27,6 +27,28 @@ const SAMPLE_URL = '/samples/receipt.svg';
 const now = (): string => new Date().toISOString();
 const copy = <T>(value: T): T => structuredClone(value);
 
+/** Validate without writing: corrupt saved records must never be replaced with examples. */
+export function parseDemoState(raw: string): DemoState {
+  const state = JSON.parse(raw) as DemoState;
+  if (!state || state.schemaVersion !== 1 || state.household?.id !== 'demo-household' || !Array.isArray(state.expenses) || !Array.isArray(state.reimbursements) || !Array.isArray(state.audit) || !Array.isArray(state.receipts) || !Array.isArray(state.children) || !Array.isArray(state.members) || !state.commands || typeof state.commands !== 'object' || Array.isArray(state.commands) || !Number.isSafeInteger(state.nextId)) throw new Error('Invalid saved demo data.');
+  state.categories ??= defaultCategories(); state.plans ??= [];
+  if (!Array.isArray(state.categories) || !Array.isArray(state.plans)) throw new Error('Invalid saved demo data.');
+  if (state.members.length !== 2 || !['alex','jordan'].every(id => state.members.some(m => m?.userId === id && typeof m.displayName === 'string'))) throw new Error('Invalid demo parents.');
+  if (state.children.some(c => !c || typeof c.id !== 'string' || c.householdId !== state.household.id || typeof c.alias !== 'string')) throw new Error('Invalid demo children.');
+  if (state.categories.some(c => !c || typeof c.id !== 'string' || typeof c.label !== 'string')) throw new Error('Invalid demo categories.');
+  if (state.plans.some(p => !p || typeof p.id !== 'string' || !['PLANNED','CONVERTED'].includes(p.status))) throw new Error('Invalid demo plans.');
+  for (const e of state.expenses) {
+    if (!e || typeof e.id !== 'string' || e.householdId !== state.household.id || !state.children.some(c => c.id === e.childId) || !state.members.some(m => m.userId === e.paidBy) || !['DRAFT','PENDING','APPROVED','DISPUTED','WITHDRAWN'].includes(e.status) || !Number.isSafeInteger(e.lockVersion) || !state.categories.some(c => c.id === e.category)) throw new Error('Invalid demo expense.');
+    const split = splitExpense(e.amountCents,e.reviewerShareBps);
+    if (split.reviewerOwedCents !== e.reviewerOwedCents) throw new Error('Invalid demo share.');
+    const reports = state.reimbursements.filter(r => r?.expenseId === e.id);
+    if (reports.some(r => !['PENDING','CONFIRMED','REJECTED'].includes(r.status))) throw new Error('Invalid demo reimbursement.');
+    deriveSettlement(e.reviewerOwedCents,reports);
+  }
+  if (state.reimbursements.some(r => !r || !state.expenses.some(e => e.id === r.expenseId)) || state.audit.some(a => !a || !state.expenses.some(e => e.id === a.expenseId)) || state.receipts.some(r => !r || !state.expenses.some(e => e.id === r.expenseId))) throw new Error('Invalid linked demo data.');
+  return state;
+}
+
 function canonical(value: unknown): string {
   if (value === null || typeof value === 'string' || typeof value === 'boolean') return JSON.stringify(value);
   if (typeof value === 'number' && Number.isFinite(value)) return JSON.stringify(value);
@@ -139,19 +161,15 @@ export class DemoLedger implements LedgerPort {
     try {
       const raw = this.#storage.getItem(STORAGE_KEY);
       if (raw === null) return initialState('examples');
-      const state = JSON.parse(raw) as DemoState;
-      if (state.schemaVersion !== 1 || state.household?.id !== 'demo-household' || !Array.isArray(state.expenses) || !Array.isArray(state.reimbursements) || !Array.isArray(state.audit) || !Array.isArray(state.receipts) || !Array.isArray(state.children) || !Array.isArray(state.members) || typeof state.commands !== 'object' || state.commands === null || !Number.isSafeInteger(state.nextId)) throw new Error('Invalid demo state');
-      state.categories ??= defaultCategories(); state.plans ??= [];
-      if (!Array.isArray(state.categories) || !Array.isArray(state.plans)) throw new Error('Invalid demo state');
-      return state;
+      return parseDemoState(raw);
     } catch {
-      throw new LedgerError('VALIDATION', 'Saved demo data could not be read. Reset the demo to start again.');
+      throw new LedgerError('VALIDATION', 'Saved demo data could not be read. Your saved data has not been replaced.');
     }
   }
 
   #write(state: DemoState): void {
     try { this.#storage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-    catch { throw new LedgerError('BACKEND_UNAVAILABLE', 'This browser could not save the demo. Allow session storage and try again.'); }
+    catch { throw new LedgerError('BACKEND_UNAVAILABLE', 'This browser could not save the demo. Check browser storage and available space.'); }
   }
 
   // Synchronous read/check/write within one JS turn also serializes Promise.all calls in this tab.
