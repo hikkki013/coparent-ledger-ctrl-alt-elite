@@ -199,7 +199,6 @@ export class DemoLedger implements LedgerPort {
   async createChild(alias: string, meta: CreateMeta): Promise<Child> {
     return this.#command('createChild', { alias }, meta, state => {
       const normalized = validateText(alias, 'Child alias', 60);
-      if (state.children.filter(child => !child.archived).length >= 10) throw new LedgerError('VALIDATION', 'The demo supports up to ten active children.');
       const child: Child = { id: nextId(state, 'child'), householdId: state.household.id, alias: normalized };
       state.children.push(child);
       return child;
@@ -224,7 +223,6 @@ export class DemoLedger implements LedgerPort {
     return this.#command('restoreChild', {id}, meta, state => {
       const child = state.children.find(item => item.id === id);
       if (!child) throw new LedgerError('FORBIDDEN', 'Child not found.');
-      if (state.children.filter(item => !item.archived).length >= 10) throw new LedgerError('VALIDATION', 'The demo supports up to ten active children.');
       child.archived = false; return child;
     });
   }
