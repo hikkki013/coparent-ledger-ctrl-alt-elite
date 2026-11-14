@@ -13,6 +13,13 @@
 | Published synthetic demo manual flow | PASS on HTTPS | New $73.25 expense, 60% share, sample receipt, approval, $12.50 pending and confirmed, $31.45 remaining, history and same-tab refresh |
 | Responsive smoke check | PASS with limits | 375×812 and 1280×800 viewport inspection and selected actions; no physical phone checked |
 
+## Demo paywall - 2026-11-15
+
+- Node suite: 50/50 passed, including trial expiry, simulation, persistence, test activation, reset, blocked creation and confirmation of existing reimbursement while blocked.
+- TypeScript semantic source check passed for 21 files; standalone Pages build passed.
+- Public manual checks: trial simulation, $7.99 dialog, no-card test activation, blocked and unlocked creation, existing history and confirmation while blocked. A new $52 expense was approved and $8.25 reported against $20.80; browser timed out before the final confirmation of that new expense. A separate existing $10 sample payment was confirmed while blocked. Preview responsive screenshots inspected at 375x812 and 1280x800; no physical phone checked.
+- Access is localStorage-backed with a tab-memory fallback; expenses use separate sessionStorage. No actual payment, card input or subscription.
+
 ## BLOCKED / UNRUN
 
 - Native RLS/grants, real concurrent transactions: single-user PostgreSQL cannot verify these.

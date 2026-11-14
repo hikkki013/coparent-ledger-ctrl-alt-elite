@@ -15,9 +15,17 @@ Updated 2026-11-14. Requested owner: **hikkki013**. Private repository and brows
 
 ## Organizer FAQ audit - 2026-11-14
 
-All 150 FAQ answers (29 pages) were reviewed against the current source. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md). **Not submission-ready:** a working paywall, an English PDF deck (at most 10 slides), and submission-source public access are not complete. The guest demo has since been published and tested as detailed below. The user's explicit latest instruction is to keep the repository PRIVATE; no visibility change or public mirror is authorized.
+All 150 FAQ answers (29 pages) were reviewed against the current source. See [CRITERIA_MATRIX.md](CRITERIA_MATRIX.md). **Not submission-ready:** an English PDF deck (at most 10 slides), durable demo expense storage, and submission-source public access are not complete. The guest demo has since been published and tested as detailed below. The user's explicit latest instruction is to keep the repository PRIVATE; no visibility change or public mirror is authorized.
 
-The FAQ accepts guest/demo sessions, local storage, labeled seed inputs and no actual payments. This corrects the earlier assumption that a real backend was required for the competition guest flow. The original real-two-account service remains a separate unverified goal. The current guest demo uses sessionStorage, so progress ends when the tab is closed; retention evidence is partial. Price exists, but CAC/retention/LTV assumptions and a functioning paywall are missing. This review changed documentation only; prior test results were not relabeled as new runs.
+The FAQ accepts guest/demo sessions, local storage, labeled seed inputs and no actual payments. This corrects the earlier assumption that a real backend was required for the competition guest flow. The original real-two-account service remains a separate unverified goal. The current guest demo uses sessionStorage, so progress ends when the tab is closed; retention evidence is partial. Price exists, but CAC/retention/LTV assumptions are missing. The paywall was subsequently implemented as described below.
+
+## Demo paywall - 2026-11-15
+
+- Published at https://coparent-ledger-demo.pages.dev/ using the existing Cloudflare Pages Direct Upload project. No actual charge, card collection, billing provider or real subscription is implemented.
+- A shared demo access module tracks a 14-day trial, simulated expiration, test access and reset. It uses browser localStorage with an in-memory fallback. Demo expenses remain separate in sessionStorage. Creation of new expense drafts is blocked while expired; existing history, sample receipts, CSV export and existing payment confirmations remain available. This client-side check is not security or a production entitlement.
+- Tests: `npm test` PASS 50/50; `npm run check` PASS 21 source files with TypeScript 6.0.3; `npm run demo:pages` PASS. Vite production build and React browser integration not run because dependencies/network were unavailable.
+- Public browser: verified simulated expiration, $7.99 paywall, continued access to an existing record and confirmation of its pending $10 payment, test activation, new $52 draft and reset. Confirmed $8.25 was pending against a $20.80 approved share; final browser interaction for that new payment timed out. A previous sample confirmation was verified. Preview paywall was visually checked at 375x812 and 1280x800; a physical phone was not tested.
+- Preview was https://paywall-test.coparent-ledger-demo.pages.dev/ before production. Public URL retains the same project address. User explicitly requires private GitHub visibility.
 
 ## Cloudflare Pages preparation - 2026-11-14
 
@@ -27,7 +35,7 @@ The FAQ accepts guest/demo sessions, local storage, labeled seed inputs and no a
 - **DEPLOYED:** https://coparent-ledger-demo.pages.dev/ via Cloudflare Pages Direct Upload. Cloudflare reported success; the public URL opened without login and showed the synthetic demo banner. Published assets: only the generated `index.html`.
 - **PUBLIC FLOW PASS:** Added new $73.25 expense at 60% ($43.95), attached a synthetic receipt, submitted and approved as the second demo role, reported $12.50, verified $43.95 remained pending, confirmed receipt as the first role and observed $31.45 remaining plus history. Same-tab page refresh retained the result. This is a single-tab simulated two-role flow, not a two-account integration test.
 - **VIEWPORT CHECK:** Browser screenshots and selected actions were inspected at 375×812 and 1280×800. A separate tab opened the public URL without login and started with independent sample state. No physical phone or independent browser profile was checked.
-- **REMAINING:** The real two-account backend is not deployed or verified. Paywall, durable demo progress, English PDF deck and public submission-source access remain incomplete. The user requires the working repo to stay private.
+- **REMAINING:** The real two-account backend is not deployed or verified. Durable demo expense progress, English PDF deck and public submission-source access remain incomplete. The user requires the working repo to stay private.
 - Git terminal access failed because github.com could not be resolved. Browser uploads use the authenticated owner account and preserve private visibility; no GitHub visibility change is authorized.
 
 ## Environment blockers
