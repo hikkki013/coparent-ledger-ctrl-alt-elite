@@ -13,10 +13,14 @@ type DemoActor = 'alex' | 'jordan';
 type DemoMode = 'clean' | 'examples';
 interface CommandResult { fingerprint: string; result: unknown }
 interface DemoReceipt { id: string; expenseId: string }
+export interface DemoCategory { id: string; label: string }
+export interface PlanInput { title: string; description: string; childId: string | null; category: string; targetCents: number; reviewerShareBps: number; targetDate: string; notes: string }
+export interface DemoPlan extends PlanInput { id: string; status: 'PLANNED' | 'CONVERTED'; createdBy: string; createdAt: string; convertedExpenseId: string | null }
+const defaultCategories = (): DemoCategory[] => [{id:'SCHOOL',label:'School'}, {id:'MEDICAL',label:'Medical'}, {id:'ACTIVITIES',label:'Activities'}, {id:'PURCHASES',label:'Purchases'}, {id:'OTHER',label:'Other'}];
 interface DemoState {
   schemaVersion: 1; nextId: number; household: Household; members: Member[]; children: Child[];
   expenses: Expense[]; reimbursements: Reimbursement[]; audit: AuditEvent[]; receipts: DemoReceipt[];
-  commands: Record<string, CommandResult>;
+  commands: Record<string, CommandResult>; categories: DemoCategory[]; plans: DemoPlan[];
 }
 const STORAGE_KEY = 'coparent-ledger.demo.v1';
 const SAMPLE_URL = '/samples/receipt.svg';
@@ -59,9 +63,9 @@ function draftFields(expense: Expense): DraftInput {
   return { childId: expense.childId, category: expense.category, description: expense.description, merchant: expense.merchant, expenseDate: expense.expenseDate, amountCents: expense.amountCents, reviewerShareBps: expense.reviewerShareBps };
 }
 function newDraft(state: DemoState, actorId: string, input: DraftInput, replacesExpenseId: string | null = null): Expense {
-  const fields = validateDraft(input);
+  const fields = validateDraft(input, state.categories.map(category => category.id));
   const child = state.children.find(item => item.id === fields.childId && item.householdId === state.household.id);
-  if (!child) throw new LedgerError('FORBIDDEN', 'This child alias is unavailable.');
+  if (!child || (child.archived && !replacesExpenseId)) throw new LedgerError('FORBIDDEN', 'This child is unavailable or archived.');
   const expense: Expense = {
     ...fields, id: nextId(state, 'expense'), householdId: state.household.id, paidBy: actorId,
     reviewerId: state.members.find(member => member.userId !== actorId)?.userId ?? null,
@@ -75,7 +79,7 @@ function newDraft(state: DemoState, actorId: string, input: DraftInput, replaces
 
 function initialState(mode: DemoMode): DemoState {
   const seedTime = '2026-11-14T12:00:00.000Z';
-  const state: DemoState = { schemaVersion: 1, nextId: 100, household: { id: 'demo-household', createdBy: 'alex', createdAt: seedTime }, members: [{ userId: 'alex', displayName: 'Alex' }, { userId: 'jordan', displayName: 'Jordan' }], children: [{ id: 'child-1', householdId: 'demo-household', alias: 'Child 1' }], expenses: [], reimbursements: [], audit: [], receipts: [], commands: {} };
+  const state: DemoState = { schemaVersion: 1, nextId: 100, household: { id: 'demo-household', createdBy: 'alex', createdAt: seedTime }, members: [{ userId: 'alex', displayName: 'Alex' }, { userId: 'jordan', displayName: 'Jordan' }], children: [{ id: 'child-1', householdId: 'demo-household', alias: 'Child 1' }], expenses: [], reimbursements: [], audit: [], receipts: [], commands: {}, categories: defaultCategories(), plans: [] };
   if (mode === 'clean') return state;
   const seeds: { id: string; payer: DemoActor; description: string; category: DraftInput['category']; amount: number; bps: number; status: Expense['status']; day: string }[] = [
     { id: 'e1', payer: 'alex', description: 'School supplies', category: 'SCHOOL', amount: 12001, bps: 4000, status: 'APPROVED', day: '2026-11-14' },
@@ -137,6 +141,8 @@ export class DemoLedger implements LedgerPort {
       if (raw === null) return initialState('examples');
       const state = JSON.parse(raw) as DemoState;
       if (state.schemaVersion !== 1 || state.household?.id !== 'demo-household' || !Array.isArray(state.expenses) || !Array.isArray(state.reimbursements) || !Array.isArray(state.audit) || !Array.isArray(state.receipts) || !Array.isArray(state.children) || !Array.isArray(state.members) || typeof state.commands !== 'object' || state.commands === null || !Number.isSafeInteger(state.nextId)) throw new Error('Invalid demo state');
+      state.categories ??= defaultCategories(); state.plans ??= [];
+      if (!Array.isArray(state.categories) || !Array.isArray(state.plans)) throw new Error('Invalid demo state');
       return state;
     } catch {
       throw new LedgerError('VALIDATION', 'Saved demo data could not be read. Reset the demo to start again.');
@@ -193,10 +199,91 @@ export class DemoLedger implements LedgerPort {
   async createChild(alias: string, meta: CreateMeta): Promise<Child> {
     return this.#command('createChild', { alias }, meta, state => {
       const normalized = validateText(alias, 'Child alias', 60);
-      if (state.children.length >= 3) throw new LedgerError('VALIDATION', 'A household can have up to three child aliases.');
+      if (state.children.filter(child => !child.archived).length >= 10) throw new LedgerError('VALIDATION', 'The demo supports up to ten active children.');
       const child: Child = { id: nextId(state, 'child'), householdId: state.household.id, alias: normalized };
       state.children.push(child);
       return child;
+    });
+  }
+  async renameChild(id: string, name: string, meta: CreateMeta): Promise<Child> {
+    return this.#command('renameChild', {id, name}, meta, state => {
+      const child = state.children.find(item => item.id === id);
+      if (!child) throw new LedgerError('FORBIDDEN', 'Child not found.');
+      child.alias = validateText(name, 'Child name', 60); return child;
+    });
+  }
+  async archiveChild(id: string, meta: CreateMeta): Promise<Child> {
+    return this.#command('archiveChild', {id}, meta, state => {
+      const child = state.children.find(item => item.id === id);
+      if (!child) throw new LedgerError('FORBIDDEN', 'Child not found.');
+      if (child.archived) throw new LedgerError('INVALID_STATE', 'Child is already archived.');
+      child.archived = true; return child;
+    });
+  }
+  async restoreChild(id: string, meta: CreateMeta): Promise<Child> {
+    return this.#command('restoreChild', {id}, meta, state => {
+      const child = state.children.find(item => item.id === id);
+      if (!child) throw new LedgerError('FORBIDDEN', 'Child not found.');
+      if (state.children.filter(item => !item.archived).length >= 10) throw new LedgerError('VALIDATION', 'The demo supports up to ten active children.');
+      child.archived = false; return child;
+    });
+  }
+  async renameParent(id: string, name: string, meta: CreateMeta): Promise<Member> {
+    return this.#command('renameParent', {id, name}, meta, state => {
+      const member = state.members.find(item => item.userId === id);
+      if (!member) throw new LedgerError('FORBIDDEN', 'Parent not found.');
+      member.displayName = validateText(name, 'Parent name', 60); return member;
+    });
+  }
+  async listCategories(): Promise<DemoCategory[]> { return copy(this.#read().categories); }
+  async createCategory(label: string, meta: CreateMeta): Promise<DemoCategory> {
+    return this.#command('createCategory', {label}, meta, state => {
+      const normalized = validateText(label.replace(/\s+/g, ' '), 'Category', 60);
+      if (state.categories.some(item => item.label.toLowerCase() === normalized.toLowerCase())) throw new LedgerError('VALIDATION', 'This category already exists.');
+      const item = {id: nextId(state, 'category'), label: normalized}; state.categories.push(item); return item;
+    });
+  }
+  async changeCategory(id: string, category: string, meta: MutationMeta): Promise<ExpenseDetail> {
+    return this.#mutate(id, 'changeCategory', {category}, meta, (state, expense, actorId) => {
+      const next = state.categories.find(item => item.id === category);
+      if (!next) throw new LedgerError('VALIDATION', 'Choose a valid category.');
+      const previous = state.categories.find(item => item.id === expense.category);
+      expense.category = next.id; event(state, expense, actorId, 'CATEGORY_CHANGED', `${previous?.label ?? expense.category} -> ${next.label}`);
+    });
+  }
+  async childStatistics(childId: string) {
+    const state = this.#read();
+    if (!state.children.some(child => child.id === childId)) throw new LedgerError('FORBIDDEN', 'Child not found.');
+    const records = state.expenses.filter(expense => expense.childId === childId && expense.status === 'APPROVED' && visible(state, expense, this.#actorId)).map(expense => detailFor(state, expense));
+    const result = {purchaseCents: 0, agreedCents: 0, confirmedCents: 0, remainingCents: 0, byParent: state.members.map(member => ({actorId: member.userId, purchaseCents: 0, categories: [] as {category: string; purchaseCents: number}[]})), records};
+    for (const detail of records) {
+      const expense = detail.expense; const settlement = deriveSettlement(expense.reviewerOwedCents, detail.reimbursements);
+      result.purchaseCents += expense.amountCents; result.agreedCents += expense.reviewerOwedCents; result.confirmedCents += settlement.confirmedCents; result.remainingCents += settlement.remainingCents;
+      const parent = result.byParent.find(item => item.actorId === expense.paidBy)!; parent.purchaseCents += expense.amountCents;
+      let category = parent.categories.find(item => item.category === expense.category);
+      if (!category) { category = {category: expense.category, purchaseCents: 0}; parent.categories.push(category); } category.purchaseCents += expense.amountCents;
+    }
+    return result;
+  }
+  async listPlans(): Promise<DemoPlan[]> { return copy(this.#read().plans); }
+  async createPlan(input: PlanInput, meta: CreateMeta): Promise<DemoPlan> {
+    return this.#command('createPlan', {input}, meta, (state, actorId) => {
+      if (input.childId && !state.children.some(child => child.id === input.childId && !child.archived)) throw new LedgerError('VALIDATION', 'Choose an active child.');
+      if (!state.categories.some(category => category.id === input.category)) throw new LedgerError('VALIDATION', 'Choose a category.');
+      splitExpense(input.targetCents, input.reviewerShareBps);
+      const plan: DemoPlan = {title: validateText(input.title, 'Title', 120), description: validateText(input.description, 'Description', 500, false), childId: input.childId, category: input.category, targetCents: input.targetCents, reviewerShareBps: input.reviewerShareBps, targetDate: input.targetDate ? validateDate(input.targetDate) : '', notes: validateText(input.notes, 'Notes', 1000, false), id: nextId(state, 'plan'), status: 'PLANNED', createdBy: actorId, createdAt: now(), convertedExpenseId: null};
+      state.plans.push(plan); return plan;
+    });
+  }
+  async convertPlan(id: string, meta: CreateMeta): Promise<ExpenseDetail> {
+    return this.#command('convertPlan', {id}, meta, (state, actorId) => {
+      const plan = state.plans.find(item => item.id === id);
+      if (!plan) throw new LedgerError('FORBIDDEN', 'Plan not found.');
+      if (plan.status !== 'PLANNED') throw new LedgerError('INVALID_STATE', 'This plan is already converted.');
+      if (!plan.childId) throw new LedgerError('VALIDATION', 'A plan needs a child before conversion.');
+      if (this.#access && !this.#access.canCreate()) throw new LedgerError('INVALID_STATE', 'The demo trial has ended. Enable test access to create an expense.');
+      const expense = newDraft(state, actorId, {childId: plan.childId, category: plan.category, description: plan.description || plan.title, merchant: '', expenseDate: new Date().toISOString().slice(0,10), amountCents: plan.targetCents, reviewerShareBps: plan.reviewerShareBps});
+      plan.status = 'CONVERTED'; plan.convertedExpenseId = expense.id; event(state, expense, actorId, 'PLAN_CONVERTED', `From plan: ${plan.title}`); return detailFor(state, expense);
     });
   }
   async listExpenses(): Promise<ExpenseDetail[]> {
@@ -213,7 +300,7 @@ export class DemoLedger implements LedgerPort {
   async saveDraft(id: string, input: DraftInput, meta: MutationMeta): Promise<ExpenseDetail> {
     return this.#mutate(id, 'saveDraft', { input }, meta, (state, expense, actorId) => {
       assertCanEditDraft(expense, actorId);
-      const fields = validateDraft(input);
+      const fields = validateDraft(input, state.categories.map(category => category.id));
       const child = state.children.find(item => item.id === fields.childId && item.householdId === expense.householdId);
       if (!child) throw new LedgerError('FORBIDDEN', 'This child alias is unavailable.');
       Object.assign(expense, fields, { childAliasSnapshot: child.alias, reviewerOwedCents: splitExpense(fields.amountCents, fields.reviewerShareBps).reviewerOwedCents });
@@ -223,7 +310,7 @@ export class DemoLedger implements LedgerPort {
   async submitExpense(id: string, meta: MutationMeta): Promise<ExpenseDetail> {
     return this.#mutate(id, 'submitExpense', {}, meta, (state, expense, actorId) => {
       assertCanSubmit(expense, actorId);
-      validateDraft(draftFields(expense));
+      validateDraft(draftFields(expense), state.categories.map(category => category.id));
       expense.status = 'PENDING'; expense.submittedAt = now();
       event(state, expense, actorId, 'SUBMITTED', '', expense.reviewerOwedCents);
     });
