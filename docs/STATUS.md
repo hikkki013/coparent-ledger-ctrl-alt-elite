@@ -78,3 +78,8 @@ React/TypeScript/Vite source retained. Plain CSS, explicit shared validation, na
 See README.md, QA_REPORT.md and supabase/README.md for commands and limitations. Approved expense corrections, confirmed-payment reversals, member deletion and operational backup/retention tooling remain out of scope.
 
 No real payments, email deliveries or real-person invitations are enabled.
+
+
+## Jury verification and deployment — 2026-11-15
+
+Cloudflare Pages Direct Upload production deployment `6d00a0a4` is live at https://coparent-ledger-demo.pages.dev/. The same archive was first exercised in an isolated preview. Production: $64.20 purchase, $32.10 agreed share, $12.10 reported without reducing the balance, then confirmation and $20.00 remaining with history. Preview exercised parent/child names, archive/restore, category create/correct, statistics, future-plan exclusion, paywall, confirmation during expiration, test unlock and reload persistence. npm test: 62 passed; npm run demo:pages: passed. Checked mobile and desktop browser viewports, not a physical phone. TypeScript, Vite and live Supabase remain blocked by missing dependencies/test configuration. See QA_REPORT.md for details. No new product code fixes were made.
