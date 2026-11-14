@@ -205,8 +205,10 @@ export class DemoLedger implements LedgerPort {
   }
   async getExpense(id: string): Promise<ExpenseDetail> { const state = this.#read(); return detailFor(state, findExpense(state, id, this.#actorId)); }
   async createDraft(input: DraftInput, meta: CreateMeta): Promise<ExpenseDetail> {
-    if (this.#access && !this.#access.canCreate()) throw new LedgerError('INVALID_STATE', 'The demo trial has ended. Enable test access to create an expense.');
-    return this.#command('createDraft', { input }, meta, (state, actorId) => detailFor(state, newDraft(state, actorId, input)));
+    return this.#command('createDraft', { input }, meta, (state, actorId) => {
+      if (this.#access && !this.#access.canCreate()) throw new LedgerError('INVALID_STATE', 'The demo trial has ended. Enable test access to create an expense.');
+      return detailFor(state, newDraft(state, actorId, input));
+    });
   }
   async saveDraft(id: string, input: DraftInput, meta: MutationMeta): Promise<ExpenseDetail> {
     return this.#mutate(id, 'saveDraft', { input }, meta, (state, expense, actorId) => {
