@@ -1,2 +1,86 @@
-# coparent-ledger
-Shared child expenses: receipts, agreed shares, external reimbursements and history. MVP with a separate synthetic demo.
+# CoParent Ledger
+
+A web MVP for two co-parents to record a child expense, propose a share, agree or object, report an external partial reimbursement, and confirm receipt before reducing the remaining amount.
+
+**Implementation is available locally. This is not yet a verified deployed multiuser service.** A private GitHub repository was created at https://github.com/hikkki013/coparent-ledger. Uploading the source from this restricted environment is currently blocked; the remote repository must not be assumed to contain this checkout. See `docs/STATUS.md` and `docs/QA_REPORT.md` for exact evidence.
+
+## Run the synthetic demo without installing packages
+
+Requires Node.js 24 or newer. From this repository:
+
+```sh
+npm run demo:standalone
+```
+
+Open `dist-demo/coparent-demo.html` in a current browser. This file embeds its JavaScript, styles and sample receipt. No server or network is required. If the browser does not permit sessionStorage on local files, serve the same demo on a development machine:
+
+```sh
+npm run demo
+```
+
+Then open http://127.0.0.1:4173/demo. Only the synthetic `/demo` route exists on this fallback server. `/app` is deliberately absent. Alex and Jordan are sample identities, not signed-in accounts. Demo data is isolated in one sessionStorage key and accepts only built-in SAMPLE receipts. `Start clean` and `Load examples` replace only that tab's synthetic data.
+
+The standalone browser interface uses the same TypeScript domain and DemoLedger as React. It is an additional fallback UI, not proof of shared backend behavior. Browser execution/layout could not be verified in the restricted build session.
+
+## Run the React application
+
+```sh
+npm install
+cp .env.example .env
+npm run dev
+```
+
+PowerShell: use `Copy-Item .env.example .env` instead of `cp` if preferred. Open the printed local Vite URL. Configure `VITE_SUPABASE_URL` and the public `VITE_SUPABASE_ANON_KEY` in `.env` for real accounts. Never put a service-role key in frontend configuration.
+
+Routes: `/`, `/pricing`, `/login`, `/invite/:token`, `/app`, `/app/expenses/:id`, `/demo`. Missing backend configuration shows an explicit unavailable screen for real accounts; it never silently substitutes a demo account.
+
+`npm install` was blocked by registry DNS/network restrictions in this session; a dependency lockfile could not be generated. Run installation and commit its real `package-lock.json` before a reproducible release. The React source passed a semantic TypeScript check with an installed official compiler and official React declarations, but Vite production build remains unverified.
+
+## Connect the backend
+
+Use a **dedicated Supabase test project** first. Full commands, RPC contracts and secrets are documented in `supabase/README.md`.
+
+1. Enable email confirmation in Supabase Auth. Add your frontend origin and `/app` plus `/invite/**` confirmation redirects to its allowlist. Use precise production domains.
+2. Link the intended project using Supabase CLI, then apply `supabase/migrations/202611140001_ledger.sql` with `supabase db push`.
+3. Deploy `receipt-upload` and `receipt-access`; set `ALLOWED_ORIGINS` to your exact frontend origins, including the actual dev hostname/port.
+4. Set the two public frontend environment values. Restart Vite.
+5. Create two test accounts with separate sessions. Parent A creates a household and a child alias, then copies an email-bound invite link. Parent B signs in with the verified invited email and accepts it. No invitation emails are sent by this application.
+6. Complete the whole expense/reimbursement flow and run the live integration harness before real family use.
+
+## Checks
+
+```sh
+npm test
+npm run check
+npm run build
+npm run test:integration
+```
+
+- `npm test`: dependency-free Node tests for domain/demo, transport mapping and receipt-handler behavior.
+- `npm run check`: semantic source check using installed TypeScript/React types. Optional `TYPESCRIPT_PATH` and `TYPECHECK_DEPS` support an existing official compiler/types without changing the application.
+- `npm run build`: actual TypeScript + Vite production build; requires installed dependencies.
+- `npm run test:integration`: real Supabase checks. Missing test credentials exits with `BLOCKED`, never a passing placeholder. Requires the four `SUPABASE_TEST_*` variables documented in `supabase/README.md`. It creates only synthetic test accounts and leaves its test fixtures for inspection.
+
+For browser tests, start the React app or standalone server separately, install Playwright's Chromium when dependencies/network are available, then run `npm run test:e2e`. `PLAYWRIGHT_BASE_URL` selects the server. These browser checks were prepared, not executed in this session.
+
+The SQL harness can also run on disposable PostgreSQL binaries without a socket; see `supabase/README.md`. Its single-user mode **bypasses RLS**, so SQL success there is not a passing RLS/concurrency test.
+
+## Financial rules
+
+- Integer USD cents and exact half-up division of the other parent's basis-point share.
+- Agreed balances include only APPROVED expenses; both directions stay separate.
+- PENDING payment reports reserve capacity but do not reduce the remaining amount.
+- Only the actual recipient confirms receipt; confirmation reduces the remaining amount once.
+- Approval freezes an expense permanently in this MVP. An unapproved submitted correction withdraws the original and creates a private draft with a new ID and no receipt.
+- Server commands enforce identity, membership, transitions, revisions and idempotency atomically with history.
+- Receipts use private Storage and authorized signed URLs lasting at most 60 seconds.
+
+Example: `$120.01 × 40% = $48.00`. Reporting `$20.00` leaves `$48.00` remaining with `$20.00` pending. Confirming receipt leaves `$28.00` remaining. The separate examples dataset also includes a pending `$10.00` report; do not confuse the datasets.
+
+## Current limits
+
+No money movement, billing, OCR, AI, real-person invitations, custody calendar, chat, PDF export or claims of legal enforceability. Pricing is a `$7.99/month per household` hypothesis; billing is disabled. One household/user, two adults, three child aliases, USD only. No correction/refund workflow for an approved expense or confirmed reimbursement. No account/member deletion or operational retention/backup/recovery tooling yet.
+
+Auth callbacks, native RLS/grants, concurrent live transactions, real private Storage/Edge deployment, Vite build and browser layout require normal-environment verification. Local demo and isolated SQL tests do not establish production readiness.
+
+Source of truth: `docs/DEVELOPMENT_PROMPTS.txt` (PROMPT 00–07), `docs/PRODUCT_SPEC.md`, shared types in `src/domain/types.ts`, and `src/data/ledger-port.ts`.
