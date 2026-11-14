@@ -18,6 +18,14 @@ Public synthetic demo: https://coparent-ledger-demo.pages.dev/ . It opens withou
 
 The published HTTPS demo was tested with a new $73.25 expense and a 60% proposed share: $43.95 agreed; $12.50 reported left $43.95 remaining; confirmation changed remaining to $31.45 and recorded history. The result survived a page refresh in the same tab. An independently opened tab loaded the site without login and had its own separate demo state. Layout and selected interactions were checked at 375×812 and 1280×800 browser viewport sizes, not on a physical phone. The demo does not prove a shared multiuser service.
 
+## Family workspace (standalone demo)
+
+The published Pages demo includes **Family**, **Statistics**, and **Future plans**. Set the two sample parent names; add, rename, archive or restore up to ten active children. Archived children retain their existing records. Add a category in the expense form and change the classification later from expense details; the change is recorded in expense history without altering money or payment state.
+
+Statistics show approved purchase totals by child, paying parent and category. Agreed reviewer shares, confirmed reimbursements and remaining balances are separate figures; pending and disputed expenses and future plans are excluded. Future plans are estimates, not agreements or debts; a plan assigned to an active child can create one private draft, which requires the usual receipt and approval.
+
+These features are implemented in the published synthetic browser demo and stored in sessionStorage for this tab only. They are not yet implemented or verified for the React/real-account backend. Two sample roles do not synchronize across devices. Use synthetic data only. Plans cannot yet be edited or deleted.
+
 ## Demonstrate the test paywall
 
 1. Open https://coparent-ledger-demo.pages.dev/ and select **Simulate end of trial**.
@@ -94,7 +102,7 @@ The SQL harness can also run on disposable PostgreSQL binaries without a socket;
 - Agreed balances include only APPROVED expenses; both directions stay separate.
 - PENDING payment reports reserve capacity but do not reduce the remaining amount.
 - Only the actual recipient confirms receipt; confirmation reduces the remaining amount once.
-- Approval freezes an expense permanently in this MVP. An unapproved submitted correction withdraws the original and creates a private draft with a new ID and no receipt.
+- Approval freezes the financial details of an expense. In the standalone demo, its category can be corrected with an audit entry. An unapproved submitted correction withdraws the original and creates a private draft with a new ID and no receipt.
 - Server commands enforce identity, membership, transitions, revisions and idempotency atomically with history.
 - Receipts use private Storage and authorized signed URLs lasting at most 60 seconds.
 
@@ -102,7 +110,7 @@ Example: `$120.01 × 40% = $48.00`. Reporting `$20.00` leaves `$48.00` remaining
 
 ## Current limits
 
-No money movement, billing, OCR, AI, real-person invitations, custody calendar, chat, PDF export or claims of legal enforceability. Pricing is a `$7.99/month per household` hypothesis; billing is disabled. One household/user, two adults, three child aliases, USD only. No correction/refund workflow for an approved expense or confirmed reimbursement. No account/member deletion or operational retention/backup/recovery tooling yet.
+No money movement, billing, OCR, AI, real-person invitations, custody calendar, chat, PDF export or claims of legal enforceability. Pricing is a `$7.99/month per household` hypothesis; billing is disabled. The original real-account backend supports one household/user, two adults and three child aliases; the standalone demo supports ten active children. USD only. No correction/refund workflow for an approved expense or confirmed reimbursement. No account/member deletion or operational retention/backup/recovery tooling yet.
 
 Auth callbacks, native RLS/grants, concurrent live transactions, real private Storage/Edge deployment, Vite build and browser layout require normal-environment verification. Local demo and isolated SQL tests do not establish production readiness.
 
