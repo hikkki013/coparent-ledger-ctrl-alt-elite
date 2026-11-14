@@ -1,5 +1,5 @@
 export const CATEGORIES = ['SCHOOL', 'MEDICAL', 'ACTIVITIES', 'PURCHASES', 'OTHER'] as const;
-export type Category = typeof CATEGORIES[number];
+export type Category = string;
 export type ExpenseStatus = 'DRAFT' | 'PENDING' | 'APPROVED' | 'DISPUTED' | 'WITHDRAWN';
 export type ReimbursementStatus = 'PENDING' | 'CONFIRMED' | 'REJECTED';
 export type SettlementStatus = 'NOT_REQUIRED' | 'UNPAID' | 'PARTIAL' | 'SETTLED';
@@ -12,7 +12,7 @@ export interface CreateMeta { idempotencyKey: string }
 export interface MutationMeta extends CreateMeta { expectedRevision: number }
 export interface Household { id: string; createdBy: string; createdAt: string }
 export interface Member { userId: string; displayName: string }
-export interface Child { id: string; householdId: string; alias: string }
+export interface Child { id: string; householdId: string; alias: string; archived?: boolean }
 export interface LedgerContext { userId: string; household: Household | null; members: Member[]; children: Child[] }
 export interface DraftInput {
   childId: string; category: Category; description: string; merchant: string;

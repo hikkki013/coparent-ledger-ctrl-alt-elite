@@ -22,12 +22,12 @@ export function validateDate(value: string): string {
   return value;
 }
 
-export function validateDraft(input: DraftInput): DraftInput {
+export function validateDraft(input: DraftInput, allowedCategories: readonly string[] = CATEGORIES): DraftInput {
   const fields = ['childId', 'category', 'description', 'merchant', 'expenseDate', 'amountCents', 'reviewerShareBps'];
   if (!input || typeof input !== 'object' || Array.isArray(input) || Object.keys(input).some(key => !fields.includes(key))) {
     throw new LedgerError('VALIDATION', 'Draft contains unsupported fields.');
   }
-  if (!CATEGORIES.includes(input.category)) throw new LedgerError('VALIDATION', 'Choose a valid category.');
+  if (!allowedCategories.includes(input.category)) throw new LedgerError('VALIDATION', 'Choose a valid category.');
   splitExpense(input.amountCents, input.reviewerShareBps);
   return {
     childId: validateText(input.childId, 'Child', 128),
