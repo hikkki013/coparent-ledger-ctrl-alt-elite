@@ -201,13 +201,15 @@ test('demo prohibits real file uploads and unknown actors, but allows authorized
   await assert.rejects(ledger.getReceiptAccess('unknown'), failure('FORBIDDEN'));
 });
 
-test('child commands enforce max ten and reject foreign child and extra actor fields', async () => {
+test('child commands allow more than ten, restore children, and reject foreign or spoofed fields', async () => {
   const { ledger } = clean();
   const child = await ledger.createChild('Child 2', { idempotencyKey: 'child2' });
   assert.deepEqual(await ledger.createChild('Child 2', { idempotencyKey: 'child2' }), child);
   await ledger.createChild('Child 3', { idempotencyKey: 'child3' });
-  for (let n = 4; n <= 10; n++) await ledger.createChild(`Child ${n}`, { idempotencyKey: `child${n}` });
-  await assert.rejects(ledger.createChild('Child 11', { idempotencyKey: 'child11' }), failure('VALIDATION'));
+  await ledger.archiveChild(child.id, { idempotencyKey: 'archive' });
+  for (let n = 4; n <= 15; n++) await ledger.createChild(`Child ${n}`, { idempotencyKey: `child${n}` });
+  await ledger.restoreChild(child.id, { idempotencyKey: 'restore' });
+  assert.equal((await ledger.listChildren()).filter(c => !c.archived).length, 15);
   await assert.rejects(ledger.createDraft({ ...input, childId: 'foreign' }, { idempotencyKey: 'foreign' }), failure('FORBIDDEN'));
   await assert.rejects(ledger.createDraft({ ...input, paidBy: 'jordan' } as DraftInput, { idempotencyKey: 'spoof' }), failure('VALIDATION'));
 });
