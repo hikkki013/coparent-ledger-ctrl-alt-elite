@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { DemoLedger } from './data/demo-ledger.ts';
+import { browserDemoAccess } from './data/demo-access.ts';
 import { RealArea } from './features/auth/AuthPages.tsx';
 import { LedgerView } from './features/expenses/LedgerView.tsx';
 import { Link, Logo, navigate, useLocation } from './features/ui.tsx';
@@ -14,9 +15,10 @@ export function App() {
 }
 
 function DemoPage({ search }: { search: string }) {
-  const demo = useMemo(() => new DemoLedger(sessionStorage), []);
+  const plan = useMemo(() => browserDemoAccess(), []);
+  const demo = useMemo(() => new DemoLedger(sessionStorage, 'alex', plan.access), [plan]);
   const selectedId = new URLSearchParams(search).get('expense');
-  return <LedgerView port={demo} demo={demo} selectedId={selectedId} onSelect={id => navigate(id ? `/demo?expense=${encodeURIComponent(id)}` : '/demo')} />;
+  return <LedgerView port={demo} demo={demo} demoPlan={plan} selectedId={selectedId} onSelect={id => navigate(id ? `/demo?expense=${encodeURIComponent(id)}` : '/demo')} />;
 }
 
 function MarketingNav() {

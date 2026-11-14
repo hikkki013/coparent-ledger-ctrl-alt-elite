@@ -497,3 +497,5 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   .activity-list p { font-size: .71rem; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+.demo-plan-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0;padding:16px;border:1px solid #d4dfd5;border-radius:10px;background:#f0f5ee}.demo-plan-controls p{margin:5px 0 0}.demo-plan-price{font-family:Georgia,serif;font-size:32px}.demo-plan-price span{font:14px system-ui;color:#526c5d}@media(max-width:700px){.demo-plan-controls{align-items:flex-start;flex-direction:column}}
