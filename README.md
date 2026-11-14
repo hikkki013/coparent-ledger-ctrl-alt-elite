@@ -4,6 +4,12 @@ A web MVP for two co-parents to record a child expense, propose a share, agree o
 
 **Source is saved in the private repository https://github.com/hikkki013/coparent-ledger. This is not yet a verified deployed multiuser service.** The implementation, tests, migrations and documentation were uploaded through the owner's browser account. See `docs/STATUS.md` and `docs/QA_REPORT.md` for verification evidence and remaining integration limits. Only the empty `.env.example` template is included; no real `.env` or credentials are uploaded.
 
+## Competition readiness
+
+The organizer FAQ was reviewed after implementation. The idea fits the Money/B2C/web brief, but the current project is **not ready for submission**: a public deployed no-login flow, working paywall and English PDF deck (at most 10 slides) are still missing. The competition also requires public source at submission; this working repository remains **private by the user's explicit instruction**. See [the FAQ evidence matrix](docs/CRITERIA_MATRIX.md) for exact question references and remaining work.
+
+A publicly hosted guest demo with real input-dependent calculations and local storage is permitted by the FAQ. It still needs end-to-end browser verification and must not be represented as a deployed real-account service. Real charges and invitation emails remain disabled.
+
 ## Run the synthetic demo without installing packages
 
 Requires Node.js 24 or newer. From this repository:
