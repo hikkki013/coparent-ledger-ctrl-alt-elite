@@ -6,7 +6,7 @@ A web MVP for two co-parents to record a child expense, propose a share, agree o
 
 ## Competition readiness
 
-The organizer FAQ was reviewed after implementation. The idea fits the Money/B2C/web brief, but the current project is **not ready for submission**: a working paywall and English PDF deck (at most 10 slides) are still missing; the deployed guest demo is available below. The competition also requires public source at submission; this working repository remains **private by the user's explicit instruction**. See [the FAQ evidence matrix](docs/CRITERIA_MATRIX.md) for exact question references and remaining work.
+The organizer FAQ was reviewed after implementation. The idea fits the Money/B2C/web brief, but the current project is **not ready for submission**: an English PDF deck (at most 10 slides) and durable demo expense storage are still missing; the deployed guest demo is available below. The competition also requires public source at submission; this working repository remains **private by the user's explicit instruction**. See [the FAQ evidence matrix](docs/CRITERIA_MATRIX.md) for exact question references and remaining work.
 
 A publicly hosted guest demo with real input-dependent calculations and local storage is permitted by the FAQ. It still needs end-to-end browser verification and must not be represented as a deployed real-account service. Real charges and invitation emails remain disabled.
 
@@ -17,6 +17,15 @@ With Node.js 24 or newer, run `npm run demo:pages`. Upload the resulting `dist-p
 Public synthetic demo: https://coparent-ledger-demo.pages.dev/ . It opens without registration. Cloudflare Pages Direct Upload deploys only the generated page, not the repository or the authenticated backend. For updates, rebuild and create a new production deployment in the same Cloudflare project; the project URL is intended to remain the same, and should be rechecked after each update. The demo stores changes only in the current browser tab; guest data does not synchronize between devices.
 
 The published HTTPS demo was tested with a new $73.25 expense and a 60% proposed share: $43.95 agreed; $12.50 reported left $43.95 remaining; confirmation changed remaining to $31.45 and recorded history. The result survived a page refresh in the same tab. An independently opened tab loaded the site without login and had its own separate demo state. Layout and selected interactions were checked at 375×812 and 1280×800 browser viewport sizes, not on a physical phone. The demo does not prove a shared multiuser service.
+
+## Demonstrate the test paywall
+
+1. Open https://coparent-ledger-demo.pages.dev/ and select **Simulate end of trial**.
+2. Select **Add expense** to see the $7.99/month per household demo paywall.
+3. Select **Enable test access — no payment** to open the expense form; no card, real checkout or subscription exists.
+4. Select **Reset demo access** to return to a fresh 14-day demo trial.
+
+Only creating new expense drafts is gated. Existing expenses, sample receipts, history, CSV and confirmation of existing reimbursements stay available. Access state is stored in localStorage until reset or browser data is cleared; if browser storage is unavailable it falls back to in-memory state for the current tab. Demo expenses remain separately in sessionStorage for the current tab. Neither is an actual account, subscription, payment or secure server entitlement.
 
 ## Run the synthetic demo without installing packages
 
