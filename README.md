@@ -2,7 +2,7 @@
 
 A web MVP for two co-parents to record a child expense, propose a share, agree or object, report an external partial reimbursement, and confirm receipt before reducing the remaining amount.
 
-**Implementation is available locally. This is not yet a verified deployed multiuser service.** A private GitHub repository was created at https://github.com/hikkki013/coparent-ledger. Uploading the source from this restricted environment is currently blocked; the remote repository must not be assumed to contain this checkout. See `docs/STATUS.md` and `docs/QA_REPORT.md` for exact evidence.
+**Source is saved in the private repository https://github.com/hikkki013/coparent-ledger. This is not yet a verified deployed multiuser service.** The implementation, tests, migrations and documentation were uploaded through the owner's browser account. See `docs/STATUS.md` and `docs/QA_REPORT.md` for verification evidence and remaining integration limits. Only the empty `.env.example` template is included; no real `.env` or credentials are uploaded.
 
 ## Run the synthetic demo without installing packages
 
