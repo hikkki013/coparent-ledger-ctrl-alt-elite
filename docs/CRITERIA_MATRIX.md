@@ -1,5 +1,7 @@
 # Business Cup 2.0: criteria and current evidence
 
+> **Final-audit qualification, 15 November 2026:** [FINAL_SYNC_REPORT.md](FINAL_SYNC_REPORT.md) records a fresh public-site test and the exact ZIP reconciliation. Normal new-expense creation and plan conversion are gated after trial expiry, but **Create corrected draft** still creates a replacement draft; that published functional gap is open. Receipts are optional. The guest roles and storage remain browser-local; no charge, verified shared account or deployment is claimed by this documentation revision. Public-source submission access remains unresolved while the working repository stays PRIVATE.
+
 Updated 15 November 2026 for **Ctrl Alt Elite**. All 150 answers in the 29-page organizer FAQ were re-read locally during the documentation review. FAQ references below are rules from that document, not organizer approval of this project. Product evidence is limited to the dated [QA report](QA_REPORT.md), inspected source and local checks. The later browser synchronization verified the hikkki013 owner session and Private destination; see STATUS for the actual upload results. Opening the public entry page is not a rerun of the financial workflow.
 
 ## Pass/fail and submission requirements

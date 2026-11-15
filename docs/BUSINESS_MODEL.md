@@ -1,5 +1,7 @@
 # CoParent Ledger business model
 
+> **Final-audit qualification, 15 November 2026:** [FINAL_SYNC_REPORT.md](FINAL_SYNC_REPORT.md) records a fresh public-site test and the exact ZIP reconciliation. Normal new-expense creation and plan conversion are gated after trial expiry, but **Create corrected draft** still creates a replacement draft; that published functional gap is open. Receipts are optional. The guest roles and storage remain browser-local; no charge, verified shared account or deployment is claimed by this documentation revision. Public-source submission access remains unresolved while the working repository stays PRIVATE.
+
 Updated 15 November 2026. Team **Ctrl Alt Elite**. This document describes the offer and retention logic. The authoritative dated numerical scenarios, competitor prices and source register are in [MARKET_AND_ECONOMICS.md](MARKET_AND_ECONOMICS.md). No actual customers, revenue, renewal, measured time saving or reduced conflict are claimed.
 
 ## Customer and recurring job
