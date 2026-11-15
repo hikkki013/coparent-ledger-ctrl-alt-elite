@@ -10,7 +10,7 @@ A web app for co-parents to keep a child's expense, receipt, agreed share, reimb
 
 No registration is required. Enter your own **synthetic test data** and complete the expense cycle. The published version runs two demonstration roles in one browser. Real accounts and cross-device collaboration are not connected or verified; no money is transferred and no cards are collected.
 
-Updated **15 November 2026**. Last recorded public-site verification: **15 November 2026**, Cloudflare Pages deployment **6d00a0a4**. This synchronization pass checks the public entry page only; the expense-cycle results below remain the earlier dated functional evidence.
+Updated **15 November 2026**. Last recorded public-site verification: **15 November 2026**, Cloudflare Pages deployment **6d00a0a4**. A later final audit freshly exercised the public site with an $87.65 expense, $35.06 agreed share and $11.11 confirmation, leaving $23.95 after reopening; see [FINAL_SYNC_REPORT.md](docs/FINAL_SYNC_REPORT.md). No new Cloudflare deployment was made. Earlier financial examples below retain their own provenance.
 
 ## Problem, value and price
 
@@ -57,7 +57,7 @@ This financial sequence was completed on the public site in the dated [QA report
 3. Select **Enable test access - no payment** to create new drafts again.
 4. Select **Reset demo access** to restart the 14-day demo trial.
 
-Existing expenses, sample receipts, history, CSV export and confirmation of recorded reimbursements stay available while creation is blocked. Plan-to-draft conversion uses the same creation gate. Resetting access does not reset the ledger.
+Existing expenses, sample receipts, history, CSV export and confirmation of recorded reimbursements stay available while ordinary creation is blocked. Plan-to-draft conversion uses that gate. **Known exception:** the current published demo still creates a replacement through **Create corrected draft** after trial expiry. The [final audit](docs/FINAL_SYNC_REPORT.md) reproduced this; it is an unresolved functional gap, so the creation gate is not complete. Resetting access does not reset the ledger.
 
 ## Financial rules
 
@@ -66,7 +66,7 @@ Existing expenses, sample receipts, history, CSV export and confirmation of reco
 - Pending reports reserve reporting capacity but **do not reduce the remaining balance**.
 - Only the designated recipient confirms receipt; replay cannot subtract twice.
 - Approval freezes financial details. Audited category corrections leave money/payment state unchanged.
-- Future estimates are not debts. Converted drafts require the usual receipt and approval.
+- Future estimates are not debts. Converted drafts use the ordinary review and approval flow; attaching a receipt is optional.
 
 Example: **$120.01 x 40% = $48.00**. Reporting $20.00 leaves $48.00 remaining; confirming receipt leaves $28.00. The built-in example additionally has a pending $10.00 report, still included in that remaining balance.
 
@@ -165,7 +165,7 @@ The supplied criteria require a publicly deployed, usable end-to-end web product
 | English pitch PDF | [10-slide version 2](docs/presentation/CoParent_Ledger_Jury_Deck_v2.pdf) prepared 15 Nov 2026 with screenshots, value/retention and labeled economics; actual submission is not verified |
 | Public source | **Unresolved:** the owner requires the working repository to remain **private**. No visibility change or public copy is authorized |
 
-The current repository is [hikkki013/coparent-ledger-ctrl-alt-elite](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite). On 15 November 2026, the authenticated owner menu showed **hikkki013** and the repository showed **Private**. The complete remote archive at main commit `998421f417beeff70c2958994e9050f9de13c523` was compared with the current local project before preparing this update: all application source and existing tests matched byte-for-byte. Only the reviewed documentation, prepared presentation materials, publication helper and its offline test require synchronization; see [STATUS.md](docs/STATUS.md) for final upload verification. The original local Git history remains separate and was not reset or force-pushed. **Do not use karim312k1.**
+The current repository is [hikkki013/coparent-ledger-ctrl-alt-elite](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite). On 15 November 2026, the authenticated owner menu showed **hikkki013** and the repository showed **Private**. The complete remote archive at main commit `998421f417beeff70c2958994e9050f9de13c523` was compared with the current local project before preparing this update: all application source and existing tests matched byte-for-byte. The reviewed documentation, prepared presentation materials, publication helper and offline test were synchronized and read back; see [STATUS.md](docs/STATUS.md) and the [final audit](docs/FINAL_SYNC_REPORT.md) for the dated verification and remaining limitations. The original local Git history remains separate and was not reset or force-pushed. **Do not use karim312k1.**
 
 The [criteria matrix](docs/CRITERIA_MATRIX.md) maps current evidence to the rules; the [baseline](docs/SUBMISSION_BASELINE.md) preserves an earlier point-in-time audit. [STATUS.md](docs/STATUS.md) and the dated [QA report](docs/QA_REPORT.md) record subsequent work. Full submission compliance is not claimed while public source access is unresolved.
 
@@ -193,6 +193,9 @@ No real payments, Stripe checkout, bank verification, OCR/AI, real-person invita
 
 | Document | Purpose |
 | --- | --- |
+| [FINAL_SYNC_REPORT.md](docs/FINAL_SYNC_REPORT.md) | Final ZIP/hash reconciliation, fresh public-site test, documentation corrections and unresolved limitations |
+| [SYNC_MANIFEST.json](docs/SYNC_MANIFEST.json) | Updated reconciled snapshot; exact raw SHA-256 and explicitly limited UTF-8/LF normalization |
+| [SYNC_MANIFEST_ORIGIN_20261115.json](docs/SYNC_MANIFEST_ORIGIN_20261115.json) | Original supplied 89-file snapshot preserved unchanged for comparison |
 | [STATUS.md](docs/STATUS.md) | Dated progress and changes |
 | [QA_REPORT.md](docs/QA_REPORT.md) | Executed checks, failures and integration limits |
 | [REPOSITORY_REVIEW.md](docs/REPOSITORY_REVIEW.md) | Latest local consistency review, corrections and remote-access blockers |
