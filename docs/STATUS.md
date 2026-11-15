@@ -8,7 +8,7 @@ Five existing local copies (README, STATUS, QA_REPORT, REPOSITORY_REVIEW, CRITER
 
 This follow-up changes documentation only. Node/Pages/helper checks recorded in the earlier synchronization section below are **previous results**, not newly run here. React/Vite/Supabase boundaries remain as recorded there. No product-code change, financial workflow, new functional test, website deployment, history reset, force-push, visibility change or connector use occurs in this follow-up. The original local checkout/history is retained.
 
-**Handoff upload verification:** pending actual GitHub read-back; this marker is replaced only after the new handoff is saved and inspected.
+**Handoff upload verification:** the new context and documentation were saved through the hikkki013 browser in commits `8424ba550ad69b567bd89d7c28066aaffbe5904a` and `3b09f9536bf608ee9dd4d91489495895b3569471`. GitHub source-view read-back of CHAT_HANDOFF, README and REPOSITORY_REVIEW matched their reviewed SHA-256 hashes after normalizing line endings and the UI-omitted final newline. GitHub comparison against the previous verified head `4d3e590` showed exactly **5 documentation paths, 128 additions and 0 deletions**, two commits and one contributor (hikkki013); no application, test, PDF or other asset path changed. Local validation checked **97 relative Markdown links** with no missing target and found no matches in a limited common-credential-pattern scan of the five selected text files. The existing PDF still matches the originating local PDF. This final STATUS/QA follow-up records those observed checks and is itself read back from GitHub after saving. These are documentation checks, not a fresh product-test or deployment result.
 
 ## Browser synchronization verification - 2026-11-15
 
