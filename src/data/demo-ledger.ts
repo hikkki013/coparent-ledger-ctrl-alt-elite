@@ -353,6 +353,7 @@ export class DemoLedger implements LedgerPort {
       assertExpectedRevision(expense, meta); assertCanReplace(expense, actorId);
       if (state.reimbursements.some(report => report.expenseId === id)) throw new LedgerError('INVALID_STATE', 'An expense with recorded payments cannot be corrected.');
       const note = validateText(reason, 'Reason', 1000);
+      if (this.#access && !this.#access.canCreate()) throw new LedgerError('INVALID_STATE', 'The demo trial has ended. Enable test access to create an expense.');
       const replacement = newDraft(state, actorId, draftFields(expense), id);
       expense.status = 'WITHDRAWN'; expense.lockVersion += 1;
       event(state, expense, actorId, 'WITHDRAWN', note);
