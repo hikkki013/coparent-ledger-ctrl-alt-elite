@@ -115,9 +115,9 @@
     },
     {
       "path": "docs/FINAL_SYNC_REPORT.md",
-      "bytes": 37309,
-      "sha256": "32e73c5d5949c333461cbfc3105ed6974e4d57f591edb7fba395f773e67e381e",
-      "normalized_utf8_lf_sha256": "32e73c5d5949c333461cbfc3105ed6974e4d57f591edb7fba395f773e67e381e"
+      "bytes": 37236,
+      "sha256": "c5360cd290806d9ea1d9bae3931f6b7eb1f95480f33020cf53e51474dfba260b",
+      "normalized_utf8_lf_sha256": "c5360cd290806d9ea1d9bae3931f6b7eb1f95480f33020cf53e51474dfba260b"
     },
     {
       "path": "docs/MARKET_AND_ECONOMICS.md",
@@ -139,9 +139,9 @@
     },
     {
       "path": "docs/QA_REPORT.md",
-      "bytes": 24381,
-      "sha256": "8f04373474340dba9dab6c124ebfb32042a5e1b04c4e93fd61237e9e429744f1",
-      "normalized_utf8_lf_sha256": "8f04373474340dba9dab6c124ebfb32042a5e1b04c4e93fd61237e9e429744f1"
+      "bytes": 24308,
+      "sha256": "8c6de83b7670091f480700f17b45db86b4980ef4a4a2fb73f73bd388401f4f2b",
+      "normalized_utf8_lf_sha256": "8c6de83b7670091f480700f17b45db86b4980ef4a4a2fb73f73bd388401f4f2b"
     },
     {
       "path": "docs/README_AND_SUBMISSION_PROMPT.md",
@@ -157,9 +157,9 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 38448,
-      "sha256": "93cbe4603d2266bd091dded2d35b4a0f07900c115293218800a4d9eb0f2d76ab",
-      "normalized_utf8_lf_sha256": "93cbe4603d2266bd091dded2d35b4a0f07900c115293218800a4d9eb0f2d76ab"
+      "bytes": 38375,
+      "sha256": "481d5b60fd1c7fcce4eb9b3db43338459261646d3f6e4d29c8d2764dd13eb31f",
+      "normalized_utf8_lf_sha256": "481d5b60fd1c7fcce4eb9b3db43338459261646d3f6e4d29c8d2764dd13eb31f"
     },
     {
       "path": "docs/SUBMISSION_BASELINE.md",
