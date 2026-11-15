@@ -1,69 +1,136 @@
-# CoParent Ledger
+# CoParent Ledger | Ctrl Alt Elite
 
-A web MVP for two co-parents to record a child expense, propose a share, agree or object, report an external partial reimbursement, and confirm receipt before reducing the remaining amount.
+**A project by team Ctrl Alt Elite.**
 
-**Source is saved in the private repository https://github.com/hikkki013/coparent-ledger. This is not yet a verified deployed multiuser service.** The implementation, tests, migrations and documentation were uploaded through the owner's browser account. See `docs/STATUS.md` and `docs/QA_REPORT.md` for verification evidence and remaining integration limits. Only the empty `.env.example` template is included; no real `.env` or credentials are uploaded.
+A web app for co-parents to keep a child's expense, receipt, agreed share, reimbursements and remaining balance in one traceable record.
 
-## Competition readiness
+**[Open the live guest demo](https://coparent-ledger-demo.pages.dev/)** · [Pitch deck PDF](docs/presentation/CoParent_Ledger_Jury_Deck_v2.pdf) · [QA report](docs/QA_REPORT.md) · [Status](docs/STATUS.md) · [Market and economics](docs/MARKET_AND_ECONOMICS.md)
 
-The organizer FAQ was reviewed after implementation. The idea fits the Money/B2C/web brief, but the current project is **not ready for submission**: an English PDF deck (at most 10 slides) and a decision about public source access are still missing; the deployed guest demo is available below. The competition also requires public source at submission; this working repository remains **private by the user's explicit instruction**. See [the FAQ evidence matrix](docs/CRITERIA_MATRIX.md) for exact question references and remaining work.
+**For judges:** open the public link above and use **Add expense** to enter your own test amount, child, category and proposed share. Attach the built-in sample receipt, switch the demo parent role to approve, then record and confirm a partial reimbursement. The step-by-step example below includes expected balances.
 
-A publicly hosted guest demo with real input-dependent calculations and local storage is permitted by the FAQ. It still needs end-to-end browser verification and must not be represented as a deployed real-account service. Real charges and invitation emails remain disabled.
+No registration is required. Enter your own **synthetic test data** and complete the expense cycle. The published version runs two demonstration roles in one browser. Real accounts and cross-device collaboration are not connected or verified; no money is transferred and no cards are collected.
 
-## Prepare the Cloudflare Pages demo
+Updated **15 November 2026**. Last recorded public-site verification: **15 November 2026**, Cloudflare Pages deployment **6d00a0a4**. This synchronization pass checks the public entry page only; the expense-cycle results below remain the earlier dated functional evidence.
 
-With Node.js 24 or newer, run `npm run demo:pages`. Upload the resulting `dist-pages` folder, or a ZIP containing its `index.html` at the archive root, using Cloudflare Pages Direct Upload. This is a self-contained synthetic demo, not the React application or the real-account backend. Inspect the upload contents before publishing. Cloudflare Direct Upload projects cannot later switch to Git integration; creating a separate Git-integrated project would be required for automatic deployments.
+## Problem, value and price
 
-Public synthetic demo: https://coparent-ledger-demo.pages.dev/ . It opens without registration. Cloudflare Pages Direct Upload deploys only the generated page, not the repository or the authenticated backend. For updates, rebuild and create a new production deployment in the same Cloudflare project; the project URL is intended to remain the same, and should be rechecked after each update. The standalone demo stores guest data in localStorage in the same browser on the same device, across tab closure; it does not synchronize between devices. Clearing site data may remove it. Use synthetic data only.
+For parents living apart, a receipt, an agreed split and a message about a transfer can end up in different places. CoParent Ledger connects those decisions so the remaining balance can be explained from its history.
 
-The published HTTPS demo was tested with a new $73.25 expense and a 60% proposed share: $43.95 agreed; $12.50 reported left $43.95 remaining; confirmation changed remaining to $31.45 and recorded history. The result survived a page refresh in the same tab. At that earlier test, an independently opened tab had separate session-only state; current standalone tabs share saved local data and show a reload warning on conflicting changes. Layout and selected interactions were checked at 375×812 and 1280×800 browser viewport sizes, not on a physical phone. The demo does not prove a shared multiuser service.
+**Track: Money. Audience: US co-parents aged 25–45** with recurring shared child expenses and a co-parent willing to coordinate. The proposed payer is an individual parent, making this a B2C offer. Audience fit and willingness to pay remain hypotheses.
 
-## Family workspace (standalone demo)
+The proposed subscription is **$7.99/month per household, both parents included**, with a 14-day trial without a card. A household is the co-parenting pair and their shared children, not a separate subscription per adult or child. Today's paywall grants test access only.
 
-The published Pages demo includes **Family**, **Statistics**, and **Future plans**. Set the two sample parent names; add, rename, archive or restore children. Archived children retain their existing records. Add a category in the expense form and change the classification later from expense details; the change is recorded in expense history without altering money or payment state.
+The reason to return is the next expense, an unresolved reimbursement or the need to review previous decisions. Guest progress is saved in the same browser. Willingness to pay, conversion and renewal remain hypotheses; no verified paying customers or retention metrics are claimed. [Market sizing and economics](docs/MARKET_AND_ECONOMICS.md) separate sources, assumptions and calculations.
 
-Statistics show approved purchase totals by child, paying parent and category. Agreed reviewer shares, confirmed reimbursements and remaining balances are separate figures; pending and disputed expenses and future plans are excluded. Future plans are estimates, not agreements or debts; a plan assigned to an active child can create one private draft, which requires the usual receipt and approval.
+## Try the complete workflow
 
-These features are implemented in the published synthetic browser demo and stored in localStorage for this browser and device. They are not yet implemented or verified for the React/real-account backend. Two sample roles do not synchronize across devices. Use synthetic data only. Plans cannot yet be edited or deleted.
+Use **Viewing as** to switch the sample roles, initially Alex and Jordan. The following amounts refer to the new expense, not the whole dashboard.
 
-## Saved guest progress
+1. Open the [public demo](https://coparent-ledger-demo.pages.dev/). If a previous visit left the trial expired, enable labeled test access; no payment is required.
+2. As Parent A, add a **$64.20** expense, choose a child/category and propose **50%** for Parent B.
+3. Attach the built-in sample receipt and submit for review. The receipt is synthetic, not evidence of this purchase, and may show another fixed example amount.
+4. Switch to Parent B and approve the **$32.10** share. An objection is also available; disputed expenses stay outside agreed totals.
+5. Record **$12.10** as an external reimbursement. The expense still shows **$32.10 remaining** while receipt is unconfirmed.
+6. Switch to Parent A and confirm receipt: **$20.00 remaining**, with the actions in history.
+7. Reopen in the same browser and device to continue with saved guest data. This does not demonstrate real-account collaboration.
 
-The published standalone demo stores its synthetic expenses, family, categories, plans, sample receipt references, payment statuses and audit history in browser localStorage. Reopening in the same browser and device restores them; another browser/device will not. Clearing site data may remove the records. Use test data only.
+This financial sequence was completed on the public site in the dated [QA report](docs/QA_REPORT.md). **Start clean** replaces this browser's saved demo records after confirmation.
 
-On first opening, a valid old sessionStorage copy migrates only if no saved localStorage ledger exists. The previous session copy is retained. If both exist, the saved localStorage ledger wins; other tab-session copies are not merged. Corrupt data or a storage failure is reported without automatically replacing the saved copy.
+## Available in the published version
 
-Multiple tabs use Web Locks for writes; if another tab changes the saved ledger, reload the saved data before editing. A current browser with Web Locks is required. `Start clean` and `Load examples` replace this browser's stored demo data only after confirmation; `Reset demo access` separately resets the test trial. Demo access is not a paid subscription.
+| Area | Working behavior | Boundary |
+| --- | --- | --- |
+| Expenses | Manual amounts/shares, child/category, sample receipt, approval or objection, history | Demo roles; only built-in receipts |
+| Reimbursements | Partial external-payment reports, recipient confirmation and remaining balance | No bank verification or transfer |
+| Family | Rename parents; add, rename, archive and restore children | Archived records are preserved; no real family accounts |
+| Categories | Create in the expense form; correct from details with an audit entry | Does not change financial agreement |
+| Statistics | Approved purchases by child, payer and category; shares and reimbursements separate | Disputed/pending expenses and plans excluded; reimbursements are not new purchases |
+| Future plans | Estimates and one-time conversion to a draft for an active child | No automatic debt, plan approval, editing or deletion |
+| Paywall | Trial simulation, new-draft restriction, test unlock and reset | Browser-local test access, not a paid subscription |
+| Persistence | Expenses, family, categories, plans and history survive tab closure | Same browser/device; no cloud backup or sync |
+| Export | Basic CSV | No expense PDF export; the pitch deck is separate |
 
-The React demo and real-account backend have not been migrated or verified for this feature. Standalone storage is browser-local, not a secure backup or synchronized account.
+### Show the paywall
 
-## Demonstrate the test paywall
+1. Select **Simulate end of trial**.
+2. Select **Add expense** to see the $7.99/month offer and creation limit.
+3. Select **Enable test access - no payment** to create new drafts again.
+4. Select **Reset demo access** to restart the 14-day demo trial.
 
-1. Open https://coparent-ledger-demo.pages.dev/ and select **Simulate end of trial**.
-2. Select **Add expense** to see the $7.99/month per household demo paywall.
-3. Select **Enable test access — no payment** to open the expense form; no card, real checkout or subscription exists.
-4. Select **Reset demo access** to return to a fresh 14-day demo trial.
+Existing expenses, sample receipts, history, CSV export and confirmation of recorded reimbursements stay available while creation is blocked. Plan-to-draft conversion uses the same creation gate. Resetting access does not reset the ledger.
 
-Only creating new expense drafts is gated. Existing expenses, sample receipts, history, CSV and confirmation of existing reimbursements stay available. Access state is stored in localStorage until reset or browser data is cleared; if browser storage is unavailable it falls back to in-memory state for the current tab. Standalone demo expenses are kept separately in localStorage. Neither is an actual account, subscription, payment or secure server entitlement.
+## Financial rules
 
-## Run the synthetic demo without installing packages
+- Integer USD cents; basis-point shares with exact half-up rounding and residual assigned to the other part.
+- Only approved expenses enter agreed balances; opposite payment directions stay separate.
+- Pending reports reserve reporting capacity but **do not reduce the remaining balance**.
+- Only the designated recipient confirms receipt; replay cannot subtract twice.
+- Approval freezes financial details. Audited category corrections leave money/payment state unchanged.
+- Future estimates are not debts. Converted drafts require the usual receipt and approval.
 
-Requires Node.js 24 or newer. From this repository:
+Example: **$120.01 x 40% = $48.00**. Reporting $20.00 leaves $48.00 remaining; confirming receipt leaves $28.00. The built-in example additionally has a pending $10.00 report, still included in that remaining balance.
 
-```sh
-npm run demo:standalone
-```
+## Quick start: guest version
 
-Open `dist-demo/coparent-demo.html` in a current browser. This file embeds its JavaScript, styles and sample receipt. No server or network is required. If the browser does not permit localStorage or Web Locks on local files, serve the same demo on a development machine:
+Requires **Node.js 24 or newer**. Demo builds and Node tests do not require React/Vite dependency installation.
 
 ```sh
 npm run demo
 ```
 
-Then open http://127.0.0.1:4173/demo. Only the synthetic `/demo` route exists on this fallback server. `/app` is deliberately absent. Alex and Jordan are sample identities, not signed-in accounts. Standalone demo data is isolated in one localStorage key and accepts only built-in SAMPLE receipts. `Start clean` and `Load examples` replace this browser's saved synthetic data after confirmation. They do not reset demo access. The React demo continues to use sessionStorage.
+Open **http://127.0.0.1:4173/demo**. This server exposes the synthetic demo, not authenticated /app routes. DEMO_PORT can change its port.
 
-The standalone browser interface uses the same TypeScript domain and DemoLedger as React. It is an additional fallback UI, not proof of shared backend behavior. Browser execution/layout could not be verified in the restricted build session.
+For a self-contained HTML file:
 
-## Run the React application
+```sh
+npm run demo:standalone
+```
+
+Open **dist-demo/coparent-demo.html**. If local files cannot use localStorage or Web Locks, use the HTTP server above. The standalone requires usable local storage and a current browser with Web Locks.
+
+### Persistence and reset
+
+Guest records use localStorage. Clearing site data can remove them; private browsing can discard them when the private session ends. Use test data only; this is not a secure backup.
+
+A valid old sessionStorage copy migrates only if no persistent ledger exists. The old copy is retained; different old tab sessions are not merged. Corrupt/inaccessible storage is reported rather than silently replacing saved data.
+
+Web Locks coordinate writes. If another tab changes the ledger, reload saved data before editing. **Start clean** and **Load examples** replace records after confirmation. Paywall state is separate and has an in-memory fallback when its storage is unavailable; the ledger still requires its own usable storage.
+
+## Publish an update
+
+```sh
+npm run demo:pages
+```
+
+This generates **dist-pages/index.html** with embedded styles, scripts and the sample receipt. The build rejects unrelated files in dist-pages.
+
+The existing **coparent-ledger-demo** Cloudflare Pages project uses **Direct Upload**:
+
+1. Build and test the intended revision.
+2. Inspect and upload only dist-pages, or a ZIP with index.html at its root. Exclude .env, credentials, real receipts, node_modules and Git history.
+3. Create a new production deployment in the **same** Pages project.
+4. Check the public URL and complete workflow after publication. Reusing the project preserves the pages.dev address; availability still needs verification.
+
+The private repository has no automatic deployment connection. Direct Upload cannot simply switch to Git integration; a separate project is needed. Building locally does not publish anything.
+
+## Verification
+
+| Check | Evidence | Boundary |
+| --- | --- | --- |
+| npm test | **62 passed, 0 failed**, rerun 15 Nov 2026 in the browser-synchronization verification copy (Node 24.21.0) | Not live backend or full browser coverage |
+| npm run demo:pages | **Passed**, rerun 15 Nov 2026 in the synchronization verification copy; only index.html generated | Not a new deployment/live-site fetch |
+| Public expense cycle | Prior 15 Nov QA: $64.20 purchase, $32.10 share, $12.10 report/confirmation, $20.00 remaining | Not every input/failure path |
+| Family/categories/statistics/plans/paywall/persistence | Dated public/preview checks and automated coverage in [QA_REPORT.md](docs/QA_REPORT.md) | Not React/backend feature parity |
+| Responsive layout | Prior 15 Nov viewport checks at requested 375x812 and 1280x800 sizes | No physical phone or exhaustive accessibility audit |
+| React check / Vite build | Rerun 15 Nov 2026: check blocked by missing TypeScript; build failed because tsc is unavailable | No current production-build pass |
+| Supabase integration | Rerun 15 Nov 2026: BLOCKED, no dedicated configured test project; no live checks ran | Auth, RLS, live Storage/Edge, concurrency and device sync unverified |
+| Automated browser E2E | Prepared, not executed | No automated E2E pass |
+
+Rebuilt artifact SHA-256: **31776CBBF6329B4E3B9BFFEFB04AEDB16CA59AE5BF9418B94DD8C7B33756CE0D**, matching the recorded deployed artifact. This is not a fresh fetch of the website. No product code changed in this documentation update.
+
+## Separate React/backend development
+
+The repository also contains React/TypeScript/Vite source, Supabase migrations and Edge functions. The published standalone shares domain logic but does **not** deploy that React application or authenticate real parents. Its family customization and persistence must not be assumed to work in the backend version. The React demo still uses sessionStorage.
 
 ```sh
 npm install
@@ -71,62 +138,69 @@ cp .env.example .env
 npm run dev
 ```
 
-PowerShell: use `Copy-Item .env.example .env` instead of `cp` if preferred. Open the printed local Vite URL. Configure `VITE_SUPABASE_URL` and the public `VITE_SUPABASE_ANON_KEY` in `.env` for real accounts. Never put a service-role key in frontend configuration.
+PowerShell can use **Copy-Item .env.example .env**. The empty template defines VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY. Never expose a service-role key in frontend configuration. Real environment files are ignored. Prior installation was blocked; a verified dependency lockfile and successful current Vite build are not claimed.
 
-Routes: `/`, `/pricing`, `/login`, `/invite/:token`, `/app`, `/app/expenses/:id`, `/demo`. Missing backend configuration shows an explicit unavailable screen for real accounts; it never silently substitutes a demo account.
+React source routes: /, /pricing, /login, /invite/:token, /app, /app/expenses/:id and /demo. Missing backend configuration disables real-account use explicitly.
 
-`npm install` was blocked by registry DNS/network restrictions in this session; a dependency lockfile could not be generated. Run installation and commit its real `package-lock.json` before a reproducible release. The React source passed a semantic TypeScript check with an installed official compiler and official React declarations, but Vite production build remains unverified.
+Dedicated synthetic test accounts, migrations and Edge deployment instructions are in [supabase/README.md](supabase/README.md). Single-user PostgreSQL checks bypass RLS and do not prove authorization or concurrent-client behavior.
 
-## Connect the backend
-
-Use a **dedicated Supabase test project** first. Full commands, RPC contracts and secrets are documented in `supabase/README.md`.
-
-1. Enable email confirmation in Supabase Auth. Add your frontend origin and `/app` plus `/invite/**` confirmation redirects to its allowlist. Use precise production domains.
-2. Link the intended project using Supabase CLI, then apply `supabase/migrations/202611140001_ledger.sql` with `supabase db push`.
-3. Deploy `receipt-upload` and `receipt-access`; set `ALLOWED_ORIGINS` to your exact frontend origins, including the actual dev hostname/port.
-4. Set the two public frontend environment values. Restart Vite.
-5. Create two test accounts with separate sessions. Parent A creates a household and a child alias, then copies an email-bound invite link. Parent B signs in with the verified invited email and accepts it. No invitation emails are sent by this application.
-6. Complete the whole expense/reimbursement flow and run the live integration harness before real family use.
-
-## Checks
+Additional commands require their dependencies/configuration:
 
 ```sh
-npm test
 npm run check
 npm run build
 npm run test:integration
+npm run test:e2e
 ```
 
-- `npm test`: dependency-free Node tests for domain/demo, transport mapping and receipt-handler behavior.
-- `npm run check`: semantic source check using installed TypeScript/React types. Optional `TYPESCRIPT_PATH` and `TYPECHECK_DEPS` support an existing official compiler/types without changing the application.
-- `npm run build`: actual TypeScript + Vite production build; requires installed dependencies.
-- `npm run test:integration`: real Supabase checks. Missing test credentials exits with `BLOCKED`, never a passing placeholder. Requires the four `SUPABASE_TEST_*` variables documented in `supabase/README.md`. It creates only synthetic test accounts and leaves its test fixtures for inspection.
+The semantic check supports TYPESCRIPT_PATH and TYPECHECK_DEPS. Integration needs the backend guide's SUPABASE_TEST_* values and exits **BLOCKED** if unavailable. Browser E2E requires a running server and an installed Playwright browser; PLAYWRIGHT_BASE_URL selects the server. Prepared commands are not passing results.
 
-For browser tests, start the React app or standalone server separately, install Playwright's Chromium when dependencies/network are available, then run `npm run test:e2e`. `PLAYWRIGHT_BASE_URL` selects the server. These browser checks were prepared, not executed in this session.
+## Submission status
 
-The SQL harness can also run on disposable PostgreSQL binaries without a socket; see `supabase/README.md`. Its single-user mode **bypasses RLS**, so SQL success there is not a passing RLS/concurrency test.
+The supplied criteria require a publicly deployed, usable end-to-end web product, an English PDF of at most 10 slides and a public source repository. The FAQ permits guest/demo use and local storage and does not require real charges or complete CI/CD. Competition-demo evidence does not establish readiness for real family financial data.
 
-## Financial rules
+| Item | Current state |
+| --- | --- |
+| Public product URL | Previously verified as documented above; check availability at submission |
+| English pitch PDF | [10-slide version 2](docs/presentation/CoParent_Ledger_Jury_Deck_v2.pdf) prepared 15 Nov 2026 with screenshots, value/retention and labeled economics; actual submission is not verified |
+| Public source | **Unresolved:** the owner requires the working repository to remain **private**. No visibility change or public copy is authorized |
 
-- Integer USD cents and exact half-up division of the other parent's basis-point share.
-- Agreed balances include only APPROVED expenses; both directions stay separate.
-- PENDING payment reports reserve capacity but do not reduce the remaining amount.
-- Only the actual recipient confirms receipt; confirmation reduces the remaining amount once.
-- Approval freezes the financial details of an expense. In the standalone demo, its category can be corrected with an audit entry. An unapproved submitted correction withdraws the original and creates a private draft with a new ID and no receipt.
-- Server commands enforce identity, membership, transitions, revisions and idempotency atomically with history.
-- Receipts use private Storage and authorized signed URLs lasting at most 60 seconds.
+The current repository is [hikkki013/coparent-ledger-ctrl-alt-elite](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite). On 15 November 2026, the authenticated owner menu showed **hikkki013** and the repository showed **Private**. The complete remote archive at main commit `998421f417beeff70c2958994e9050f9de13c523` was compared with the current local project before preparing this update: all application source and existing tests matched byte-for-byte. Only the reviewed documentation, prepared presentation materials, publication helper and its offline test require synchronization; see [STATUS.md](docs/STATUS.md) for final upload verification. The original local Git history remains separate and was not reset or force-pushed. **Do not use karim312k1.**
 
-Example: `$120.01 × 40% = $48.00`. Reporting `$20.00` leaves `$48.00` remaining with `$20.00` pending. Confirming receipt leaves `$28.00` remaining. The separate examples dataset also includes a pending `$10.00` report; do not confuse the datasets.
+The [criteria matrix](docs/CRITERIA_MATRIX.md) maps current evidence to the rules; the [baseline](docs/SUBMISSION_BASELINE.md) preserves an earlier point-in-time audit. [STATUS.md](docs/STATUS.md) and the dated [QA report](docs/QA_REPORT.md) record subsequent work. Full submission compliance is not claimed while public source access is unresolved.
 
-## Current limits
+The optional [private publication helper](scripts/publish-private.ps1) checks the exact destination, hikkki013 login and Private visibility. It requires a clean committed tree and refuses to push if remote main is not an ancestor of local HEAD. It does not reconcile the currently divergent/unverified histories for you. Inspect changes and restore the correct account before using it; the helper has not been live-tested in this review.
 
-No money movement, billing, OCR, AI, real-person invitations, custody calendar, chat, PDF export or claims of legal enforceability. Pricing is a `$7.99/month per household` hypothesis; billing is disabled. The original real-account backend supports one household/user and two adults; the demo family features are not implemented in that backend. USD only. No correction/refund workflow for an approved expense or confirmed reimbursement. No account/member deletion or operational retention/backup/recovery tooling yet.
+Its offline guard checks can be repeated in PowerShell with `./tests/scripts/publish-private.test.ps1`; the six scenarios use simulated Git/GitHub commands and make no remote writes. They are separate from the 62-test Node suite.
 
-Auth callbacks, native RLS/grants, concurrent live transactions, real private Storage/Edge deployment, Vite build and browser layout require normal-environment verification. Local demo and isolated SQL tests do not establish production readiness.
+The captain must submit all three materials through the organizer's submission link: the English PDF, product URL and public source URL (FAQ Q82). The FAQ states 15 November at 12:00, without a timezone in the inspected answers; confirm the time against official event instructions. Keep the product available through the end of the final. Prepared files and links are not evidence of an accepted submission.
 
-Source of truth: `docs/DEVELOPMENT_PROMPTS.txt` (PROMPT 00–07), `docs/PRODUCT_SPEC.md`, shared types in `src/domain/types.ts`, and `src/data/ledger-port.ts`.
+### Evidence for the scoring criteria
 
+| Criterion | Weight | Evidence and limitation |
+| --- | ---: | --- |
+| Product & engineering | 40% | Input-dependent guest expense/reimbursement flow, history and exact money rules; [dated QA](docs/QA_REPORT.md), with backend/E2E limits |
+| Value & retention | 20% | Working test paywall and saved guest progress; repeat expense cycles are the return hypothesis, not measured renewal |
+| Problem & user | 15% | Specific US co-parent segment and recurring financial problem; no invented customer validation |
+| Business potential | 15% | $7.99 household offer and sourced CAC/retention/LTV scenarios in [MARKET_AND_ECONOMICS.md](docs/MARKET_AND_ECONOMICS.md); viability remains unproved |
+| Originality | 10% | Expense-first positioning with an explainable confirmed balance; existing alternatives are acknowledged, no unique-feature claim |
 
-## Jury verification — 2026-11-15
+Stripe test checkout and real US feedback are optional pluses, not implemented proof in this submission. Mobile viewport smoke checks are recorded; physical-phone verification remains unavailable. CI/CD, AI and real payments are not required by the FAQ.
 
-Standalone demo: https://coparent-ledger-demo.pages.dev/ (Cloudflare Pages production deployment `6d00a0a4`). Synthetic guest roles only; no card or money transfer. The public-site test completed a $64.20 expense, 50% share, $12.10 pending reimbursement and receipt confirmation, leaving $20.00 with history. The isolated preview additionally checked family, categories, statistics, future plans, test paywall, saved progress and mobile/desktop layouts. See docs/QA_REPORT.md and docs/STATUS.md for evidence and limits.
+## Scope and documentation
+
+No real payments, Stripe checkout, bank verification, OCR/AI, real-person invitations, custody calendar, messaging, expense PDF export or legal-enforceability claims. Confirmed-payment reversals, approved financial corrections, account/member deletion and operational cloud backup/recovery remain out of scope. The original backend has one household per user and two adults and does not match every standalone feature. USD only.
+
+| Document | Purpose |
+| --- | --- |
+| [STATUS.md](docs/STATUS.md) | Dated progress and changes |
+| [QA_REPORT.md](docs/QA_REPORT.md) | Executed checks, failures and integration limits |
+| [REPOSITORY_REVIEW.md](docs/REPOSITORY_REVIEW.md) | Latest local consistency review, corrections and remote-access blockers |
+| [SUBMISSION_BASELINE.md](docs/SUBMISSION_BASELINE.md) | Point-in-time audit and organizer answers |
+| [CRITERIA_MATRIX.md](docs/CRITERIA_MATRIX.md) | Current requirement/evidence mapping and FAQ references |
+| [MARKET_AND_ECONOMICS.md](docs/MARKET_AND_ECONOMICS.md) | Sourced market and subscription assumptions |
+| [Russian speaking notes](docs/presentation/PITCH_SCRIPT_RU.md) | Five-minute oral draft for the English deck |
+| [Presentation generator](docs/presentation/build_submission_v2.py) | Deck source; Python ReportLab/Pillow and referenced Windows fonts |
+| [PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) | Original specification |
+| [DEVELOPMENT_PROMPTS.txt](docs/DEVELOPMENT_PROMPTS.txt) | Original PROMPT 00-07 |
+| [Shared types](src/domain/types.ts) and [command interface](src/data/ledger-port.ts) | Domain/adapter contracts |
