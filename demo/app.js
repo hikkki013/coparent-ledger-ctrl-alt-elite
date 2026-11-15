@@ -149,7 +149,7 @@ root.addEventListener('click',event=>{
   if(action==='simulate-expiry'||action==='reset-access') { try { action==='simulate-expiry'?access.simulateExpiry():access.reset(); notice=action==='simulate-expiry'?'Demo trial ended. Try Add expense to see the paywall.':'Demo access reset. The 14-day trial is active.'; failure=false; render(); } catch { notice='Demo access could not be saved in this browser.';failure=true;render(); } return; }
   if(action==='close-paywall')return document.querySelector('#paywall-dialog').close();
   if(action==='enable-access') { try { access.enableTestAccess();notice='Test access enabled. No payment was made.';failure=false;render();showForm('new'); } catch { const dialog=document.querySelector('#paywall-dialog');dialog.querySelector('.plan-note').textContent='Test access could not be saved. Check browser storage and try again.'; } return; }
-  if(action==='new'&&!access.canCreate())return showPaywall();
+  if((action==='new'||action==='correct')&&!access.canCreate())return showPaywall();
   if(action==='open')return navigate(control.dataset.id);
   if(action==='back')return navigate(null);
   if(action==='close')return document.querySelector('#form-dialog').close();
