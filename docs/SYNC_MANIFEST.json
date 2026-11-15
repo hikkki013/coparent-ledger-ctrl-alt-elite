@@ -4,8 +4,8 @@
   "snapshot_date": "2026-11-15",
   "intended_repository": "hikkki013/coparent-ledger-ctrl-alt-elite",
   "required_visibility": "public after remote history review and confirmation",
-  "scope": "Submission preparation based on 5f4fff1: refreshed README, review and status, and corrected PDF; public visibility and full remote history review pending.",
-  "snapshot_base_commit": "5f4fff1c07af97c1c087295f0c28b72145d91eca",
+  "scope": "Submission preparation; historical scan at fff0e9f and author-email privacy issue recorded. Public visibility and anonymous access remain pending.",
+  "snapshot_base_commit": "fff0e9f7928d9cf1cd13fd5c6b21b50e6484ffcc",
   "verified_zip_sha256": "12516ec6569f56062fbd731a95e81fc51e3200682839792a1d9677d279c5f96a",
   "origin_manifest_sha256": "96482a108e0fa5eb98c85c13c838eaef97ca6ba6089bb5bd8035349e46bf1bf5",
   "origin_manifest_path": "docs/SYNC_MANIFEST_ORIGIN_20261115.json",
@@ -17,7 +17,7 @@
     "Git metadata",
     "browser-local guest records and transient browser evidence"
   ],
-  "reconciliation": "Original historical snapshot preserved; new submission PDF and review added. This manifest describes prepared files and does not verify remote history.",
+  "reconciliation": "Original historical snapshot preserved. Three review documents updated after a scan of the remote history; this manifest does not include itself and does not prove absence of all sensitive data.",
   "origin_comparison_counts": {
     "exact_match": 83,
     "normalized_match": 0,
@@ -115,9 +115,9 @@
     },
     {
       "path": "docs/FINAL_SYNC_REPORT.md",
-      "bytes": 38740,
-      "sha256": "97217899dee896ebf14bfc49b72040e9ab6330855dfed2a7e5d7f8ffbe34cde2",
-      "normalized_utf8_lf_sha256": "97217899dee896ebf14bfc49b72040e9ab6330855dfed2a7e5d7f8ffbe34cde2"
+      "bytes": 39148,
+      "sha256": "e3fbf7f14ee77873ee2ed5ac66c071c77f9ddec34c1b7347996a032def895126",
+      "normalized_utf8_lf_sha256": "e3fbf7f14ee77873ee2ed5ac66c071c77f9ddec34c1b7347996a032def895126"
     },
     {
       "path": "docs/MARKET_AND_ECONOMICS.md",
@@ -151,9 +151,9 @@
     },
     {
       "path": "docs/README_REVIEW_REPORT.md",
-      "bytes": 3047,
-      "sha256": "db841d27ca72a8025535164d08943ea47decdfee116a33abeb90d043e563622a",
-      "normalized_utf8_lf_sha256": "db841d27ca72a8025535164d08943ea47decdfee116a33abeb90d043e563622a"
+      "bytes": 3311,
+      "sha256": "c523a23adab5efb2ebf65fcf7188142e88278b9d0e3cf00f0155110f888f0a28",
+      "normalized_utf8_lf_sha256": "c523a23adab5efb2ebf65fcf7188142e88278b9d0e3cf00f0155110f888f0a28"
     },
     {
       "path": "docs/REPOSITORY_REVIEW.md",
@@ -163,9 +163,9 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 39879,
-      "sha256": "3a31945e56b47d09b8f979db4ff9c8ef1afa86cecfd6d7b29ca50c370df54898",
-      "normalized_utf8_lf_sha256": "3a31945e56b47d09b8f979db4ff9c8ef1afa86cecfd6d7b29ca50c370df54898"
+      "bytes": 40287,
+      "sha256": "9303c1621cfcae1cdd0efe001c5d5724900a85132f6554eee1e787720d1a62e2",
+      "normalized_utf8_lf_sha256": "9303c1621cfcae1cdd0efe001c5d5724900a85132f6554eee1e787720d1a62e2"
     },
     {
       "path": "docs/SUBMISSION_BASELINE.md",
