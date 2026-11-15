@@ -1,5 +1,14 @@
 # Implementation status
 
+## Submission preparation update — 15 November 2026
+
+The owner has authorized public visibility, superseding the earlier PRIVATE-only instruction. **The repository is still private:** the full, distinct 78-commit GitHub history has not been scanned and anonymous GitHub access has not been verified. A local scan of the staging files and 106 blobs in a different local history found no common token/private-key patterns; that does not establish safety of the GitHub history or all personal/binary data. See [README_REVIEW_REPORT.md](README_REVIEW_REPORT.md). Earlier PRIVATE-only statements below are historical.
+
+Fresh production test with synthetic `demo-expense-169`: a $100 expense with 50% share was approved; reporting $20 left $50, confirmation reduced it to $30, and the amount and history survived refresh. The trial-expiry paywall showed $7.99 per household; enabling test access opened the expense form without a card. Previous records were not reset. This was a single browser using synthetic roles, not a real two-account or real payment test. A separate anonymous browser session has not been checked.
+
+The 10-page English PDF was updated only to replace its outdated private-source statement with a neutral repository address; the existing product link is preserved. The original PDF and audit history remain intact. React/Vite, live Supabase and full remote-history review remain unverified. Do not claim the three submission materials are ready while the repository remains private.
+
+
 ## Correction paywall update — 15 November 2026
 
 **Current update:** the earlier F-02 exception described in historical sections below was fixed in the demo command and standalone UI and deployed by Direct Upload. Checked source baseline before changes: [`1094bf4405e11882b3e51543193932b0a379c0b0`](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite/commit/1094bf4405e11882b3e51543193932b0a379c0b0); source and test commits culminate at [`ab10004305b1c5f197b7d051a8115a5c92657dac`](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite/commit/ab10004305b1c5f197b7d051a8115a5c92657dac). Production deployment `775a8f72-e003-4d2f-87fb-456fe30925c2` at [the existing public URL](https://coparent-ledger-demo.pages.dev/); test preview `4cbb9598-04ff-4e3a-9885-60578d518fc3`.

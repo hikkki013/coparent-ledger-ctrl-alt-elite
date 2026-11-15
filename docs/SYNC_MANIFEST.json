@@ -3,9 +3,9 @@
   "team": "Ctrl Alt Elite",
   "snapshot_date": "2026-11-15",
   "intended_repository": "hikkki013/coparent-ledger-ctrl-alt-elite",
-  "required_visibility": "private",
-  "scope": "Reviewed source and documentation snapshot after correction-paywall fix; historic original snapshot preserved.",
-  "snapshot_base_commit": "ab10004305b1c5f197b7d051a8115a5c92657dac",
+  "required_visibility": "public after remote history review and confirmation",
+  "scope": "Submission preparation based on 5f4fff1: refreshed README, review and status, and corrected PDF; public visibility and full remote history review pending.",
+  "snapshot_base_commit": "5f4fff1c07af97c1c087295f0c28b72145d91eca",
   "verified_zip_sha256": "12516ec6569f56062fbd731a95e81fc51e3200682839792a1d9677d279c5f96a",
   "origin_manifest_sha256": "96482a108e0fa5eb98c85c13c838eaef97ca6ba6089bb5bd8035349e46bf1bf5",
   "origin_manifest_path": "docs/SYNC_MANIFEST_ORIGIN_20261115.json",
@@ -17,7 +17,7 @@
     "Git metadata",
     "browser-local guest records and transient browser evidence"
   ],
-  "reconciliation": "Source fixes and regression tests applied to remote 1094bf baseline; report and docs updated with production and preview evidence. Historic audit and original snapshot preserved.",
+  "reconciliation": "Original historical snapshot preserved; new submission PDF and review added. This manifest describes prepared files and does not verify remote history.",
   "origin_comparison_counts": {
     "exact_match": 83,
     "normalized_match": 0,
@@ -27,7 +27,7 @@
     "conflict": 0,
     "unable_to_verify": 0
   },
-  "file_count": 91,
+  "file_count": 93,
   "files": [
     {
       "path": ".env.example",
@@ -49,9 +49,9 @@
     },
     {
       "path": "README.md",
-      "bytes": 18535,
-      "sha256": "eb3e8574c4d08fa531882ebfe850d8e09ead60dd4413ce184dd1a525c8bfadeb",
-      "normalized_utf8_lf_sha256": "eb3e8574c4d08fa531882ebfe850d8e09ead60dd4413ce184dd1a525c8bfadeb"
+      "bytes": 4391,
+      "sha256": "24d228c7eb6ed955673b9c4604e7d12a38d068511c2fdea09dec2bf68a3f8cbd",
+      "normalized_utf8_lf_sha256": "24d228c7eb6ed955673b9c4604e7d12a38d068511c2fdea09dec2bf68a3f8cbd"
     },
     {
       "path": "demo/app.js",
@@ -115,9 +115,9 @@
     },
     {
       "path": "docs/FINAL_SYNC_REPORT.md",
-      "bytes": 37236,
-      "sha256": "c5360cd290806d9ea1d9bae3931f6b7eb1f95480f33020cf53e51474dfba260b",
-      "normalized_utf8_lf_sha256": "c5360cd290806d9ea1d9bae3931f6b7eb1f95480f33020cf53e51474dfba260b"
+      "bytes": 38740,
+      "sha256": "97217899dee896ebf14bfc49b72040e9ab6330855dfed2a7e5d7f8ffbe34cde2",
+      "normalized_utf8_lf_sha256": "97217899dee896ebf14bfc49b72040e9ab6330855dfed2a7e5d7f8ffbe34cde2"
     },
     {
       "path": "docs/MARKET_AND_ECONOMICS.md",
@@ -150,6 +150,12 @@
       "normalized_utf8_lf_sha256": "c28ff221c1ece85aa63bf851bfd70c8b2f555fdff9d5615c33818667fb6f2e92"
     },
     {
+      "path": "docs/README_REVIEW_REPORT.md",
+      "bytes": 3047,
+      "sha256": "db841d27ca72a8025535164d08943ea47decdfee116a33abeb90d043e563622a",
+      "normalized_utf8_lf_sha256": "db841d27ca72a8025535164d08943ea47decdfee116a33abeb90d043e563622a"
+    },
+    {
       "path": "docs/REPOSITORY_REVIEW.md",
       "bytes": 11269,
       "sha256": "6d0d6dd7a2697e192658416f35ae5043e68ac78157ee0a593ddda76a7aa2f009",
@@ -157,9 +163,9 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 38375,
-      "sha256": "481d5b60fd1c7fcce4eb9b3db43338459261646d3f6e4d29c8d2764dd13eb31f",
-      "normalized_utf8_lf_sha256": "481d5b60fd1c7fcce4eb9b3db43338459261646d3f6e4d29c8d2764dd13eb31f"
+      "bytes": 39879,
+      "sha256": "3a31945e56b47d09b8f979db4ff9c8ef1afa86cecfd6d7b29ca50c370df54898",
+      "normalized_utf8_lf_sha256": "3a31945e56b47d09b8f979db4ff9c8ef1afa86cecfd6d7b29ca50c370df54898"
     },
     {
       "path": "docs/SUBMISSION_BASELINE.md",
@@ -172,6 +178,11 @@
       "bytes": 24675,
       "sha256": "96482a108e0fa5eb98c85c13c838eaef97ca6ba6089bb5bd8035349e46bf1bf5",
       "normalized_utf8_lf_sha256": "0b632999c5846726030c278477890746579459da05945f9f19ddd6c6ca63270a"
+    },
+    {
+      "path": "docs/presentation/CoParent_Ledger_Jury_Deck_Submission.pdf",
+      "bytes": 174925,
+      "sha256": "27db9f1828a16704a10f0b34b71f080a8ce6d6502deac28ccf19eb7690f3626b"
     },
     {
       "path": "docs/presentation/CoParent_Ledger_Jury_Deck_v2.pdf",
