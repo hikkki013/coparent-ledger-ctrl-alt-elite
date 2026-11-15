@@ -20,7 +20,25 @@ Fresh commands executed in an isolated copy of the current local files, Node **2
 
 Only the README public entry link is opened during this synchronization; previous financial-flow, mobile and persistence journeys remain historical QA, not reruns. No deployment is performed. Limited upload-manifest/credential-pattern/link/PDF checks are described in the final synchronization result below; they are not a comprehensive security audit.
 
-**Upload verification:** pending browser commits and download comparison. This line is replaced only after actual GitHub files have been checked.
+### Verified GitHub synchronization result
+
+Saved the reviewed **21-file delta** through the authenticated **hikkki013** side browser, preserving the existing main history and Private visibility. Re-downloaded main after content commit `9630b0b886895ae60b601631fe77861bf395a9f5`: **88/88 expected paths and SHA-256 hashes matched**, zero missing/extra paths or mismatches, **all 21 uploaded files verified**, and all **67 unchanged remote files preserved byte-for-byte**. The GitHub history page showed exactly the six commits below after baseline `998421f`, all authored by hikkki013, with no intervening commit. This final STATUS/QA follow-up records that completed comparison; its own uploaded text is checked separately in the browser.
+
+| Group | Saved files | Verified content commit |
+| --- | --- | --- |
+| Documentation | BUSINESS_MODEL, CONTRACTS, CRITERIA_MATRIX, DEMO_SCRIPT, PRODUCT_SPEC, QA_REPORT, STATUS, SUBMISSION_BASELINE, MARKET_AND_ECONOMICS, README_AND_SUBMISSION_PROMPT, REPOSITORY_REVIEW | `6679ea76dcd0b66c42e162274b8345e8f5a40dce` |
+| Presentation | Existing English 10-slide PDF, PITCH_SCRIPT_RU, generator, layout record | `d0ea620c6b293ce1d31b0a31d6f60884faea31a0` |
+| Presentation assets | Three inspected synthetic images: paywall, receipt, reimbursement | `937b5fa6c8b12a199b801135399353c25f42e172` |
+| Publication helper | scripts/publish-private.ps1 | `831fc06e7dd21bcf89a87aa5ea714b7132343c33` |
+| Helper tests | tests/scripts/publish-private.test.ps1 | `928e450abf8d290afa9204503b3e93ce25e8954a` |
+| README | Updated judge entry, complete workflow, deck/evidence links, limitations and verified destination | `9630b0b886895ae60b601631fe77861bf395a9f5` |
+
+The uploaded PDF SHA-256 is `89be515c04d311d22686b71ae1d1cc17faa558d8fe7f49bf99af26602d4e9a21`, matching the original local PDF exactly; the downloaded file has **10 pages**. It was not regenerated. All **29 relative README link occurrences** resolve to files in the downloaded GitHub archive. The rendered GitHub README exposes the intended PDF and public demo links. The HTTPS demo entry page opened without registration and displayed its synthetic-data banner; no financial workflow, phone/device test, reset or deployment was performed in this synchronization pass.
+
+The selected upload list contains no real .env, secrets, node_modules, .git directory or real family/receipt records. Limited common credential-pattern checks found no matches in the selected text files; three presentation images were inspected and are synthetic. This is not a comprehensive security audit. The pre-existing empty .env.example template was already identical remotely and was not re-uploaded.
+
+The original local directory is retained without rewriting its Git history or remote configuration. Reviewed publication copies were used for browser uploads. Future terminal pushes must first reconcile that checkout with the browser-created history. Private source access still conflicts with the organizer's public-source submission requirement; no public copy or visibility change is authorized, and no accepted competition submission is claimed.
+
 
 Earlier sections below preserve their original point-in-time claims, including the former browser connection failures and local-only work; this section supersedes their access/synchronization status.
 
