@@ -1,29 +1,33 @@
+param(
+    [ValidateSet('hikkki013/coparent-ledger', 'hikkki013/coparent-ledger-ctrl-alt-elite')]
+    [string]$Repository = 'hikkki013/coparent-ledger-ctrl-alt-elite'
+)
 $ErrorActionPreference = 'Stop'
-$repository = 'hikkki013/coparent-ledger'
 $sourceRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 function Invoke-CheckedGit {
     param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GitArguments)
-    & git @GitArguments
-    if ($LASTEXITCODE -ne 0) { throw 'Git failed; no force push or automatic cleanup was attempted.' }
+    & git -C $sourceRoot @GitArguments
+    if ($LASTEXITCODE -ne 0) { throw 'Git failed. No reset, snapshot overwrite or force push was attempted.' }
 }
 $login = & gh api user --jq '.login'
 if ($LASTEXITCODE -ne 0 -or $login.Trim() -ne 'hikkki013') { throw 'Sign GitHub CLI into hikkki013 first.' }
-$private = & gh repo view $repository --json isPrivate --jq '.isPrivate'
-if ($LASTEXITCODE -ne 0 -or $private.Trim() -ne 'true') { throw 'Destination must already exist and be private.' }
-$changes = & git -C $sourceRoot status --porcelain
-if ($LASTEXITCODE -ne 0 -or $changes) { throw 'Commit intended changes locally first; this script publishes exactly HEAD.' }
-# Preserve remote history by copying committed source into a fresh clone. No force push.
-$publishRoot = Join-Path ([System.IO.Path]::GetTempPath()) ('coparent-publish-' + [Guid]::NewGuid().ToString('N'))
-$archive = $publishRoot + '.zip'
-Invoke-CheckedGit -C $sourceRoot archive --format=zip ('--output=' + $archive) HEAD
-Invoke-CheckedGit clone ('https://github.com/' + $repository + '.git') $publishRoot
-Expand-Archive -LiteralPath $archive -DestinationPath $publishRoot -Force
-Invoke-CheckedGit -C $publishRoot config user.name hikkki013
-Invoke-CheckedGit -C $publishRoot config user.email hikkki013@users.noreply.github.com
-Invoke-CheckedGit -C $publishRoot add --all
-$pending = & git -C $publishRoot status --porcelain
-if (-not $pending) { Write-Output 'The private repository already contains this snapshot.'; exit 0 }
-Invoke-CheckedGit -C $publishRoot commit -m 'Sync CoParent Ledger MVP source and verification status'
-Invoke-CheckedGit -C $publishRoot push origin HEAD:main
-Write-Output ('Published to https://github.com/' + $repository)
-Write-Output ('Checkout retained at ' + $publishRoot)
+$metadata = & gh repo view $Repository --json nameWithOwner,isPrivate
+if ($LASTEXITCODE -ne 0) { throw 'The intended repository could not be verified.' }
+$destination = ($metadata -join "`n") | ConvertFrom-Json
+if ($destination.isPrivate -ne $true -or $destination.nameWithOwner -ne $Repository) {
+    throw 'Destination must be the exact intended hikkki013 repository and Private. Verify the current name first.'
+}
+$changes = Invoke-CheckedGit status --porcelain
+if ($changes) { throw 'Review and commit intended changes first. This script does not stage files or replace remote files.' }
+$remoteUrl = 'https://github.com/' + $Repository + '.git'
+Invoke-CheckedGit fetch --no-tags $remoteUrl refs/heads/main
+& git -C $sourceRoot merge-base --is-ancestor FETCH_HEAD HEAD
+if ($LASTEXITCODE -ne 0) {
+    throw 'Remote main is not an ancestor of local HEAD. Compare and reconcile histories manually before publishing.'
+}
+# Normal Git push rejects a remote race; never use force or replace files in a fresh clone.
+Invoke-CheckedGit push $remoteUrl HEAD:refs/heads/main
+$localHead = Invoke-CheckedGit rev-parse HEAD
+$remoteLine = Invoke-CheckedGit ls-remote $remoteUrl refs/heads/main
+if (($remoteLine -split '\s+')[0] -ne $localHead.Trim()) { throw 'Remote HEAD did not match after push; inspect before retrying.' }
+Write-Output ('Verified push to private https://github.com/' + $Repository)
