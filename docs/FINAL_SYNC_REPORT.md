@@ -1,5 +1,9 @@
 # Final transfer and consistency report — 15 November 2026
 
+## Public visibility update - 15 November 2026
+
+GitHub settings now report that the existing repository is **public**, following the owner's explicit consent to disclosure of the commit author email. Its address and name are unchanged. This status was observed in the signed-in account; independent unauthenticated access to README, code and the PDF has not yet been verified. Earlier private-only status and the pending-publication section below are historical. The scanned history baseline was [`fff0e9f`](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite/commit/fff0e9f7928d9cf1cd13fd5c6b21b50e6484ffcc); the subsequent review commit was [`88f7828`](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite/commit/88f78283b8ea29f966544c7ddac6aa198a4fe023). No new tests were run for this visibility change.
+
 ## Submission preparation update — 15 November 2026
 
 The owner authorized public visibility, superseding the earlier PRIVATE-only instruction. **The repository remains private.** A mirror of GitHub main at [`fff0e9f`](https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite/commit/fff0e9f7928d9cf1cd13fd5c6b21b50e6484ffcc) includes 81 commits. Its author metadata contains a Gmail address: making history public would disclose it. Publication is paused pending a decision and resolution of that personal-data issue. A pattern scan of 188 historical named blobs detected no matches for selected common token/private-key patterns or sensitive filenames; this is not proof that all secrets or personal information are absent. Historical presentation images were visually reviewed and the receipt is explicitly synthetic. Anonymous GitHub access has not been verified. See [README_REVIEW_REPORT.md](README_REVIEW_REPORT.md). Earlier PRIVATE-only instructions below are historical.

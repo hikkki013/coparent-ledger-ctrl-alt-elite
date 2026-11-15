@@ -3,9 +3,9 @@
   "team": "Ctrl Alt Elite",
   "snapshot_date": "2026-11-15",
   "intended_repository": "hikkki013/coparent-ledger-ctrl-alt-elite",
-  "required_visibility": "public after remote history review and confirmation",
-  "scope": "Submission preparation; historical scan at fff0e9f and author-email privacy issue recorded. Public visibility and anonymous access remain pending.",
-  "snapshot_base_commit": "fff0e9f7928d9cf1cd13fd5c6b21b50e6484ffcc",
+  "required_visibility": "public",
+  "scope": "Public status observed in GitHub settings; anonymous read access not independently verified.",
+  "snapshot_base_commit": "88f78283b8ea29f966544c7ddac6aa198a4fe023",
   "verified_zip_sha256": "12516ec6569f56062fbd731a95e81fc51e3200682839792a1d9677d279c5f96a",
   "origin_manifest_sha256": "96482a108e0fa5eb98c85c13c838eaef97ca6ba6089bb5bd8035349e46bf1bf5",
   "origin_manifest_path": "docs/SYNC_MANIFEST_ORIGIN_20261115.json",
@@ -17,7 +17,7 @@
     "Git metadata",
     "browser-local guest records and transient browser evidence"
   ],
-  "reconciliation": "Original historical snapshot preserved. Three review documents updated after a scan of the remote history; this manifest does not include itself and does not prove absence of all sensitive data.",
+  "reconciliation": "Historical snapshots preserved; current reports updated following observed visibility change. This manifest excludes itself.",
   "origin_comparison_counts": {
     "exact_match": 83,
     "normalized_match": 0,
@@ -115,9 +115,9 @@
     },
     {
       "path": "docs/FINAL_SYNC_REPORT.md",
-      "bytes": 39148,
-      "sha256": "e3fbf7f14ee77873ee2ed5ac66c071c77f9ddec34c1b7347996a032def895126",
-      "normalized_utf8_lf_sha256": "e3fbf7f14ee77873ee2ed5ac66c071c77f9ddec34c1b7347996a032def895126"
+      "bytes": 39972,
+      "sha256": "23b2203754e665088bf745e71bf19e345cfcfab469f2cb68911e4972bfe0b262",
+      "normalized_utf8_lf_sha256": "23b2203754e665088bf745e71bf19e345cfcfab469f2cb68911e4972bfe0b262"
     },
     {
       "path": "docs/MARKET_AND_ECONOMICS.md",
@@ -151,9 +151,9 @@
     },
     {
       "path": "docs/README_REVIEW_REPORT.md",
-      "bytes": 3311,
-      "sha256": "c523a23adab5efb2ebf65fcf7188142e88278b9d0e3cf00f0155110f888f0a28",
-      "normalized_utf8_lf_sha256": "c523a23adab5efb2ebf65fcf7188142e88278b9d0e3cf00f0155110f888f0a28"
+      "bytes": 3341,
+      "sha256": "a70e8659233568643a788d952aec3a70f318bd2c4602b9f28affb3f7d908b4cd",
+      "normalized_utf8_lf_sha256": "a70e8659233568643a788d952aec3a70f318bd2c4602b9f28affb3f7d908b4cd"
     },
     {
       "path": "docs/REPOSITORY_REVIEW.md",
@@ -163,9 +163,9 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 40287,
-      "sha256": "9303c1621cfcae1cdd0efe001c5d5724900a85132f6554eee1e787720d1a62e2",
-      "normalized_utf8_lf_sha256": "9303c1621cfcae1cdd0efe001c5d5724900a85132f6554eee1e787720d1a62e2"
+      "bytes": 41111,
+      "sha256": "b303ad874abff36673f98f8b98090f60ef58b0de97f88b6407a72eea41bee014",
+      "normalized_utf8_lf_sha256": "b303ad874abff36673f98f8b98090f60ef58b0de97f88b6407a72eea41bee014"
     },
     {
       "path": "docs/SUBMISSION_BASELINE.md",
