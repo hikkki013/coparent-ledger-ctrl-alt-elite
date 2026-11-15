@@ -4,8 +4,8 @@
   "snapshot_date": "2026-11-15",
   "intended_repository": "hikkki013/coparent-ledger-ctrl-alt-elite",
   "required_visibility": "private",
-  "scope": "Reconciled audit revision: retained newer GitHub documents plus documentation corrections, final report and original snapshot. This is file-content parity, not a merge of original local Git history.",
-  "snapshot_base_commit": "7bb94ce405374bd9b762f5fba0eed36e5ec78280",
+  "scope": "Reviewed source and documentation snapshot after correction-paywall fix; historic original snapshot preserved.",
+  "snapshot_base_commit": "ab10004305b1c5f197b7d051a8115a5c92657dac",
   "verified_zip_sha256": "12516ec6569f56062fbd731a95e81fc51e3200682839792a1d9677d279c5f96a",
   "origin_manifest_sha256": "96482a108e0fa5eb98c85c13c838eaef97ca6ba6089bb5bd8035349e46bf1bf5",
   "origin_manifest_path": "docs/SYNC_MANIFEST_ORIGIN_20261115.json",
@@ -17,7 +17,7 @@
     "Git metadata",
     "browser-local guest records and transient browser evidence"
   ],
-  "reconciliation": "Preserve newer remote work; six original differences were reviewed as newer agreed documentation updates. Product code and existing PDF are unchanged. The GitHub tree enclosing this snapshot identifies its publication revision.",
+  "reconciliation": "Source fixes and regression tests applied to remote 1094bf baseline; report and docs updated with production and preview evidence. Historic audit and original snapshot preserved.",
   "origin_comparison_counts": {
     "exact_match": 83,
     "normalized_match": 0,
@@ -49,15 +49,15 @@
     },
     {
       "path": "README.md",
-      "bytes": 18784,
-      "sha256": "3f0a1a031a8c0c771dd2e663361fa07e3edd1cb9243c59561b4da02dd78e3b5d",
-      "normalized_utf8_lf_sha256": "3f0a1a031a8c0c771dd2e663361fa07e3edd1cb9243c59561b4da02dd78e3b5d"
+      "bytes": 18535,
+      "sha256": "eb3e8574c4d08fa531882ebfe850d8e09ead60dd4413ce184dd1a525c8bfadeb",
+      "normalized_utf8_lf_sha256": "eb3e8574c4d08fa531882ebfe850d8e09ead60dd4413ce184dd1a525c8bfadeb"
     },
     {
       "path": "demo/app.js",
-      "bytes": 36394,
-      "sha256": "e4e72ab69318ba8cdcf087f3ff86f566e743618801ad2166efc131013689aa6e",
-      "normalized_utf8_lf_sha256": "f107efdf3a61ed29527864ec2b30af65dae4a8ebc8b982c3879597c8353ca201"
+      "bytes": 36416,
+      "sha256": "291ee29f293337ca3993c35a4ad65d5f0338f058131faceedee1366281ea784e",
+      "normalized_utf8_lf_sha256": "5ea8ae9cd16f0983428ee0f2acb908a2e0d986b3c1b334c0888607e7c4078eba"
     },
     {
       "path": "demo/base-demo.css",
@@ -115,9 +115,9 @@
     },
     {
       "path": "docs/FINAL_SYNC_REPORT.md",
-      "bytes": 34453,
-      "sha256": "1f455f79f0d37cbc50e1154eb6d69d56eefab3a3db5cfb6c5fd894aa8805541c",
-      "normalized_utf8_lf_sha256": "1f455f79f0d37cbc50e1154eb6d69d56eefab3a3db5cfb6c5fd894aa8805541c"
+      "bytes": 37309,
+      "sha256": "32e73c5d5949c333461cbfc3105ed6974e4d57f591edb7fba395f773e67e381e",
+      "normalized_utf8_lf_sha256": "32e73c5d5949c333461cbfc3105ed6974e4d57f591edb7fba395f773e67e381e"
     },
     {
       "path": "docs/MARKET_AND_ECONOMICS.md",
@@ -139,9 +139,9 @@
     },
     {
       "path": "docs/QA_REPORT.md",
-      "bytes": 21525,
-      "sha256": "61f57bd3bf9ee06c0a98762f39125f7b970a8963d06b0b6a55c1f39f461bd225",
-      "normalized_utf8_lf_sha256": "61f57bd3bf9ee06c0a98762f39125f7b970a8963d06b0b6a55c1f39f461bd225"
+      "bytes": 24381,
+      "sha256": "8f04373474340dba9dab6c124ebfb32042a5e1b04c4e93fd61237e9e429744f1",
+      "normalized_utf8_lf_sha256": "8f04373474340dba9dab6c124ebfb32042a5e1b04c4e93fd61237e9e429744f1"
     },
     {
       "path": "docs/README_AND_SUBMISSION_PROMPT.md",
@@ -157,9 +157,9 @@
     },
     {
       "path": "docs/STATUS.md",
-      "bytes": 35592,
-      "sha256": "0ca9645a642175f03d2bd9da8185367b62d7ae6c857c63934ee05810427f56da",
-      "normalized_utf8_lf_sha256": "0ca9645a642175f03d2bd9da8185367b62d7ae6c857c63934ee05810427f56da"
+      "bytes": 38448,
+      "sha256": "93cbe4603d2266bd091dded2d35b4a0f07900c115293218800a4d9eb0f2d76ab",
+      "normalized_utf8_lf_sha256": "93cbe4603d2266bd091dded2d35b4a0f07900c115293218800a4d9eb0f2d76ab"
     },
     {
       "path": "docs/SUBMISSION_BASELINE.md",
@@ -285,9 +285,9 @@
     },
     {
       "path": "src/data/demo-ledger.ts",
-      "bytes": 31949,
-      "sha256": "0335fa94205a7fbd873ec703c6a187759617ca8aab83c8f7cc7fd6ec624a2c70",
-      "normalized_utf8_lf_sha256": "91fc0e79f6f86e3501b3065fee1cd427f9870c03d7e57079f4febc1ccdfdb525"
+      "bytes": 32113,
+      "sha256": "697c138a5fd28fe5cdb8f818881626105fbf772a5c53df846fa790fd389ad9b1",
+      "normalized_utf8_lf_sha256": "e645739f2f7934cb7977365ee2b81ee06e19b3f8d7ed33aa9047fe531c688d5e"
     },
     {
       "path": "src/data/ledger-port.ts",
@@ -351,9 +351,9 @@
     },
     {
       "path": "src/features/expenses/ExpenseDetailView.tsx",
-      "bytes": 16750,
-      "sha256": "6399502d0b9506e6c7abe239369954ac3d9cad5e7ba48c3936e2c1734068bd4a",
-      "normalized_utf8_lf_sha256": "995dbf2ba30cb46b310b89ff67ddb96bf6404dd90fce0f1208f7f398b5e42ab8"
+      "bytes": 16894,
+      "sha256": "66a903be59a596a339c86ba33f36ed0d43742f1c01a7ad87833d02e315d411ba",
+      "normalized_utf8_lf_sha256": "c447d2524d68aa386cc11f3aaf139a4c2f2e409ac9e4f159d3d294d3c23718dc"
     },
     {
       "path": "src/features/expenses/ExpenseForm.tsx",
@@ -363,9 +363,9 @@
     },
     {
       "path": "src/features/expenses/LedgerView.tsx",
-      "bytes": 18456,
-      "sha256": "8c831cd653b201fe1cb629198c5aa163813f8ea469cdeebe4ea99014b1a36975",
-      "normalized_utf8_lf_sha256": "8c831cd653b201fe1cb629198c5aa163813f8ea469cdeebe4ea99014b1a36975"
+      "bytes": 18634,
+      "sha256": "2ae833e7a21b5f4b419719f40342808b15267550dca8b6ea9a00300122d6a851",
+      "normalized_utf8_lf_sha256": "2ae833e7a21b5f4b419719f40342808b15267550dca8b6ea9a00300122d6a851"
     },
     {
       "path": "src/features/expenses/commands.ts",
@@ -525,9 +525,9 @@
     },
     {
       "path": "tests/unit/demo-access.test.ts",
-      "bytes": 3367,
-      "sha256": "7e97e57f1390630248f365679872cb7a006b164ae2c9be60814ea7db6fcad20f",
-      "normalized_utf8_lf_sha256": "7e97e57f1390630248f365679872cb7a006b164ae2c9be60814ea7db6fcad20f"
+      "bytes": 5539,
+      "sha256": "d37c5f6b6a34553cbc1f94365751d656754b3c1c28d6b07e30ce26b3b74c7a27",
+      "normalized_utf8_lf_sha256": "d37c5f6b6a34553cbc1f94365751d656754b3c1c28d6b07e30ce26b3b74c7a27"
     },
     {
       "path": "tests/unit/demo-ledger.test.ts",
