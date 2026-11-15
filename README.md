@@ -10,7 +10,7 @@ A web app for co-parents to keep a child's expense, receipt, agreed share, reimb
 
 No registration is required. Enter your own **synthetic test data** and complete the expense cycle. The published version runs two demonstration roles in one browser. Real accounts and cross-device collaboration are not connected or verified; no money is transferred and no cards are collected.
 
-Updated **15 November 2026**. Last recorded public-site verification: **15 November 2026**, Cloudflare Pages deployment **6d00a0a4**. A later final audit freshly exercised the public site with an $87.65 expense, $35.06 agreed share and $11.11 confirmation, leaving $23.95 after reopening; see [FINAL_SYNC_REPORT.md](docs/FINAL_SYNC_REPORT.md). No new Cloudflare deployment was made. Earlier financial examples below retain their own provenance.
+Updated **15 November 2026**. Cloudflare Pages Direct Upload production deployment **775a8f72-e003-4d2f-87fb-456fe30925c2** was checked on the public site after the correction paywall fix. See [FINAL_SYNC_REPORT.md](docs/FINAL_SYNC_REPORT.md) for current and historical evidence. Earlier financial examples below retain their own provenance.
 
 ## Problem, value and price
 
@@ -57,7 +57,7 @@ This financial sequence was completed on the public site in the dated [QA report
 3. Select **Enable test access - no payment** to create new drafts again.
 4. Select **Reset demo access** to restart the 14-day demo trial.
 
-Existing expenses, sample receipts, history, CSV export and confirmation of recorded reimbursements stay available while ordinary creation is blocked. Plan-to-draft conversion uses that gate. **Known exception:** the current published demo still creates a replacement through **Create corrected draft** after trial expiry. The [final audit](docs/FINAL_SYNC_REPORT.md) reproduced this; it is an unresolved functional gap, so the creation gate is not complete. Resetting access does not reset the ledger.
+Existing expenses, sample receipts, history, CSV export and confirmation of recorded reimbursements stay available while ordinary creation is blocked. Plan-to-draft conversion and corrected-draft creation use that gate. The prior bypass is documented historically in the [final audit](docs/FINAL_SYNC_REPORT.md). Resetting access does not reset the ledger.
 
 ## Financial rules
 
