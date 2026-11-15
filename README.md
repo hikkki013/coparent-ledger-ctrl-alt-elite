@@ -196,6 +196,7 @@ No real payments, Stripe checkout, bank verification, OCR/AI, real-person invita
 | [STATUS.md](docs/STATUS.md) | Dated progress and changes |
 | [QA_REPORT.md](docs/QA_REPORT.md) | Executed checks, failures and integration limits |
 | [REPOSITORY_REVIEW.md](docs/REPOSITORY_REVIEW.md) | Latest local consistency review, corrections and remote-access blockers |
+| [CHAT_HANDOFF.md](docs/CHAT_HANDOFF.md) | Full originating-chat context, persistent constraints and dated receiving-chat synchronization update |
 | [SUBMISSION_BASELINE.md](docs/SUBMISSION_BASELINE.md) | Point-in-time audit and organizer answers |
 | [CRITERIA_MATRIX.md](docs/CRITERIA_MATRIX.md) | Current requirement/evidence mapping and FAQ references |
 | [MARKET_AND_ECONOMICS.md](docs/MARKET_AND_ECONOMICS.md) | Sourced market and subscription assumptions |
