@@ -12,9 +12,9 @@ import type { RunCommand } from './commands.ts';
 
 type ActionKind = 'APPROVE' | 'DISPUTE' | 'WITHDRAW' | 'REPLACE' | 'CONFIRM' | 'REJECT' | 'SUBMIT';
 type ActionState = { kind: ActionKind; detail: ExpenseDetail; report?: Reimbursement };
-type Props = { detail: ExpenseDetail; context: LedgerContext; port: LedgerPort; demo?: DemoLedger; command: RunCommand; busy: boolean; onBack: () => void; onEdit: () => void; onSelect: (id: string | null) => void };
+type Props = { detail: ExpenseDetail; context: LedgerContext; port: LedgerPort; demo?: DemoLedger; command: RunCommand; busy: boolean; onBack: () => void; onEdit: () => void; onSelect: (id: string | null) => void; onRequestCorrection?: () => boolean };
 
-export function ExpenseDetailView({ detail, context, port, demo, command, busy, onBack, onEdit, onSelect }: Props) {
+export function ExpenseDetailView({ detail, context, port, demo, command, busy, onBack, onEdit, onSelect, onRequestCorrection }: Props) {
   const { expense, reimbursements, audit } = detail;
   const [action, setAction] = useState<ActionState | null>(null);
   const [reportDetail, setReportDetail] = useState<ExpenseDetail | null>(null);
@@ -26,7 +26,7 @@ export function ExpenseDetailView({ detail, context, port, demo, command, busy, 
   const isPayer = context.userId === expense.paidBy;
   const isReviewer = context.userId === expense.reviewerId;
   const person = (id: string | null) => context.members.find(member => member.userId === id)?.displayName ?? 'Co-parent';
-  const openAction = (kind: ActionKind, report?: Reimbursement) => setAction({ kind, detail, report });
+  const openAction = (kind: ActionKind, report?: Reimbursement) => { if (kind === 'REPLACE' && onRequestCorrection && !onRequestCorrection()) return; setAction({ kind, detail, report }); };
   const openReceipt = async () => { if (!expense.receiptId) return; setReceiptLoading(true); setError(null); try { setReceipt(await port.getReceiptAccess(expense.receiptId)); } catch (cause) { setError(errorMessage(cause)); } finally { setReceiptLoading(false); } };
   const concern = expense.status === 'DISPUTED' ? [...audit].reverse().find(event => event.note && /DISPUT|CONCERN/i.test(event.action))?.note : null;
   const status = { DRAFT: 'Private draft', PENDING: 'Awaiting review', APPROVED: 'Agreed', DISPUTED: 'Disputed', WITHDRAWN: 'Withdrawn' }[expense.status];
