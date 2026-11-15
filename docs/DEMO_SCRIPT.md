@@ -1,70 +1,48 @@
-# Two-to-three-minute demonstration
+# Three-minute guest product demonstration
 
-This script is for an implemented and verified demo. Rehearse the named actions first and report unavailable actions honestly. Use only synthetic Alex, Jordan, Child 1, and built-in SAMPLE receipts. No real parent data, payment, or invitation delivery is part of the demo. Do not invent a preview URL; obtain the current verified launch method from README/STATUS.
+Updated 15 November 2026. Open [the public site](https://coparent-ledger-demo.pages.dev/) at its root; no registration or payment. Use synthetic inputs only. This script describes the standalone version, where two sample roles are switched in one browser. The separate [oral pitch](presentation/PITCH_SCRIPT_RU.md) accompanies the [10-slide English PDF](presentation/CoParent_Ledger_Jury_Deck_v2.pdf).
 
 ## Preparation
 
-- Open `/demo` and verify the visible `Demo - sample data, no money moves` banner.
-- Choose `Start clean`, which clears only this tab's demo data, not actual households.
-- Start as Alex with a joined synthetic Jordan and Child 1; there are no expenses.
-- Keep the separate `Load examples` fixture available for the second half.
-- If real backend checks are blocked, say so when asked: sample behavior does not verify live two-account operation.
+- If the trial was left expired, use labeled test access or Reset demo access. This resets access separately from the ledger.
+- Start clean and Load examples replace this browser's saved demo expenses, family and plans after confirmation, including data visible to other tabs. Use an isolated test browser profile if existing records should be preserved.
+- Choose Start clean only when that replacement is intended. Start as Alex (Parent A); Jordan (Parent B) and Child 1 are synthetic identities.
+- Follow the expected values on the expense itself. Existing examples can contribute other dashboard totals.
 
-## Timed walkthrough
+## Walkthrough
 
-| Time | Action and exact expected result | Suggested words |
+| Time | Action | Expected result / explanation |
 | --- | --- | --- |
-| 0:00-0:20 | Show empty clean ledger and demo banner | "Two parents need the same view of a child's shared expenses: what was proposed, agreed, and actually reimbursed. This demonstration uses sample data and moves no money." |
-| 0:20-0:50 | As Alex, add School supplies, Child 1, SCHOOL, $120.01, Jordan's share 40%; optionally attach the built-in sample receipt. Preview Alex $72.01 / Jordan $48.00. Send for review | "Alex paid $120.01 and proposes a 40% share for Jordan. That is a $48 proposal until Jordan makes a decision." |
-| 0:50-1:10 | Switch to Jordan only in demo; approve the $48 share | "Jordan confirms this particular amount. The submitted record stays unchanged." |
-| 1:10-1:35 | Jordan selects Record external payment for $20.00. Show remaining $48.00, pending $20.00, available to report $28.00 | "Recording a transfer is not proof it arrived. The outstanding amount is still $48 while Alex checks receipt." |
-| 1:35-1:55 | Switch to Alex and confirm receipt of that $20.00. Show remaining $28.00, pending $0.00, available $28.00. Open Activity history | "Only the receiving parent confirms receipt. The remaining amount becomes $28, with the decisions preserved in the history." |
-| 1:55-2:25 | Explicitly choose Load examples. Show E3 disputed $69.99, E4 awaiting review $13.35, and separate directional totals | "I am now loading additional prepared examples. A disputed proposal is shown separately, not added to agreed amounts. Neither direction is silently offset against the other." |
-| 2:25-2:50 | Show pricing copy | "Our proposed pilot price is $7.99 per household for two adults, with a 14-day no-card trial. The invited parent participates free. Billing is not enabled; willingness to pay still needs validation." |
+| 0:00-0:20 | Show demo banner and Viewing as control | Explain two roles, synthetic data, no money movement and browser-local persistence. |
+| 0:20-0:55 | As Alex, create a $64.20 School expense with 50% proposed share; save draft, attach sample receipt and send for review | Proposed Jordan share $32.10; not yet in agreed totals. The fixed sample image is illustrative, not evidence of this purchase. |
+| 0:55-1:15 | Switch to Jordan, open the expense and agree to the $32.10 share | Approved; agreed amount is frozen. |
+| 1:15-1:40 | Record an external $12.10 reimbursement | Remaining $32.10, pending $12.10; reporting does not prove receipt. |
+| 1:40-2:00 | Switch to Alex and confirm receipt; show history | Remaining $20.00, confirmed $12.10, pending $0.00. |
+| 2:00-2:20 | Reload the page | The same browser restores the record and balance. Other devices do not synchronize. |
+| 2:20-3:00 | Simulate end of trial, return to Expenses and select Add expense; show $7.99 paywall; enable test access and reopen creation | Real creation gate and no-payment unlock. Existing records/confirmations remain accessible; no actual subscription or card. |
 
-Allow up to ten seconds of slack for this product walkthrough. This script does not replace the required competition deck: the organizer FAQ requires an English PDF with at most 10 slides total (Q53/Q75/Q86), with screenshots of the key screens and flow (Q121). The oral final pitch is five minutes plus two minutes for questions. The current pricing-only step also does not meet the working-paywall requirement (Q37/Q67); do not describe it as implemented billing or a completed competition deliverable.
+These amounts match the recorded 15 November public QA flow; this script is not a new browser-test result. Layout checks were limited to desktop/mobile viewport smoke checks, not a physical phone.
 
-## Do not confuse the two datasets
+## Additional examples, if time permits
 
-| View | Exact amounts |
+Load examples is a deliberate replacement, not a continuation of the new $64.20 expense. It contains:
+
+| Example | Exact values |
 | --- | --- |
-| Clean E1 after $20 confirmation | Total $120.01; Jordan's agreed share $48.00; confirmed $20.00; remaining $28.00; pending $0.00 |
-| Loaded E1 example | Same agreed/confirmed/remaining values, plus a separate pending $10.00 report; available to report $18.00 |
-| Loaded E2 example | Jordan paid $85.55; Alex's 50% share and remaining are $42.78 |
-| Loaded E3 example | Activity fee $99.99; proposed Jordan share $69.99; disputed; excluded from agreed totals |
-| Loaded E4 example | School backpack $40.05; proposed Alex share $13.35; awaiting review; excluded from agreed totals |
-| Loaded summary | Agreed shares $90.78; confirmed $20.00; agreed remaining $70.78, including the $10.00 pending report |
-| Alex's loaded summary | You owe $42.78; Owed to you $28.00 |
-| Jordan's loaded summary | You owe $28.00; Owed to you $42.78 |
+| E1 School supplies | $120.01 total; 40% share = $48.00; $20 confirmed; $28 remaining, including a separate pending $10; $18 available to report |
+| E2 Pharmacy | $85.55 total; Alex's 50% share = $42.78; $42.78 remaining |
+| E3 Activity fee | $69.99 proposed share; disputed and excluded from agreed totals |
+| E4 School backpack | $13.35 proposed share; awaiting review and excluded from agreed totals |
+| Combined approved examples | $90.78 agreed shares; $20 confirmed; $70.78 remaining; opposite directions stay separate |
 
-Do not say the added pending $10 comes from the just-confirmed $20. Do not add pending to the $70.78 again or automatically present a net $14.78.
+Family supports names and child archive/restore; categories can be created/corrected; statistics use approved purchases; future plans remain estimates. Do not claim plan approval, editing/deletion, real receipt upload, actual billing or live account synchronization.
 
 ## Answers to likely questions
 
-- **Does it transfer money?** No. Parents transfer outside the service; the receiving parent confirms a recorded transfer.
-- **Can it settle a dispute?** No. It records the concern and the parent's eventual explicit decision.
-- **Can an approved amount be edited?** No in this MVP. Corrections to approved expenses and confirmed reimbursements need a future, separately designed workflow.
-- **Is this unique?** Existing co-parenting products offer expense/payment features. We are testing a narrow browser experience and household pricing.
-- **Is the demo proof of production readiness?** No. It demonstrates the workflow. Current real-backend and deployment verification is reported separately.
+- Does it transfer money? No. It records an external report and the recipient's confirmation.
+- Can an approved amount be edited? No financial correction workflow exists. Standalone category correction is audited without changing money.
+- Why pay and return? Repeated shared costs, unfinished reimbursements and a useful history; $7.99 per household is a hypothesis, not validated sales.
+- Is the approach unique? Existing co-parenting services already handle expenses; our proposed focus/value must earn preference.
+- Is this a full real-account service? The public demo uses synthetic roles. Live Auth/RLS/Storage and independent accounts remain unverified.
 
-## Exact landing copy for frontend handoff
-
-**Headline:** Shared child expenses, clearly agreed.
-
-**Body:** Keep proposed shares, decisions, and confirmed reimbursements in one shared ledger for two parents.
-
-**Three steps:**
-
-1. Add an expense and propose a share.
-2. Your co-parent approves or raises a concern.
-3. Record an external payment and confirm receipt.
-
-**Primary CTA:** Try sample demo
-
-**Secondary CTA:** Create your shared ledger
-
-**Payment note:** Payments happen outside CoParent Ledger. Only the receiving parent confirms receipt here.
-
-**Pricing:** Pilot pricing: $7.99/month per household, including two adults. Proposed 14-day trial, no card required. Billing is not enabled in this MVP.
-
-**Availability rule:** The real-ledger CTA must lead to functioning authentication or a clear configuration-unavailable state. It must never silently open a sample household as if registration succeeded.
+For exact evidence and integration boundaries use [QA_REPORT.md](QA_REPORT.md) and [STATUS.md](STATUS.md).

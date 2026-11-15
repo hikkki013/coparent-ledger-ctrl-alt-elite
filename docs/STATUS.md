@@ -1,5 +1,77 @@
 # Implementation status
 
+## Browser synchronization verification - 2026-11-15
+
+The original local project was accessible and its requested README, STATUS, REPOSITORY_REVIEW, QA_REPORT and CRITERIA_MATRIX were read before upload. The side-browser owner menu showed **hikkki013**; the exact destination `hikkki013/coparent-ledger-ctrl-alt-elite` showed **Private**. No GitHub connector, Git push, force-push, reset, repository rename or visibility change was used.
+
+Compared the complete downloaded remote main archive at `998421f417beeff70c2958994e9050f9de13c523` against 88 intended local files: **67 identical, 10 changed, 11 local-only, zero remote-only files**. Application source, demo source, backend files and all existing tests matched byte-for-byte. The changed STATUS/QA retain the remote jury-verification evidence in fuller dated sections rather than dropping it. The upload set is limited to those 21 reviewed paths, including the existing English 10-slide PDF without regeneration. The original local checkout/history is retained separately; browser commits are not a claim that its Git history was reconciled.
+
+Fresh commands executed in an isolated copy of the current local files, Node **24.21.0**:
+
+| Check | Actual result in this synchronization pass |
+| --- | --- |
+| `npm test` | **62 passed, 0 failed**, exit 0 |
+| `npm run demo:pages` | **PASS**, exit 0; generated SHA-256 `31776CBBF6329B4E3B9BFFEFB04AEDB16CA59AE5BF9418B94DD8C7B33756CE0D` |
+| `./tests/scripts/publish-private.test.ps1` | **6/6 PASS**, simulated Git/GitHub commands only; the live helper was not executed |
+| `npm run check` | **BLOCKED**, exit 2, TypeScript dependency unavailable |
+| `npm run build` | **FAIL**, exit 1, `tsc` unavailable; no React/Vite production-build pass |
+| `npm run test:integration` | **BLOCKED**, exit 2, missing dedicated Supabase test configuration; no live checks ran |
+| Automated browser E2E / live RLS / independent accounts | **NOT RUN** |
+
+Only the README public entry link is opened during this synchronization; previous financial-flow, mobile and persistence journeys remain historical QA, not reruns. No deployment is performed. Limited upload-manifest/credential-pattern/link/PDF checks are described in the final synchronization result below; they are not a comprehensive security audit.
+
+**Upload verification:** pending browser commits and download comparison. This line is replaced only after actual GitHub files have been checked.
+
+Earlier sections below preserve their original point-in-time claims, including the former browser connection failures and local-only work; this section supersedes their access/synchronization status.
+
+## Current repository consistency review - 2026-11-15
+
+README now identifies Ctrl Alt Elite, the Money/B2C US 25-45 target, the public no-login test journey, test price/gate, storage/reset and submission requirements. The prepared [English PDF](presentation/CoParent_Ledger_Jury_Deck_v2.pdf) is included in the repository (10 slides) and linked from README. Replaced the stale criteria matrix with current evidence plus explicit gaps; updated business/demo documents and contracts; clarified standalone extensions versus the original backend specification. The earlier baseline remains a labeled historical snapshot. All 150 FAQ answers were re-read locally; a complete commercial service is not a competition prerequisite, but a working public flow and all three submission items are.
+
+Fresh: Node suite **62 passed**, Pages build **passed**. React semantic check and Vite build remain blocked by unavailable compiler/dependencies; live integration was BLOCKED, no checks ran. See [repository review](REPOSITORY_REVIEW.md) and [QA](QA_REPORT.md). The publication helper now requires correct owner/Private/exact destination and clean committed work, and accepts only a normal fast-forward push; it no longer overlays a local snapshot onto unreviewed remote files. Syntax and six offline guard/race simulations passed; no live publication was executed. Repeatable helper checks are in tests/scripts/publish-private.test.ps1. Existing application work was preserved; no app source, website deployment or remote state changed.
+
+The user provided `https://github.com/hikkki013/coparent-ledger-ctrl-alt-elite`; this address is recorded, not independently verified. Computer/browser control repeatedly fails at initialization (os error 3). The available GitHub connector is authenticated as karim312k1 and cannot read that repository; no mutations used it. The local Git remote still points to the older name, pending identity/history verification. All current edits are local. Remote synchronization, fresh public availability and public submission-source access remain unresolved; no visibility change is authorized.
+
+Older sections below are dated progress records; statements such as “deck missing” or earlier storage/test counts apply to those stages, not the current summary.
+
+## Team attribution and judge entry point - 2026-11-15
+
+Added **Ctrl Alt Elite** to the README title and project attribution, plus a judge-facing quick-start paragraph beside the existing public URL. These edits are local; no remote README upload is claimed. The owner requested a repository rename; intended name is `hikkki013/coparent-ledger-ctrl-alt-elite`. The actual rename is **BLOCKED**: GitHub CLI could not connect to api.github.com, and browser control failed during initialization. No repository metadata, visibility, Git remote or publication-script destination was changed. Update those destinations only after the actual rename is verified under the correct owner with Private visibility.
+
+The public demo entry point remains https://coparent-ledger-demo.pages.dev/ and supports manual synthetic inputs according to the recorded QA. Fresh URL retrieval failed in this pass; no new availability or browser-flow verification is claimed. The standalone Pages project uses Direct Upload and does not require a source-repository rename to change its demo entry point.
+
+## README refresh and submission handoff - 2026-11-15
+
+Reorganized README around the product problem, public guest link, reproducible expense cycle, $7.99 household offer, retention hypothesis, feature boundaries, setup, Direct Upload updates and dated verification. Removed the outdated claim that the English deck is missing and the implication that no public flow has been checked. The introduction now describes a web app while retaining the prominent two-demo-role/no-real-payment boundary. Prepared React/backend source is separate from the deployed standalone. Historical criteria/baseline gaps are identified as dated evidence; the public-source privacy conflict remains explicit.
+
+Fresh checks in this pass: `npm test` passed 62/62; `npm run demo:pages` passed. Generated SHA-256 remained `31776CBBF6329B4E3B9BFFEFB04AEDB16CA59AE5BF9418B94DD8C7B33756CE0D`, matching the recorded published artifact. No fresh public browser test, deployment, product-source change, remote GitHub write or visibility change occurred. Existing unrelated working-tree changes were preserved. Local and remote history reconciliation remains outstanding; this is not a claim that the updated README is already on GitHub.
+
+## Product-focused jury deck, revision 2 - 2026-11-15
+
+Updated the deck to reflect the supplied judging criteria: product flow and evidence, user/problem, subscription value, reasons to renew, alternatives, market and economic assumptions. The final PDF remains English following the owner's clarification and the recorded organizer language requirement. It has exactly 10 slides and no survey/interview section or mentions. Price remains $7.99/month per household, both parents included. Paid users, willingness to pay and renewal are not invented or presented as observed. The original PDF remains unchanged.
+
+Output: `outputs/submission/CoParent_Ledger_Jury_Deck_v2.pdf` relative to the parent workspace, also delivered as a downloadable file in the conversation. Editable generator and synthetic screenshot assets are in [presentation](presentation/build_submission_v2.py); [Russian speaking notes](presentation/PITCH_SCRIPT_RU.md) contain 625 spoken words with an approximate five-minute rehearsal schedule. PDF text checks passed for slide count, 16:9 dimensions, absent removed terms, correct price/unit, and 8 clickable demo/source links. All ten slides were rendered and visually reviewed; the paywall and economics pages were also inspected at full size. QR generation and embedded URL were inspected; no independent decoder or phone scan was available.
+
+Screenshots and financial evidence retain the provenance and limitations recorded below. No fresh public-site test, product test run, deployment, payment, outreach or GitHub write occurred in this presentation revision. The application source and repository visibility were not changed. Public-source submission access remains unresolved. The version is an English deck with Russian oral notes, not a claim that the full submission meets every pass/fail criterion.
+
+## English jury presentation - 2026-11-15
+
+Prepared `outputs/submission/CoParent_Ledger_Jury_Deck.pdf` (10 slides, 16:9) and `CoParent_Ledger_5min_Pitch.pdf` (2 pages; 660 spoken words, approximately 5 minutes at 132 words/minute). These paths are relative to the parent workspace. `CoParent_Ledger_Editable_Source.zip` includes the generator, synthetic image assets, editable script, market reference and verification record for later updates. Survey slide states zero responses as reported by the owner; no survey dashboard or responses were accessed. Market and economics scenarios are explicitly hypotheses, using the existing dated research. Nine clickable source/demo links and PDF page/text checks passed. All slides were rendered and visually reviewed; dense tables, screenshot slides and both notes pages were inspected at larger size. No clipping or missing glyphs was observed. Speech timing is an estimate, not a measured rehearsal.
+
+Browser control and fresh public-site retrieval were unavailable in this pass. The screenshots are actual local renders of unchanged `dist-pages/index.html`, whose SHA-256 `31776CBBF6329B4E3B9BFFEFB04AEDB16CA59AE5BF9418B94DD8C7B33756CE0D` matches deployment `6d00a0a4`. This provenance is labeled in the deck; public functional claims rely on the prior 15 November QA, not a new live check. The $48/$20/$28 screenshot example is explicitly separate from the $64.20/$32.10/$20.00 public QA journey. No new mobile-device or two-account verification is claimed. Application code, deployment and repository visibility were not changed; no remote GitHub write or new private-status verification was performed. The PDF-deck deliverable is now prepared; real audience validation and the public-source submission conflict remain open.
+
+## Market and monetization evidence - 2026-11-15
+
+Added [MARKET_AND_ECONOMICS.md](MARKET_AND_ECONOMICS.md): official Census anchors with survey/reference dates and parent-versus-billing-household distinction; conditional TAM/SAM and capacity-based 12-month SOM; $7.99 price, revenue, channel CAC, contribution LTV, churn and sensitivity; official competitor pricing and slide-ready conclusions. The base scenario does not validate $100m ARR: 1,042,971 active paid households would be required, above the modeled initial SAM. Broad paid acquisition fails the scenario economics. Inputs are labeled facts, hypotheses or calculations; no traction or survey results are claimed. Arithmetic executed; product code and deployment unchanged. Research fetcher could not open the public demo, so product state relies on inspected source and the existing dated QA rather than a fresh functional check. This documentation pass preserves prior local changes and does not reconcile local/remote Git histories or claim a new GitHub upload. Repository visibility was not changed.
+
+## Jury verification and deployment — 2026-11-15
+
+Cloudflare Pages Direct Upload production deployment `6d00a0a4` is live at https://coparent-ledger-demo.pages.dev/. The exact single-file build was first exercised at the isolated `final-qa-20261115` preview. Production manual flow: $64.20 purchase, $32.10 agreed share, $12.10 reported without reducing the remaining amount, then confirmation and $20.00 remaining with audit history. Preview exercised parent/child naming, archive/restore, category create/correct, statistics, future-plan exclusion, expired-trial paywall, confirmation while blocked, test unlock and reload persistence. `npm test`: 62 passed; `npm run demo:pages`: passed. Mobile-width and desktop viewport smoke checks passed for the checked screens; no physical phone. TypeScript, Vite build and live Supabase checks remain blocked by missing dependencies/test configuration. Full evidence and boundaries: [QA_REPORT.md](QA_REPORT.md). No new product feature or source fix was made in this pass.
+
+## Submission audit — 2026-11-15
+
+See [SUBMISSION_BASELINE.md](SUBMISSION_BASELINE.md) for fresh evidence, organizer Q23/Q30/Q33/Q49/Q58/Q67/Q70/Q74/Q120 and prioritized remaining work. Public Edge InPrivate: a new $83.75 expense at 40% was approved, a $11.25 report left $33.50 due, then recipient confirmation left $22.25 with history; tab reopening in the still-open private session restored that result. Trial simulation showed the $7.99 test-only paywall and activation opened the expense form. No money was moved. `npm test` passed 62/62 and `npm run demo:pages` passed; current `npm run check`, Vite `npm run build` and live integration were blocked by missing dependencies or test configuration. The GitHub owner browser showed `hikkki013/coparent-ledger` Private. Working tree contained existing changes before this audit; local HEAD and GitHub main differed and were not reconciled. No public repo, deployment or remote write was made. Older contradictory statements in the criteria matrix describe prior state; use the new baseline for current audit evidence.
+
 Updated 2026-11-14. Requested owner: **hikkki013**. Private repository and browser source upload VERIFIED: https://github.com/hikkki013/coparent-ledger. The implementation, migrations, tests, demo and documentation are saved on `main` with their folder structure. Local Git also preserves implementation progress. No uploads were made to the Karim account.
 
 | Stage | State | Evidence / next action |
@@ -78,8 +150,3 @@ React/TypeScript/Vite source retained. Plain CSS, explicit shared validation, na
 See README.md, QA_REPORT.md and supabase/README.md for commands and limitations. Approved expense corrections, confirmed-payment reversals, member deletion and operational backup/retention tooling remain out of scope.
 
 No real payments, email deliveries or real-person invitations are enabled.
-
-
-## Jury verification and deployment — 2026-11-15
-
-Cloudflare Pages Direct Upload production deployment `6d00a0a4` is live at https://coparent-ledger-demo.pages.dev/. The same archive was first exercised in an isolated preview. Production: $64.20 purchase, $32.10 agreed share, $12.10 reported without reducing the balance, then confirmation and $20.00 remaining with history. Preview exercised parent/child names, archive/restore, category create/correct, statistics, future-plan exclusion, paywall, confirmation during expiration, test unlock and reload persistence. npm test: 62 passed; npm run demo:pages: passed. Checked mobile and desktop browser viewports, not a physical phone. TypeScript, Vite and live Supabase remain blocked by missing dependencies/test configuration. See QA_REPORT.md for details. No new product code fixes were made.

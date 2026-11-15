@@ -1,5 +1,7 @@
 # CoParent Ledger product specification
 
+**Scope update, 15 November 2026:** The original real-account/backend requirements below are not a deployment claim. The published guest standalone uses two roles in one browser, localStorage with Web Locks, custom family/category data, child statistics, future plans and a working test paywall. Those extensions are not all implemented in SupabaseLedger/React. [README](../README.md), [CONTRACTS.md](CONTRACTS.md) and [QA_REPORT.md](QA_REPORT.md) define the current executable/verified scope. Real two-account operation remains unverified. No real payments or cloud backup are claimed.
+
 Version: 2026-11-14. Source: [DEVELOPMENT_PROMPTS.txt](DEVELOPMENT_PROMPTS.txt), especially PROMPT 00. This is the consolidated product requirement, not a claim that every feature has passed verification. [CONTRACTS.md](CONTRACTS.md) defines the executable interfaces; [STATUS.md](STATUS.md) and the QA report record implementation evidence.
 
 ## Intent and audience
@@ -32,9 +34,9 @@ The user's original service acceptance condition must ultimately run through two
 | Household | One household per user; at most two adult members; no removal of the second member in this MVP |
 | Ownership | Owner can create an invitation; financial permissions remain determined by each expense's payer/reviewer |
 | Before joining | Owner may keep private drafts; submission requires the second member |
-| Children | One is sufficient, maximum three aliases; no child accounts, birth dates, SSNs, school addresses, diagnoses, or child documents |
+| Children | Child aliases; no child accounts, birth dates, SSNs, school addresses, diagnoses, or child documents. Standalone supports adding, naming, archiving/restoring children; the original backend has a narrower schema. Do not infer feature parity. |
 | Expenses | One actual payer and one total; only that payer creates the expense; no jointly paid purchase |
-| Categories | SCHOOL, MEDICAL, ACTIVITIES, PURCHASES, OTHER |
+| Categories | Backend defaults: SCHOOL, MEDICAL, ACTIVITIES, PURCHASES, OTHER. Standalone additionally supports custom categories and audited category corrections. |
 | Currency | USD only; total from 1 through 100000000 integer cents |
 | Split | Other parent's share from 0 through 100%, at most two decimal places; stored as 0-10000 basis points |
 | Receipt | Optional, one JPG/PNG/WebP image up to 5 MiB; no PDF or OCR |
@@ -72,7 +74,7 @@ Only APPROVED expenses contribute to agreed shares and agreed remaining. DRAFT, 
 | DRAFT / PENDING / DISPUTED | Author withdraws; reason required if submitted | WITHDRAWN, terminal |
 | PENDING / DISPUTED | Author creates corrected draft with reason | Atomically withdraw old record and create a new private DRAFT linked through replacesExpenseId |
 
-After first submission, freeze amount, share, description, merchant, category, date, payer, child alias snapshot, and receipt. The corrected draft has a new ID, no receipt, and no inherited approval. The original snapshot and receipt remain unchanged. Resubmission and a fresh decision are required. `lockVersion` protects concurrent commands; it is not a content-versioning system.
+The original backend freezes amount, share, description, merchant, category, date, payer, child alias snapshot and receipt after first submission. The standalone permits an audited category-only reclassification without changing money, approval or reimbursement state; this is not a financial edit or a backend-supported exception. A corrected financial draft has a new ID, no receipt and no inherited approval. The original snapshot and receipt remain unchanged. Resubmission and a fresh decision are required. `lockVersion` protects concurrent commands; it is not a content-versioning system.
 
 APPROVED is frozen even before any reimbursement. No edit, withdrawal, return to dispute, or silent financial correction is available. Explain this limitation before approval. Never-submitted drafts and their withdrawn records stay private to their author, including their activity and attachments.
 
@@ -107,7 +109,7 @@ Use calm, neutral English, USD, and readable US dates. No parent ratings, blame,
 
 ## Synthetic demo and exact golden data
 
-`/demo` always displays `Demo - sample data, no money moves`. It is isolated in the current tab, uses shared domain rules, has no real-session privileges, and accepts only built-in SAMPLE receipt images. Alex/Jordan switching and demo reset must never exist as real-app authority controls.
+The React `/demo` remains sessionStorage-backed. The published standalone at the root URL displays a synthetic-demo banner and stores its ledger in localStorage on the same browser/device, coordinated with Web Locks. Both use shared domain rules, have no real-session privileges and accept only built-in SAMPLE receipts. Alex/Jordan switching and demo reset must never exist as real-app authority controls.
 
 | Example | Payer | Total cents | Other share bps | Proposed/agreed cents | Payer cents | Review | Confirmed cents | Pending cents | Agreed remaining cents | Available cents |
 | --- | --- | ---: | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: |
@@ -118,12 +120,12 @@ Use calm, neutral English, USD, and readable US dates. No parent ratings, blame,
 
 E3 reason: `Please clarify which session this charge covers.` Golden agreed shares are $90.78; confirmed reimbursements $20.00; agreed remaining $70.78. The $10.00 pending report is already within remaining. Alex owes $42.78 and is owed $28.00; Jordan sees the reverse. Show the proposed $13.35 awaiting review and proposed $69.99 disputed separately. Do not automatically display a net $14.78 obligation.
 
-`Start clean` starts with a joined synthetic household, Child 1, and no expenses. The live E1 flow ends after confirming $20 with remaining $28 and pending $0. `Load examples` replaces that tab's demo with E1-E4, including the separate pending $10. Clearly announce this switch; do not describe the fixture as an unbroken continuation of the clean flow.
+`Start clean` starts with a joined synthetic household, Child 1, and no expenses. The clean E1 flow ends after confirming $20 with remaining $28 and pending $0. `Load examples` replaces the stored demo with E1-E4, including the separate pending $10. In standalone, reset replaces saved records for this browser/device after confirmation and affects other tabs' saved view; access state remains separate. Clearly announce the replacement; do not describe the fixture as an unbroken continuation of the clean flow.
 
 ## Pricing and release evidence
 
-Proposed pilot pricing is $7.99/month per household for two adults with a 14-day no-card trial. One adult pays; the invited adult participates free. The current implementation displays `Pilot pricing - billing not enabled` and has no checkout or entitlement system. This falls short of the organizer FAQ's working-paywall minimum (Q37, Q55, Q67, Q137). Closing that gap requires an honest, functional test-access interaction; real charges, card capture and fake paid badges remain excluded. The judge must be able to complete the core flow without a real payment or registration.
+The proposed price is $7.99/month per household for both parents with a 14-day no-card trial. The published standalone implements a browser-local creation gate, trial-expiry simulation, one-button test unlock and separate access reset. This is test access, not a paid subscription or server authorization. There is no checkout, real charge or card collection. The judge can complete the core flow without registration or payment. React pricing copy alone is not evidence of the published gate; use the standalone source and dated QA.
 
-A future subscription may gate new expenses after trial. Existing records, receipts, decisions, concerns, reimbursement records, and basic export remain accessible after cancellation. No commission on reimbursements or sale of family data.
+The demo gates new expense drafts and plan conversion after trial expiry; existing records, receipts, history, basic CSV and confirmation of recorded reimbursements remain available. Real subscription cancellation/renewal is not implemented. No commission on family reimbursements or sale of family data is proposed.
 
-At this document's preparation, dependency installation and live Supabase checks were blocked in the environment; no remote repository or public preview was verified. Requested GitHub owner is `hikkki013`. The current result must be read in STATUS/QA, not inferred from this specification. Required release evidence includes money/state tests, retry/race and isolation tests against a real backend, two-session persistence, receipt controls, golden data, responsive/keyboard checks, and build results.
+At the original document's preparation, dependency installation and live Supabase checks were blocked. Later public deployment and synthetic-flow checks are recorded in STATUS/QA. Requested owner remains `hikkki013`; the user later supplied `coparent-ledger-ctrl-alt-elite`, whose current remote metadata is unverified here. Money/state tests and the standalone build do not establish real backend isolation, two-account persistence, RLS, private Storage or production account recovery. These remain required evidence before claiming real-family service readiness.

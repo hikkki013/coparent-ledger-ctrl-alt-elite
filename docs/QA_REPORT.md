@@ -1,4 +1,42 @@
-# Verification — 2026-11-14
+# Verification evidence
+
+## Browser synchronization verification - 2026-11-15
+
+The original local project was accessible and its requested README, STATUS, REPOSITORY_REVIEW, QA_REPORT and CRITERIA_MATRIX were read before upload. The side-browser owner menu showed **hikkki013**; the exact destination `hikkki013/coparent-ledger-ctrl-alt-elite` showed **Private**. No GitHub connector, Git push, force-push, reset, repository rename or visibility change was used.
+
+Compared the complete downloaded remote main archive at `998421f417beeff70c2958994e9050f9de13c523` against 88 intended local files: **67 identical, 10 changed, 11 local-only, zero remote-only files**. Application source, demo source, backend files and all existing tests matched byte-for-byte. The changed STATUS/QA retain the remote jury-verification evidence in fuller dated sections rather than dropping it. The upload set is limited to those 21 reviewed paths, including the existing English 10-slide PDF without regeneration. The original local checkout/history is retained separately; browser commits are not a claim that its Git history was reconciled.
+
+Fresh commands executed in an isolated copy of the current local files, Node **24.21.0**:
+
+| Check | Actual result in this synchronization pass |
+| --- | --- |
+| `npm test` | **62 passed, 0 failed**, exit 0 |
+| `npm run demo:pages` | **PASS**, exit 0; generated SHA-256 `31776CBBF6329B4E3B9BFFEFB04AEDB16CA59AE5BF9418B94DD8C7B33756CE0D` |
+| `./tests/scripts/publish-private.test.ps1` | **6/6 PASS**, simulated Git/GitHub commands only; the live helper was not executed |
+| `npm run check` | **BLOCKED**, exit 2, TypeScript dependency unavailable |
+| `npm run build` | **FAIL**, exit 1, `tsc` unavailable; no React/Vite production-build pass |
+| `npm run test:integration` | **BLOCKED**, exit 2, missing dedicated Supabase test configuration; no live checks ran |
+| Automated browser E2E / live RLS / independent accounts | **NOT RUN** |
+
+Only the README public entry link is opened during this synchronization; previous financial-flow, mobile and persistence journeys remain historical QA, not reruns. No deployment is performed. Limited upload-manifest/credential-pattern/link/PDF checks are described in the final synchronization result below; they are not a comprehensive security audit.
+
+**Upload verification:** pending browser commits and download comparison. This line is replaced only after actual GitHub files have been checked.
+
+Earlier sections below preserve their original point-in-time claims, including the former browser connection failures and local-only work; this section supersedes their access/synchronization status.
+
+## Repository documentation review - 2026-11-15
+
+Fresh commands: `npm test` passed **62/62**; `npm run demo:pages` passed. `npm run check` was blocked by the unavailable TypeScript dependency; `npm run build` failed because `tsc` was unavailable; `npm run test:integration` reported BLOCKED due to missing dedicated test configuration and ran no live checks. These outcomes do not replace the prior dated public-browser evidence below. Current browser/desktop control fails before page access (`os error 3`), and the connected GitHub API identifies `karim312k1`; no writes were made through that identity. The supplied renamed private repository cannot be compared with this checkout yet.
+
+The review checked repository inventory, documentation links, scripts and domain/demo contracts against current source and all 150 organizer answers. Corrected stale claims about missing paywall/deck, tab-only storage, reset scope and backend/standalone parity. Added the existing 10-slide PDF to the repository and linked it from README. No application-source change or new website deployment was made. The private publication helper now refuses divergent history rather than copying a local snapshot over a fresh remote checkout; syntax and six mocked guard/race scenarios passed, but no live publication was executed. No physical-phone, new public-flow, native RLS or complete security audit is claimed by this pass.
+
+## Jury verification — 2026-11-15
+
+- Deployed standalone single-file demo to Cloudflare Pages production `6d00a0a4`: https://coparent-ledger-demo.pages.dev/. The identical archive was first deployed as `final-qa-20261115` preview; the local `index.html` SHA-256 is `31776cbbf6329b4e3b9bffefb04aedb16ca59ae5bf9418b94dd8c7b33756ce0d` (119020 bytes). The archive contained only `index.html`; a limited common-secret-pattern scan found no matches, not a complete security audit.
+- Production browser, synthetic inputs: created $64.20 expense with sample receipt and 50% share, submitted and approved $32.10. Reported $12.10 and observed $32.10 remaining; recipient confirmed and remaining became $20.00, with creation, receipt, submission, approval, report and confirmation in history. This test record remains in the browser's local demo data; no user data was reset.
+- Isolated preview browser: added and renamed a child, archived/restored them, renamed a parent, created a category in the expense form, and created $97.50 expense at 60%. Confirmed $18.25 after simulating trial expiry: remaining changed from $58.50 to $40.25. Category correction was recorded in history and did not change financial amounts. Child statistics showed $97.50 purchase, $58.50 share, $18.25 confirmed, $40.25 remaining; a $5,000 future plan did not change these values. Trial expiry showed the $7.99 paywall; test access opened the expense form without payment. A reload restored the saved expense and access state.
+- Viewport overrides requested 375x812 and 1280x800. Checked mobile expense/paywall and statistics, and desktop expense form. At mobile viewport the DOM client width and scroll width were both 360px; desktop both were 1265px (scrollbar excluded); dialogs checked did not overflow horizontally. This is not exhaustive responsive testing and no physical phone was used.
+- `npm test`: 62 passed, 0 failed. `npm run demo:pages`: passed. `npm run check` and React/Vite `npm run build`: blocked by missing compiler/dependencies. `npm run test:integration`: blocked by missing dedicated Supabase test configuration. No independent two-account service, backend, RLS or real-device test is claimed. No real payments, cards or invitations were used. No new product code fixes were made in this pass.
 
 | Executed check | Result | Boundary |
 | --- | --- | --- |
@@ -51,12 +89,3 @@ Automated: 55/55 Node tests, including family identity, category correction with
 ## Persistent guest progress
 
 Node tests cover legacy migration, no overwrite of existing local data, malformed data and write failures, cross-tab stale writes and recovery, and an approved expense with pending/confirmed reimbursement after reopening. Public site: migrated the previously open sample session; created a new synthetic $90 expense with custom child/category and receipt; approved $45, reported $13 (balance remained $45), confirmed (balance $32), created a plan, closed the tab and reopened: expense/child/category, $32 balance and plan remained. Preview separately confirmed receipt history, cancellation of reset, cross-tab notification/reload and paywall activation without a card. Not a physical phone, separate browser profile, React browser, or real two-account backend test.
-
-
-## Jury verification — 2026-11-15
-
-- Cloudflare Pages production `6d00a0a4`: https://coparent-ledger-demo.pages.dev/. Identical single-file archive first tested on isolated preview. Local index.html SHA-256: 31776cbbf6329b4e3b9bffefb04aedb16ca59ae5bf9418b94dd8c7b33756ce0d (119020 bytes); limited common-secret-pattern scan found no matches, not a complete audit.
-- Production: $64.20 expense with sample receipt; $32.10 agreed; $12.10 reported left $32.10 due; recipient confirmed and $20.00 remained with history. Synthetic test record retained in local browser data.
-- Preview: renamed parent and child, added/archived/restored child, created and corrected category without changing money, checked per-child statistics and a $5,000 plan excluded from balances. $97.50 expense at 60% gave $58.50 due; $18.25 pending did not reduce it, confirmed after trial expiration left $40.25. Paywall $7.99 and no-payment unlock worked; reload restored records and access.
-- Requested 375x812 and 1280x800 viewport overrides: checked mobile expense/paywall/statistics and desktop expense form. Checked page and dialogs had no horizontal overflow. Not a full responsive audit; no physical phone.
-- npm test: 62/62 passed; npm run demo:pages passed. TypeScript check and React/Vite build blocked by missing dependencies; live Supabase integration blocked by missing dedicated test configuration. No two-account, RLS, real payment, card or invitation test. No product source code was changed in this pass.

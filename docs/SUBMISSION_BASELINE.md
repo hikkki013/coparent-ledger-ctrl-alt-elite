@@ -1,5 +1,7 @@
 # Submission baseline — 15 November 2026
 
+> **Historical snapshot:** Later work prepared the English PDF, added the sourced market model and recorded further public/preview checks. Gap statements below describe the time of this audit. Use [STATUS.md](STATUS.md), the dated [QA report](QA_REPORT.md) and the current [criteria matrix](CRITERIA_MATRIX.md) for subsequent evidence. The owner later supplied the repository address `hikkki013/coparent-ledger-ctrl-alt-elite`; remote identity/visibility has not been rechecked. Public-source access and actual submission remain unresolved. This note preserves the original audit rather than treating its older gaps as current facts.
+
 ## Scope and sources
 
 This is a point-in-time audit of the **standalone browser demo**, not a claim that two real accounts or devices share data. The live site is [coparent-ledger-demo.pages.dev](https://coparent-ledger-demo.pages.dev/). The working tree has pre-existing uncommitted changes. Local Git HEAD was `eab8332`; the owner browser showed GitHub main at `bdf2aa1`. Those IDs are different; their relationship and whether every local file matches the deployed site were not established. Avoid overwriting either history. GitHub visibly labelled [hikkki013/coparent-ledger](https://github.com/hikkki013/coparent-ledger) **Private** during this audit.
